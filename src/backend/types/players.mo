@@ -1,0 +1,21 @@
+import Common "common";
+
+module {
+  public type DeletePlayerError = { #notAuthorized; #notFound };
+  public type DeletePlayerResult = { #ok; #err : DeletePlayerError };
+
+  // Club identity is independent of a tournament's monotonic registration ID.
+  public type GlobalPlayer = {
+    id : Nat;
+    name : Text;
+    skillLevel : Nat;
+    userId : ?Common.UserId;
+    createdAt : Common.Timestamp;
+    updatedAt : Common.Timestamp;
+  };
+
+  public type PlayerInput = { name : Text; skillLevel : Nat };
+
+  // Resolve account metadata when reading; never retain stale avatar snapshots.
+  public type GlobalPlayerView = GlobalPlayer and { avatarUrl : ?Text };
+};

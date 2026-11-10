@@ -1,0 +1,40 @@
+import Common "../types/common";
+import Storage "mo:caffeineai-object-storage/Storage";
+
+module {
+  // App-level role. `null` on the User record means a regular user;
+  // `?{ #admin }` means the user is an app admin. There are no other tiers.
+  public type Role = { #admin };
+
+  public type User = {
+    id : Common.UserId;
+    displayName : Text;
+    username : Text; // unique when nonempty
+    avatar : ?Storage.ExternalBlob;
+    avatarUrl : ?Text; // Only the verified Telegram OIDC picture claim.
+    bio : ?Text;
+    createdAt : Common.Timestamp;
+    role : ?Role;
+  };
+
+  public type UserInput = {
+    displayName : Text;
+    username : Text;
+    bio : ?Text;
+  };
+
+  // Empty text means the member chose not to provide this optional field.
+  public type ProfileInput = {
+    displayName : Text;
+    username : Text;
+  };
+
+  // Admin-facing view of a user, including the current role.
+  public type UserRoleView = {
+    id : Common.UserId;
+    displayName : Text;
+    username : Text;
+    avatarUrl : ?Text;
+    role : ?Role;
+  };
+};

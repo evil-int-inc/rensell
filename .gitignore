@@ -1,0 +1,11 @@
+node_modules/
+dist/
+# This project versions its frontend build alongside the source.
+!src/frontend/dist/
+!src/frontend/dist/**
+.mops/
+.old/
+.platform/
+.pnpm-store/
+.cache/
+.icp/

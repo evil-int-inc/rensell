@@ -1,0 +1,490 @@
+import { PlayerIdentity } from "@/components/players/PlayerIdentity";
+import { Button } from "@/components/ui/Button";
+import { useI18n } from "@/i18n";
+import { countLabel } from "@/i18n/plurals";
+import {
+  DEFAULT_PLAYER_FILTERS,
+  PLAYER_STATUSES,
+  type PlayerFilters,
+  type PlayerSort,
+  currentPlayerMatch,
+  roundKey,
+  roundLabel,
+  selectPlayers,
+} from "@/types/player-filters";
+import {
+  SKILL_LEVELS,
+  type TournamentManagerView,
+  type TournamentPlayerView,
+  matchLabel,
+  playerMovement,
+  registrationLabel,
+  tbilisiTime,
+} from "@/types/tournament-manager";
+import { ArrowUp, Pencil, Plus, Search, Trash2 } from "lucide-react";
+import { useState } from "react";
+
+interface PlayersPanelProps {
+  view: TournamentManagerView;
+  isAdmin: boolean;
+  pending: boolean;
+  onAdd: () => void;
+  onEdit: (player: TournamentPlayerView) => void;
+  onRemove: (player: TournamentPlayerView) => void;
+  onPrioritize: (player: TournamentPlayerView) => void;
+  onMove: (player: TournamentPlayerView) => void;
+  standalone?: boolean;
+}
+
+export function PlayersPanel({
+  view,
+  isAdmin,
+  pending,
+  onAdd,
+  onEdit,
+  onRemove,
+  onPrioritize,
+  onMove,
+  standalone = false,
+}: PlayersPanelProps) {
+  const { t } = useI18n();
+  const [filters, setFilters] = useState<PlayerFilters>(DEFAULT_PLAYER_FILTERS);
+  const players = selectPlayers(view, filters);
+  const rounds = [
+    ...new Map(view.matches.map((match) => [roundKey(match), match])).values(),
+  ];
+  const filtered =
+    filters.search !== "" ||
+    filters.skill !== "all" ||
+    filters.status !== "all" ||
+    filters.table !== "all" ||
+    filters.round !== "all";
+  return (
+    <section
+      aria-labelledby="players-title"
+      className={standalone ? "mt-6" : "mt-12 border-t border-base-300 pt-8"}
+    >
+      <header className="mb-5 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p className={standalone ? "sr-only" : "section-kicker mb-2"}>
+            {t("THE LINEUP / PERMANENT REGISTRATION")}
+          </p>
+          <h2
+            id="players-title"
+            className={
+              standalone
+                ? "technical-label text-base-content/60"
+                : "font-display text-2xl font-bold uppercase"
+            }
+          >
+            {t("Players")}{" "}
+            <span className="font-mono text-sm font-normal text-base-content/30">
+              /
+              {
+                view.players.filter((player) => player.status !== "removed")
+                  .length
+              }
+            </span>
+          </h2>
+        </div>
+        {isAdmin ? (
+          <Button data-ocid="tournament.add_player_button" onClick={onAdd}>
+            <Plus className="size-4" aria-hidden="true" /> {t("Add player")}
+          </Button>
+        ) : null}
+      </header>
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
+        <label className="club-search flex w-full items-center gap-3 border border-base-300 px-3 sm:w-80">
+          <Search className="size-4 text-base-content/40" aria-hidden="true" />
+          <input
+            type="search"
+            aria-label={t("Search tournament players")}
+            placeholder={t("NAME / REGISTRATION NUMBER")}
+            className="min-w-0 flex-1 bg-transparent py-3 font-mono text-xs outline-none placeholder:text-base-content/35"
+            value={filters.search}
+            onChange={(event) =>
+              setFilters((previous) => ({
+                ...previous,
+                search: event.target.value,
+              }))
+            }
+          />
+        </label>
+        <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-base-content/45">
+          <input
+            type="checkbox"
+            className="checkbox checkbox-xs rounded-none"
+            checked={filters.showRemoved}
+            onChange={(event) =>
+              setFilters((previous) => ({
+                ...previous,
+                showRemoved: event.target.checked,
+                status:
+                  !event.target.checked && previous.status === "removed"
+                    ? "all"
+                    : previous.status,
+              }))
+            }
+          />{" "}
+          {t("Include removed players")}
+        </label>
+      </div>
+      <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
+        <label>
+          <span className="technical-label mb-2 block text-base-content/50">
+            {t("Skill level")}
+          </span>
+          <select
+            className="select w-full rounded-none"
+            value={filters.skill}
+            onChange={(event) =>
+              setFilters((previous) => ({
+                ...previous,
+                skill: event.target.value,
+              }))
+            }
+          >
+            <option value="all">{t("All skill levels")}</option>
+            {SKILL_LEVELS.map((level, index) => (
+              <option key={level} value={index + 1}>
+                L{index + 1} / {t(level)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <span className="technical-label mb-2 block text-base-content/50">
+            {t("Status")}
+          </span>
+          <select
+            className="select w-full rounded-none"
+            value={filters.status}
+            onChange={(event) =>
+              setFilters((previous) => ({
+                ...previous,
+                status: event.target.value,
+                showRemoved:
+                  event.target.value === "removed" || previous.showRemoved,
+              }))
+            }
+          >
+            <option value="all">{t("All statuses")}</option>
+            {PLAYER_STATUSES.map((status) => (
+              <option key={status} value={status}>
+                {t(status).replace(/^./, (character) =>
+                  character.toUpperCase(),
+                )}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <span className="technical-label mb-2 block text-base-content/50">
+            {t("Table")}
+          </span>
+          <select
+            className="select w-full rounded-none"
+            value={filters.table}
+            onChange={(event) =>
+              setFilters((previous) => ({
+                ...previous,
+                table: event.target.value,
+              }))
+            }
+          >
+            <option value="all">{t("All tables")}</option>
+            <option value="none">{t("No table assigned")}</option>
+            {view.tables.map((table) => (
+              <option key={table.number} value={table.number}>
+                {t("Table")} {table.number}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <span className="technical-label mb-2 block text-base-content/50">
+            {t("Current round")}
+          </span>
+          <select
+            className="select w-full rounded-none"
+            value={filters.round}
+            onChange={(event) =>
+              setFilters((previous) => ({
+                ...previous,
+                round: event.target.value,
+              }))
+            }
+          >
+            <option value="all">{t("All rounds")}</option>
+            <option value="none">{t("No current round")}</option>
+            {rounds.map((match) => (
+              <option key={roundKey(match)} value={roundKey(match)}>
+                {roundLabel(match)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="col-span-2 sm:col-span-1">
+          <span className="technical-label mb-2 block text-primary">
+            {t("Sort by")}
+          </span>
+          <select
+            className="select w-full rounded-none"
+            value={filters.sort}
+            onChange={(event) =>
+              setFilters((previous) => ({
+                ...previous,
+                sort: event.target.value as PlayerSort,
+              }))
+            }
+          >
+            <option value="registration">{t("Registration order")}</option>
+            <option value="name">{t("Name / A–Z")}</option>
+            <option value="skill">{t("Skill level / L1–L5")}</option>
+            <option value="status">{t("Status / live first")}</option>
+          </select>
+        </label>
+      </div>
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <p
+          className="font-mono text-[10px] text-base-content/45"
+          aria-live="polite"
+        >
+          {players.length} /{" "}
+          {countLabel(
+            view.players.filter(
+              (player) => filters.showRemoved || player.status !== "removed",
+            ).length,
+            "player",
+          )}
+          {" · "}
+          {t("Original registration numbers and times stay fixed.")}
+        </p>
+        {filtered || filters.sort !== "registration" ? (
+          <button
+            type="button"
+            className="btn btn-ghost btn-xs"
+            onClick={() => setFilters(DEFAULT_PLAYER_FILTERS)}
+          >
+            {t("Reset filters & sort")}
+          </button>
+        ) : null}
+      </div>
+      {players.length ? (
+        <div className="lg:overflow-x-auto lg:border-y lg:border-base-300">
+          <table
+            data-ocid="tournament.players_table"
+            className="block w-full text-left lg:table lg:min-w-[760px]"
+          >
+            <thead className="hidden lg:table-header-group">
+              <tr className="border-b border-base-300">
+                <th
+                  scope="col"
+                  className="technical-label px-3 py-3 text-[9px] font-normal text-base-content/35"
+                >
+                  {t("Reg / time")}
+                </th>
+                <th
+                  scope="col"
+                  className="technical-label px-3 py-3 text-[9px] font-normal text-base-content/35"
+                >
+                  {t("Player")}
+                </th>
+                <th
+                  scope="col"
+                  className="technical-label px-3 py-3 text-[9px] font-normal text-base-content/35"
+                >
+                  {t("Skill")}
+                </th>
+                <th
+                  scope="col"
+                  className="technical-label px-3 py-3 text-[9px] font-normal text-base-content/35"
+                >
+                  {t("Status / losses")}
+                </th>
+                <th
+                  scope="col"
+                  className="technical-label px-3 py-3 text-[9px] font-normal text-base-content/35"
+                >
+                  {t("Match / table / seed")}
+                </th>
+                {isAdmin ? (
+                  <th
+                    scope="col"
+                    className="technical-label px-3 py-3 text-[9px] font-normal text-base-content/35"
+                  >
+                    {t("Organizer controls")}
+                  </th>
+                ) : null}
+              </tr>
+            </thead>
+            <tbody className="grid gap-4 sm:grid-cols-2 lg:table-row-group">
+              {players.map((player) => {
+                const match = currentPlayerMatch(view, player);
+                const movement = playerMovement(view, player);
+                const canPrioritize =
+                  player.status === "waiting" ||
+                  player.status === "ready" ||
+                  player.status === "advanced";
+                return (
+                  <tr
+                    key={player.id.toString()}
+                    className={`player-row grid min-w-0 grid-cols-2 gap-x-4 gap-y-5 border border-base-300 bg-base-200/30 p-4 lg:table-row lg:border-x-0 lg:border-t-0 lg:border-b-base-300/70 lg:bg-transparent lg:p-0 lg:last:border-b-0 ${player.status === "removed" ? "opacity-40" : ""}`}
+                  >
+                    <td className="block min-w-0 lg:table-cell lg:px-3 lg:py-4">
+                      <p
+                        className="technical-label mb-2 text-[9px] text-base-content/35 lg:hidden"
+                        aria-hidden="true"
+                      >
+                        {t("Reg / time")}
+                      </p>
+                      <p className="font-mono text-xs text-primary">
+                        {registrationLabel(player.registrationNumber)}
+                      </p>
+                      <p className="mt-1 font-mono text-[10px] text-base-content/40">
+                        {tbilisiTime(player.registeredAt)}
+                      </p>
+                    </td>
+                    <th
+                      scope="row"
+                      className="order-first col-span-2 block min-w-0 break-words font-display text-xl font-bold lg:table-cell lg:max-w-64 lg:px-3 lg:py-4 lg:text-sm"
+                    >
+                      <PlayerIdentity
+                        player={player}
+                        size="sm"
+                        nameClassName="break-words"
+                      />
+                    </th>
+                    <td className="block min-w-0 lg:table-cell lg:px-3 lg:py-4">
+                      <p
+                        className="technical-label mb-2 text-[9px] text-base-content/35 lg:hidden"
+                        aria-hidden="true"
+                      >
+                        {t("Skill")}
+                      </p>
+                      <p className="font-mono text-xs">L{player.skill}</p>
+                      <p className="mt-1 text-[10px] text-base-content/40">
+                        {t(SKILL_LEVELS[player.skill - 1])}
+                      </p>
+                    </td>
+                    <td className="block min-w-0 lg:table-cell lg:px-3 lg:py-4">
+                      <p
+                        className="technical-label mb-2 text-[9px] text-base-content/35 lg:hidden"
+                        aria-hidden="true"
+                      >
+                        {t("Status / losses")}
+                      </p>
+                      <p
+                        className={`technical-label text-[9px] ${player.status === "champion" ? "text-primary" : player.status === "playing" ? "text-secondary" : "text-base-content/60"}`}
+                      >
+                        {t(player.status)}
+                      </p>
+                      <p className="mt-1 font-mono text-[10px] text-base-content/35">
+                        {countLabel(player.losses, "loss")}
+                      </p>
+                    </td>
+                    <td className="block min-w-0 font-mono text-[10px] text-base-content/45 lg:table-cell lg:px-3 lg:py-4">
+                      <p
+                        className="technical-label mb-2 text-[9px] text-base-content/35 lg:hidden"
+                        aria-hidden="true"
+                      >
+                        {t("Match / table / seed")}
+                      </p>
+                      {match ? matchLabel(match) : "—"} /{" "}
+                      {match?.table ? `T${match.table}` : "—"}
+                      {player.seed !== undefined ? (
+                        <p className="mt-1">
+                          {t("Seed")} {player.seed.toString()}
+                        </p>
+                      ) : null}
+                    </td>
+                    {isAdmin ? (
+                      <td className="col-span-2 block min-w-0 border-t border-base-300 pt-3 lg:table-cell lg:border-t-0 lg:px-3 lg:py-4">
+                        <p
+                          className="technical-label mb-2 text-[9px] text-base-content/35 lg:hidden"
+                          aria-hidden="true"
+                        >
+                          {t("Organizer controls")}
+                        </p>
+                        <div className="flex flex-wrap items-center gap-2 lg:flex-nowrap lg:gap-1">
+                          <button
+                            type="button"
+                            className="btn btn-ghost min-h-11 min-w-11 px-3 lg:btn-square lg:btn-xs lg:min-h-0 lg:min-w-0 lg:px-0"
+                            aria-label={t("Edit {v1}", { v1: player.name })}
+                            disabled={pending || player.status === "removed"}
+                            onClick={() => onEdit(player)}
+                          >
+                            <Pencil className="size-3.5" aria-hidden="true" />
+                            <span className="lg:hidden" aria-hidden="true">
+                              {t("Edit")}
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-ghost btn-square min-h-11 min-w-11 lg:btn-xs lg:min-h-0 lg:min-w-0"
+                            aria-label={t("Prioritize {v1} in queue", {
+                              v1: player.name,
+                            })}
+                            title={t("Prioritize {v1} in queue", {
+                              v1: player.name,
+                            })}
+                            disabled={pending || !canPrioritize}
+                            onClick={() => onPrioritize(player)}
+                          >
+                            <ArrowUp className="size-3.5" aria-hidden="true" />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-ghost min-h-11 min-w-11 font-mono lg:btn-xs lg:min-h-0 lg:min-w-0 lg:text-[9px]"
+                            disabled={
+                              pending ||
+                              !view.generated ||
+                              !movement.targets.length
+                            }
+                            onClick={() => onMove(player)}
+                          >
+                            {movement.entrant
+                              ? t("Place in bracket")
+                              : t("Move")}
+                            <span className="sr-only"> {player.name}</span>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-ghost btn-square min-h-11 min-w-11 text-secondary lg:btn-xs lg:min-h-0 lg:min-w-0"
+                            aria-label={t("Remove {v1}", { v1: player.name })}
+                            title={t("Remove {v1}", { v1: player.name })}
+                            disabled={pending || player.status === "removed"}
+                            onClick={() => onRemove(player)}
+                          >
+                            <Trash2 className="size-3.5" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </td>
+                    ) : null}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="border border-dashed border-base-300 px-6 py-10 text-center">
+          <p className="font-display text-lg font-bold uppercase">
+            {view.players.length
+              ? t("No matching players.")
+              : t("An open table. An open lineup.")}
+          </p>
+          <p className="mt-2 text-sm text-base-content/45">
+            {view.players.length
+              ? t(
+                  "Try another name or adjust the skill, status, table or round filters.",
+                )
+              : t(
+                  "Players added here receive permanent registration numbers and join the queue.",
+                )}
+          </p>
+        </div>
+      )}
+    </section>
+  );
+}

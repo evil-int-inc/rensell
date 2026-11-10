@@ -1,0 +1,427 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRoleView = 
+ record {
+   avatarUrl: opt text;
+   displayName: text;
+   id: UserId;
+   role: opt Role;
+   username: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserInput = 
+ record {
+   bio: opt text;
+   displayName: text;
+   username: text;
+ };
+type UserId = principal;
+type User = 
+ record {
+   avatar: opt ExternalBlob;
+   avatarUrl: opt text;
+   bio: opt text;
+   createdAt: Timestamp;
+   displayName: text;
+   id: UserId;
+   role: opt Role;
+   username: text;
+ };
+type TournamentTableStatus = 
+ variant {
+   available;
+   finished;
+   playing;
+   waiting;
+ };
+type TournamentTable = 
+ record {
+   matchId: opt nat;
+   number: nat;
+   status: TournamentTableStatus;
+ };
+type TournamentStatus = 
+ variant {
+   completed;
+   live;
+   upcoming;
+ };
+type TournamentState = 
+ record {
+   canUndo: bool;
+   championId: opt nat;
+   elimination: TournamentElimination;
+   history: vec TournamentAction;
+   matches: vec TournamentMatch;
+   nextMatches: vec nat;
+   players: vec TournamentPlayer;
+   started: bool;
+   tableCount: nat;
+   tables: vec TournamentTable;
+   tournamentId: nat;
+   updatedAt: Timestamp;
+   waitingQueue: vec nat;
+ };
+type TournamentSlot = 
+ variant {
+   a;
+   b;
+ };
+type TournamentPlayerStatus = 
+ variant {
+   advanced;
+   champion;
+   eliminated;
+   playing;
+   ready;
+   removed;
+   waiting;
+ };
+type TournamentPlayer = 
+ record {
+   avatarUrl: opt text;
+   currentMatchId: opt nat;
+   globalPlayerId: opt nat;
+   id: nat;
+   losses: nat;
+   name: text;
+   registeredAt: Timestamp;
+   registrationNumber: nat;
+   seed: opt nat;
+   skillLevel: nat;
+   status: TournamentPlayerStatus;
+   table: opt nat;
+   userId: opt UserId;
+ };
+type TournamentMatchStatus = 
+ variant {
+   blocked;
+   bye;
+   cancelled;
+   completed;
+   playing;
+   ready;
+ };
+type TournamentMatch = 
+ record {
+   bracket: TournamentBracket;
+   id: nat;
+   loserId: opt nat;
+   manualOverride: bool;
+   playerA: opt nat;
+   playerB: opt nat;
+   position: nat;
+   priority: int;
+   round: nat;
+   scoreA: opt nat;
+   scoreB: opt nat;
+   sourceA: MatchSource;
+   sourceB: MatchSource;
+   status: TournamentMatchStatus;
+   table: opt nat;
+   winnerId: opt nat;
+ };
+type TournamentInput = 
+ record {
+   capacity: nat;
+   description: text;
+   format: TournamentFormat;
+   startsAt: Timestamp;
+   status: TournamentStatus;
+   title: text;
+   venue: text;
+ };
+type TournamentFormat = 
+ variant {
+   doubles;
+   singles;
+ };
+type TournamentElimination = 
+ variant {
+   doubleElimination;
+   singleElimination;
+ };
+type TournamentCommand = 
+ variant {
+   addExistingPlayer: record {globalPlayerId: nat;};
+   addPlayer: record {
+                name: text;
+                skillLevel: nat;
+              };
+   assignBye: record {
+                matchId: nat;
+                slot: TournamentSlot;
+              };
+   assignTable: record {
+                  matchId: nat;
+                  table: opt nat;
+                };
+   configure: record {
+                elimination: TournamentElimination;
+                tableCount: nat;
+              };
+   editPlayer: record {
+                 name: text;
+                 playerId: nat;
+                 skillLevel: nat;
+               };
+   generateBracket;
+   movePlayer: record {
+                 matchId: nat;
+                 playerId: nat;
+                 slot: TournamentSlot;
+               };
+   placePlayer: record {
+                  matchId: nat;
+                  playerId: nat;
+                  slot: TournamentSlot;
+                };
+   prioritizeMatch: nat;
+   prioritizePlayer: nat;
+   recordResult: record {
+                   matchId: nat;
+                   scoreA: nat;
+                   scoreB: nat;
+                 };
+   removePlayer: record {
+                   confirmed: bool;
+                   playerId: nat;
+                 };
+   resetMatch: record {
+                 cascade: bool;
+                 matchId: nat;
+               };
+   setMatchPlayers: record {
+                      matchId: nat;
+                      playerA: opt nat;
+                      playerB: opt nat;
+                    };
+   startMatch: nat;
+   swapPlayers:
+    record {
+      firstMatchId: nat;
+      firstSlot: TournamentSlot;
+      secondMatchId: nat;
+      secondSlot: TournamentSlot;
+    };
+   undo;
+ };
+type TournamentBracket = 
+ variant {
+   grandFinal;
+   losers;
+   resetFinal;
+   winners;
+ };
+type TournamentAction = 
+ record {
+   caption: text;
+   createdAt: Timestamp;
+   id: nat;
+ };
+type Tournament = 
+ record {
+   capacity: nat;
+   createdAt: Timestamp;
+   description: text;
+   format: TournamentFormat;
+   id: nat;
+   startsAt: Timestamp;
+   status: TournamentStatus;
+   title: text;
+   updatedAt: Timestamp;
+   venue: text;
+ };
+type Timestamp = int;
+type Role = variant {admin;};
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type ProfileInput = 
+ record {
+   displayName: text;
+   username: text;
+ };
+type PlayerInput = 
+ record {
+   name: text;
+   skillLevel: nat;
+ };
+type MatchSource = 
+ variant {
+   bye;
+   loser: nat;
+   player: nat;
+   winner: nat;
+ };
+type LinkRequest = 
+ record {
+   clientId: text;
+   expiresAt: int;
+   nonce: text;
+ };
+type Link = 
+ record {
+   linkedAt: int;
+   subject: text;
+   username: text;
+ };
+type HttpRequestResult = 
+ record {
+   body: blob;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type HttpHeader = 
+ record {
+   name: text;
+   value: text;
+ };
+type GlobalPlayerView = 
+ record {
+   avatarUrl: opt text;
+   createdAt: Timestamp;
+   id: nat;
+   name: text;
+   skillLevel: nat;
+   updatedAt: Timestamp;
+   userId: opt UserId;
+ };
+type ExternalBlob = blob;
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type DeleteTournamentResult = 
+ variant {
+   err: DeleteTournamentError;
+   ok;
+ };
+type DeleteTournamentError = 
+ variant {
+   notAuthorized;
+   notFound;
+ };
+type DeletePlayerResult = 
+ variant {
+   err: DeletePlayerError;
+   ok;
+ };
+type DeletePlayerError = 
+ variant {
+   notAuthorized;
+   notFound;
+ };
+type Config = record {clientId: opt text;};
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  applyTournamentCommand: (id: nat, command: TournamentCommand) ->
+   (TournamentState);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  bootstrapOwner: () -> ();
+  completeTelegramLink: (idToken: text) -> (User);
+  createPlayer: (input: PlayerInput) -> (GlobalPlayerView);
+  createTournament: (input: TournamentInput) -> (Tournament);
+  createUser: (userId: UserId, input: UserInput) -> (User);
+  deletePlayer: (playerId: nat) -> (DeletePlayerResult);
+  deleteTournament: (id: nat) -> (DeleteTournamentResult);
+  execute: (qJson: text) -> (Result) query;
+  getApiDoc: () -> (text) query;
+  getCallerProfile: () -> (opt User) query;
+  getCallerTelegramLink: () -> (opt Link) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getMyRole: () -> (opt Role) query;
+  getTelegramLinkConfig: () -> (Config) query;
+  getTournament: (id: nat) -> (opt Tournament) query;
+  getTournamentState: (id: nat) -> (opt TournamentState) query;
+  getTournaments: () -> (vec Tournament) query;
+  getUser: (userId: UserId) -> (opt User) query;
+  getUserByUsername: (username: text) -> (opt User) query;
+  grantAdminRole: (target: UserId) -> (UserRoleView);
+  isCallerAdmin: () -> (bool) query;
+  linkPlayerToUser: (playerId: nat, userId: UserId) -> (GlobalPlayerView);
+  listPlayers: () -> (vec GlobalPlayerView) query;
+  listUsers: () -> (vec User) query;
+  listUsersWithRoles: () -> (vec UserRoleView) query;
+  revokeAdminRole: (target: UserId) -> (UserRoleView);
+  saveCallerProfile: (input: ProfileInput) -> (User);
+  schema: () -> (text) query;
+  setTelegramLinkConfig: (clientId: opt text) -> ();
+  startTelegramLink: () -> (LinkRequest);
+  telegramKeysTransform: (args:
+   record {
+     context: blob;
+     response: HttpRequestResult;
+   }) -> (HttpRequestResult) query;
+  unlinkPlayerFromUser: (playerId: nat) -> (GlobalPlayerView);
+  unlinkTelegram: () -> (User);
+  updatePlayer: (playerId: nat, input: PlayerInput) -> (GlobalPlayerView);
+  updateTournament: (id: nat, input: TournamentInput) -> (Tournament);
+  updateUser: (userId: UserId, input: UserInput) -> (User);
+}

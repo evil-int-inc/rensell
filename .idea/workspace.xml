@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ddd8a1d3-ba9e-41a8-86c2-c846b232a63f" name="Changes" comment="bugfix/default-copy-url-to-standard-view">
+      <change beforePath="$PROJECT_DIR$/src/frontend/dist/assets/index-BESjiNdg.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/dist/assets/index-CzUfncB_.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/__tests__/BracketPlayerSearch.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/__tests__/BracketPlayerSearch.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/tournaments/BracketGraph.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/components/tournaments/BracketGraph.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/tournaments/MatchCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/components/tournaments/MatchCard.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;evil-int-inc&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/evil-int-inc/chillpong.git&quot;,
+    &quot;accountId&quot;: &quot;0368140a-d8cc-425b-b931-122442ddeacd&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="3KDxlPXidXlj1JD9hfiUrnxGcUY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "main",
+    "javascript.preferred.runtime.type.id": "node",
+    "last_opened_file_path": "/Users/ruslanthebest/code/evil/chillpong",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "pnpm",
+    "ts.external.directory.path": "/Users/ruslanthebest/code/evil/chillpong/src/frontend/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.29346.143" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ddd8a1d3-ba9e-41a8-86c2-c846b232a63f" name="Changes" comment="" />
+      <created>1791106089226</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1791106089226</updated>
+      <workItem from="1791106090300" duration="3731000" />
+      <workItem from="1791550280580" duration="971000" />
+      <workItem from="1791718725569" duration="8944000" />
+      <workItem from="1791835107322" duration="2765000" />
+      <workItem from="1792096952493" duration="4048000" />
+      <workItem from="1793456776500" duration="6520000" />
+      <workItem from="1793543948069" duration="2104000" />
+      <workItem from="1794176817227" duration="3835000" />
+    </task>
+    <task id="LOCAL-00001" summary="feature/redesign">
+      <option name="closed" value="true" />
+      <created>1791122467648</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1791122467648</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feature/redesign-2">
+      <option name="closed" value="true" />
+      <created>1791122490303</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1791122490303</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feature/functionality">
+      <option name="closed" value="true" />
+      <created>1791152384273</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1791152384273</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feature/user-pfoile">
+      <option name="closed" value="true" />
+      <created>1791192461856</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1791192461857</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feature/language">
+      <option name="closed" value="true" />
+      <created>1791198176180</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1791198176180</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feature/geo-language-label">
+      <option name="closed" value="true" />
+      <created>1791198947153</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1791198947153</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feature/full-bracket-scrolling-by-dragging">
+      <option name="closed" value="true" />
+      <created>1791231153296</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1791231153296</updated>
+    </task>
+    <task id="LOCAL-00008" summary="refactor/update-idea-settings">
+      <option name="closed" value="true" />
+      <created>1791551139054</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1791551139054</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feature/full-bracket-full-view-and-zooming">
+      <option name="closed" value="true" />
+      <created>1791643290648</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1791643290648</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feature/add-editing">
+      <option name="closed" value="true" />
+      <created>1791720105516</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1791720105516</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feature/add-editing-on-the-floor">
+      <option name="closed" value="true" />
+      <created>1791721828172</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1791721828172</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feature/telegram-login">
+      <option name="closed" value="true" />
+      <created>1791919156181</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1791919156181</updated>
+    </task>
+    <task id="LOCAL-00013" summary="bugfix/telegram-login">
+      <option name="closed" value="true" />
+      <created>1792156611547</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1792156611547</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feature/remove-tournament">
+      <option name="closed" value="true" />
+      <created>1793468691949</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1793468691949</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feature/telegram-bot-ink">
+      <option name="closed" value="true" />
+      <created>1793469039239</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1793469039239</updated>
+    </task>
+    <task id="LOCAL-00016" summary="bugfix/telegram-full-bracket-swap">
+      <option name="closed" value="true" />
+      <created>1793471033710</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1793471033710</updated>
+    </task>
+    <task id="LOCAL-00017" summary="bugfix/tournament-status-and-player-deletion">
+      <option name="closed" value="true" />
+      <created>1793473678346</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1793473678346</updated>
+    </task>
+    <task id="LOCAL-00018" summary="bugfix/do-not-add-player-in-old-bye-slots">
+      <option name="closed" value="true" />
+      <created>1793546232657</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1793546232657</updated>
+    </task>
+    <task id="LOCAL-00019" summary="feature/standart-view">
+      <option name="closed" value="true" />
+      <created>1794178554310</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1794178554310</updated>
+    </task>
+    <task id="LOCAL-00020" summary="bugfix/searh-bar-in-bracket-view">
+      <option name="closed" value="true" />
+      <created>1794179601052</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1794179601052</updated>
+    </task>
+    <task id="LOCAL-00021" summary="bugfix/default-copy-url-to-standard-view">
+      <option name="closed" value="true" />
+      <created>1794179860598</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1794179860598</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
+    <servers />
+  </component>
+  <component name="TerminalProjectNonSharedOptionsProvider">
+    <option name="shellPath" value="&quot;cmd&quot; /k &quot;&quot;%CMDER_ROOT%\vendor\init.bat&quot;&quot;" />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/src/frontend/src/backend.d.ts" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="feature/redesign" />
+    <MESSAGE value="feature/redesign-2" />
+    <MESSAGE value="feature/functionality" />
+    <MESSAGE value="feature/user-pfoile" />
+    <MESSAGE value="feature/language" />
+    <MESSAGE value="feature/geo-language-label" />
+    <MESSAGE value="feature/full-bracket-scrolling-by-dragging" />
+    <MESSAGE value="refactor/update-idea-settings" />
+    <MESSAGE value="feature/full-bracket-full-view-and-zooming" />
+    <MESSAGE value="feature/add-editing" />
+    <MESSAGE value="feature/add-editing-on-the-floor" />
+    <MESSAGE value="feature/telegram-login" />
+    <MESSAGE value="bugfix/telegram-login" />
+    <MESSAGE value="feature/remove-tournament" />
+    <MESSAGE value="feature/telegram-bot-ink" />
+    <MESSAGE value="bugfix/telegram-full-bracket-swap" />
+    <MESSAGE value="bugfix/tournament-status-and-player-deletion" />
+    <MESSAGE value="bugfix/do-not-add-player-in-old-bye-slots" />
+    <MESSAGE value="feature/standart-view" />
+    <MESSAGE value="bugfix/searh-bar-in-bracket-view" />
+    <MESSAGE value="bugfix/default-copy-url-to-standard-view" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix/default-copy-url-to-standard-view" />
+  </component>
+</project>

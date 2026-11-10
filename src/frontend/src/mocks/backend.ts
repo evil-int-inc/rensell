@@ -1,0 +1,308 @@
+import { Principal } from "@icp-sdk/core/principal";
+import {
+  DeletePlayerError,
+  DeleteTournamentError,
+  Role,
+  type GlobalPlayerView as GlobalPlayer,
+  type Tournament,
+  TournamentElimination,
+  TournamentFormat,
+  TournamentStatus,
+  TournamentTableStatus,
+  type User,
+  UserRole,
+  type UserRoleView,
+  type backendInterface,
+} from "../backend";
+
+/**
+ * In-memory visual-QA fixture. Core infrastructure loads this module only when
+ * VITE_USE_MOCK=true; production pages read the real canister.
+ */
+const OWNER = Principal.fromUint8Array(new Uint8Array([1, 1]));
+const NIKA = Principal.fromUint8Array(new Uint8Array([2, 1]));
+const MARIAM = Principal.fromUint8Array(new Uint8Array([3, 1]));
+const GIORGI = Principal.fromUint8Array(new Uint8Array([4, 1]));
+const NS_PER_DAY = 86_400_000_000_000n;
+const now = () => BigInt(Date.now()) * 1_000_000n;
+const fixtureTime = now();
+
+let users: User[] = [
+  {
+    id: OWNER,
+    displayName: "The ChillPong Crew",
+    username: "chillpong",
+    bio: "Keeping the tables moving after dark.",
+    role: Role.admin,
+    createdAt: fixtureTime - 90n * NS_PER_DAY,
+  },
+  {
+    id: NIKA,
+    displayName: "Nika Beridze",
+    username: "nika",
+    bio: "Left-handed. Here for the rallies.",
+    createdAt: fixtureTime - 30n * NS_PER_DAY,
+  },
+  {
+    id: MARIAM,
+    displayName: "Mariam Japaridze",
+    username: "mariam",
+    bio: "One more game is always the plan.",
+    createdAt: fixtureTime - 14n * NS_PER_DAY,
+  },
+  {
+    id: GIORGI,
+    displayName: "Giorgi Maisuradze",
+    username: "giorgi",
+    bio: "Meet you at the table.",
+    createdAt: fixtureTime - 7n * NS_PER_DAY,
+  },
+];
+
+let tournaments: Tournament[] = [
+  {
+    id: 1n,
+    title: "Basement Open",
+    description:
+      "Singles, loud music, long rallies. Arrive 20 minutes before the first game for the player briefing.",
+    venue: "ChillPong / Tbilisi",
+    startsAt: fixtureTime + 3n * NS_PER_DAY,
+    format: TournamentFormat.singles,
+    capacity: 32n,
+    status: TournamentStatus.upcoming,
+    createdAt: fixtureTime - 7n * NS_PER_DAY,
+    updatedAt: fixtureTime - 7n * NS_PER_DAY,
+  },
+  {
+    id: 2n,
+    title: "Last Call Doubles",
+    description:
+      "Bring your teammate. Teams of two, quick exchanges and a late finish.",
+    venue: "ChillPong / Tbilisi",
+    startsAt: fixtureTime - 3_600_000_000_000n,
+    format: TournamentFormat.doubles,
+    capacity: 24n,
+    status: TournamentStatus.live,
+    createdAt: fixtureTime - 10n * NS_PER_DAY,
+    updatedAt: fixtureTime,
+  },
+  {
+    id: 3n,
+    title: "Sunday Sessions",
+    description: "A night of friendly competition and familiar faces.",
+    venue: "ChillPong / Tbilisi",
+    startsAt: fixtureTime - 7n * NS_PER_DAY,
+    format: TournamentFormat.singles,
+    capacity: 16n,
+    status: TournamentStatus.completed,
+    createdAt: fixtureTime - 20n * NS_PER_DAY,
+    updatedAt: fixtureTime - 6n * NS_PER_DAY,
+  },
+];
+let nextTournamentId = 4n;
+let globalPlayers: GlobalPlayer[] = [
+  { id: 1n, name: "Nika Beridze", skillLevel: 3n, createdAt: fixtureTime, updatedAt: fixtureTime },
+  { id: 2n, name: "Mariam Japaridze", skillLevel: 2n, createdAt: fixtureTime, updatedAt: fixtureTime },
+];
+let nextPlayerId = 3n;
+let telegramClientId: string | null = null;
+
+function findUser(id: Principal): User | undefined {
+  return users.find((user) => user.id.toString() === id.toString());
+}
+
+function requireUser(id: Principal): User {
+  const user = findUser(id);
+  if (!user) throw new Error("Member not found.");
+  return user;
+}
+
+function roleView(user: User): UserRoleView {
+  return {
+    id: user.id,
+    displayName: user.displayName,
+    username: user.username,
+    role: user.role,
+    avatarUrl: user.avatarUrl,
+  };
+}
+
+export const mockBackend: backendInterface = {
+  deletePlayer: async (id) => {
+    if (!globalPlayers.some((player) => player.id === id)) {
+      return { __kind__: "err", err: DeletePlayerError.notFound };
+    }
+    globalPlayers = globalPlayers.filter((player) => player.id !== id);
+    return { __kind__: "ok", ok: null };
+  },
+  deleteTournament: async (id) => {
+    if (!tournaments.some((tournament) => tournament.id === id)) {
+      return { __kind__: "err", err: DeleteTournamentError.notFound };
+    }
+    tournaments = tournaments.filter((tournament) => tournament.id !== id);
+    return { __kind__: "ok", ok: null };
+  },
+  getTelegramLinkConfig: async () => ({ clientId: telegramClientId ?? undefined }),
+  setTelegramLinkConfig: async (clientId) => { telegramClientId = clientId; },
+  getCallerTelegramLink: async () => null,
+  telegramKeysTransform: async ({ response }) => ({ ...response, headers: [] }),
+  startTelegramLink: async () => { throw new Error("Telegram linking requires the real backend."); },
+  completeTelegramLink: async () => { throw new Error("Telegram linking requires the real backend."); },
+  unlinkTelegram: async () => ({ ...requireUser(OWNER) }),
+  listPlayers: async () => globalPlayers.map((player) => ({ ...player, avatarUrl: player.userId ? findUser(player.userId)?.avatarUrl : undefined })),
+  createPlayer: async (input) => {
+    const player = { ...input, id: nextPlayerId++, createdAt: now(), updatedAt: now() };
+    globalPlayers.push(player);
+    return { ...player };
+  },
+  updatePlayer: async (id, input) => {
+    const player = globalPlayers.find((item) => item.id === id);
+    if (!player) throw new Error("Player not found");
+    Object.assign(player, input, { updatedAt: now() });
+    if (player.userId) requireUser(player.userId).displayName = player.name;
+    return { ...player, avatarUrl: player.userId ? findUser(player.userId)?.avatarUrl : undefined };
+  },
+  linkPlayerToUser: async (id, userId) => {
+    const player = globalPlayers.find((item) => item.id === id);
+    if (!player) throw new Error("Player not found");
+    if (player.userId && player.userId.toString() !== userId.toString()) throw new Error("Player is already linked to another member");
+    if (globalPlayers.some((item) => item.id !== id && item.userId?.toString() === userId.toString())) throw new Error("Member is already linked to another player");
+    requireUser(userId).displayName = player.name;
+    player.userId = userId;
+    return { ...player, avatarUrl: requireUser(userId).avatarUrl };
+  },
+  unlinkPlayerFromUser: async (id) => {
+    const player = globalPlayers.find((item) => item.id === id);
+    if (!player) throw new Error("Player not found");
+    player.userId = undefined;
+    return { ...player, avatarUrl: undefined };
+  },
+  _immutableObjectStorageBlobsAreLive: async (hashes) =>
+    hashes.map(() => false),
+  _immutableObjectStorageBlobsToDelete: async () => [],
+  _immutableObjectStorageConfirmBlobDeletion: async () => undefined,
+  _immutableObjectStorageCreateCertificate: async (blobHash) => ({
+    method: "PUT",
+    blob_hash: blobHash,
+  }),
+  _immutableObjectStorageRefillCashier: async () => ({ success: true }),
+  _immutableObjectStorageUpdateGatewayPrincipals: async () => undefined,
+  _initialize_access_control: async () => undefined,
+  _internet_identity_sign_in_finish: async () => ({ __kind__: "ok", ok: null }),
+  _internet_identity_sign_in_start: async () => new Uint8Array(),
+  applyTournamentCommand: async () => {
+    throw new Error(
+      "Organizer writes require a real canister. This visual fixture is read-only.",
+    );
+  },
+  assignCallerUserRole: async (id, role) => {
+    if (role !== UserRole.admin) {
+      throw new Error("Only the admin role may be assigned.");
+    }
+    requireUser(id).role = Role.admin;
+  },
+  bootstrapOwner: async () => {
+    requireUser(OWNER).role = Role.admin;
+  },
+  createTournament: async (input) => {
+    const tournament: Tournament = {
+      ...input,
+      id: nextTournamentId++,
+      createdAt: now(),
+      updatedAt: now(),
+    };
+    tournaments = [...tournaments, tournament];
+    return { ...tournament };
+  },
+  createUser: async (id, input) => {
+    if (findUser(id)) throw new Error("This member already exists.");
+    if (users.some((user) => user.username === input.username)) {
+      throw new Error("This username is already taken.");
+    }
+    const user: User = { ...input, id, createdAt: now() };
+    users = [...users, user];
+    return { ...user };
+  },
+  execute: async () => ({ hasMore: false, rows: [] }),
+  getApiDoc: async () => "# ChillPong visual-QA fixture",
+  getCallerProfile: async () => ({ ...requireUser(OWNER) }),
+  getCallerUserRole: async () => UserRole.admin,
+  getMyRole: async () => Role.admin,
+  getTournament: async (id) => {
+    const tournament = tournaments.find((item) => item.id === id);
+    return tournament ? { ...tournament } : null;
+  },
+  getTournamentState: async (id) => {
+    if (!tournaments.some((item) => item.id === id)) return null;
+    return {
+      tournamentId: id,
+      elimination: TournamentElimination.singleElimination,
+      tableCount: 1n,
+      started: false,
+      players: [],
+      matches: [],
+      waitingQueue: [],
+      nextMatches: [],
+      tables: [{ number: 1n, status: TournamentTableStatus.available }],
+      history: [],
+      canUndo: false,
+      updatedAt: fixtureTime,
+    };
+  },
+  getTournaments: async () => tournaments.map((item) => ({ ...item })),
+  getUser: async (id) => {
+    const user = findUser(id);
+    return user ? { ...user } : null;
+  },
+  getUserByUsername: async (username) => {
+    const user = users.find((item) => item.username === username.toLowerCase());
+    return user ? { ...user } : null;
+  },
+  grantAdminRole: async (id) => {
+    const user = requireUser(id);
+    user.role = Role.admin;
+    return roleView(user);
+  },
+  isCallerAdmin: async () => true,
+  listUsers: async () => users.map((user) => ({ ...user })),
+  listUsersWithRoles: async () => users.map(roleView),
+  revokeAdminRole: async (id) => {
+    if (id.toString() === OWNER.toString()) {
+      throw new Error("The owner keeps admin access.");
+    }
+    const user = requireUser(id);
+    user.role = undefined;
+    return roleView(user);
+  },
+  schema: async () => JSON.stringify({ tables: ["users", "tournaments"] }),
+  saveCallerProfile: async (input) => {
+    const username = input.username.trim().toLowerCase();
+    if (username && users.some((user) => user.id.toString() !== OWNER.toString() && user.username.toLowerCase() === username)) {
+      throw new Error("Username already taken");
+    }
+    const user = requireUser(OWNER);
+    user.displayName = input.displayName.trim();
+    user.username = username;
+    return { ...user };
+  },
+  updateTournament: async (id, input) => {
+    const tournament = tournaments.find((item) => item.id === id);
+    if (!tournament) throw new Error("Tournament not found.");
+    Object.assign(tournament, input, { updatedAt: now() });
+    return { ...tournament };
+  },
+  updateUser: async (id, input) => {
+    const user = requireUser(id);
+    if (
+      users.some(
+        (item) =>
+          item.username === input.username &&
+          item.id.toString() !== id.toString(),
+      )
+    ) {
+      throw new Error("This username is already taken.");
+    }
+    Object.assign(user, input);
+    return { ...user };
+  },
+};
