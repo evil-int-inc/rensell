@@ -67,6 +67,11 @@ export type MatchSource = { 'bye' : null } |
   { 'loser' : bigint };
 export interface PlayerInput { 'name' : string, 'skillLevel' : bigint }
 export interface ProfileInput { 'username' : string, 'displayName' : string }
+export interface PropertyRecord {
+  'id' : string,
+  'data' : string,
+  'isDraft' : boolean,
+}
 export interface Result { 'hasMore' : boolean, 'rows' : Array<Array<Cell>> }
 export type Result__1 = { 'ok' : null } |
   { 'err' : Error };
@@ -335,11 +340,14 @@ export interface _SERVICE {
   'grantAdminRole' : ActorMethod<[UserId], UserRoleView>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'linkPlayerToUser' : ActorMethod<[bigint, UserId], GlobalPlayerView>,
+  'listManagedProperties' : ActorMethod<[[] | [string]], Array<PropertyRecord>>,
   'listPlayers' : ActorMethod<[], Array<GlobalPlayerView>>,
+  'listProperties' : ActorMethod<[[] | [string]], Array<PropertyRecord>>,
   'listUsers' : ActorMethod<[], Array<User>>,
   'listUsersWithRoles' : ActorMethod<[], Array<UserRoleView>>,
   'revokeAdminRole' : ActorMethod<[UserId], UserRoleView>,
   'saveCallerProfile' : ActorMethod<[ProfileInput], User>,
+  'saveProperty' : ActorMethod<[PropertyRecord], undefined>,
   'schema' : ActorMethod<[], string>,
   'setTelegramLinkConfig' : ActorMethod<[[] | [string]], undefined>,
   'startTelegramLink' : ActorMethod<[], LinkRequest>,

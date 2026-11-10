@@ -1,7 +1,7 @@
 {
   "name": "ChillPong",
   "short_name": "ChillPong",
-  "start_url": "/",
+  "start_url": "/tournaments",
   "scope": "/",
   "icons": [
     {

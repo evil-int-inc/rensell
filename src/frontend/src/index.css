@@ -1,15 +1,79 @@
 @import "tailwindcss";
 @plugin "daisyui" {
   /* biome-ignore lint/correctness/noUnknownProperty: DaisyUI plugin option */
-  themes: black --default;
+  themes: false;
+}
+@plugin "daisyui/theme" {
+  /* biome-ignore lint/correctness/noUnknownProperty: DaisyUI theme option */
+  name: "market-light";
+  /* biome-ignore lint/correctness/noUnknownProperty: DaisyUI theme option */
+  default: true;
+  color-scheme: light;
+  --color-base-100: #fbfaf6;
+  --color-base-200: #f1eee5;
+  --color-base-300: #e2ded3;
+  --color-base-content: #202820;
+  --color-primary: #1b513f;
+  --color-primary-content: #f8f8ec;
+  --color-secondary: #e3ebdf;
+  --color-secondary-content: #294838;
+  --color-accent: #d2ad77;
+  --color-accent-content: #2e2215;
+  --color-neutral: #172821;
+  --color-neutral-content: #fbfaf6;
+  --color-info: #31677b;
+  --color-info-content: #f4f9fb;
+  --color-success: #2d694b;
+  --color-success-content: #f5fbf6;
+  --color-warning: #925e25;
+  --color-warning-content: #fff9ef;
+  --color-error: #a7453d;
+  --color-error-content: #fff5f3;
+  --radius-selector: .5rem;
+  --radius-field: .65rem;
+  --radius-box: 1rem;
+  --size-selector: .25rem;
+  --size-field: .25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+@plugin "daisyui/theme" {
+  /* biome-ignore lint/correctness/noUnknownProperty: DaisyUI theme option */
+  name: "market-dark";
+  color-scheme: dark;
+  --color-base-100: #19211d;
+  --color-base-200: #222d26;
+  --color-base-300: #37443a;
+  --color-base-content: #f0f0e6;
+  --color-primary: #a6d0b7;
+  --color-primary-content: #142c22;
+  --color-secondary: #354d3f;
+  --color-secondary-content: #e4ede3;
+  --color-accent: #dfba82;
+  --color-accent-content: #312418;
+  --color-neutral: #121c17;
+  --color-neutral-content: #f6f4ea;
+  --color-info: #9ecbdc;
+  --color-info-content: #19303b;
+  --color-success: #a3ccab;
+  --color-success-content: #1a3827;
+  --color-warning: #efbf7c;
+  --color-warning-content: #402c15;
+  --color-error: #f1a9a0;
+  --color-error-content: #481e19;
+  --radius-selector: .5rem;
+  --radius-field: .65rem;
+  --radius-box: 1rem;
+  --size-selector: .25rem;
+  --size-field: .25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
 @plugin "daisyui/theme" {
   /* biome-ignore lint/correctness/noUnknownProperty: DaisyUI theme option */
   name: "black";
-  /* biome-ignore lint/correctness/noUnknownProperty: DaisyUI theme option */
-  default: true;
-  /* biome-ignore lint/correctness/noUnknownProperty: DaisyUI theme option */
-  prefersdark: true;
   color-scheme: dark;
   --color-base-100: #101010;
   --color-base-200: #171717;
@@ -34,6 +98,9 @@
   --radius-selector: 0rem;
   --radius-field: 0rem;
   --radius-box: 0rem;
+  --size-selector: .25rem;
+  --size-field: .25rem;
+  --border: 1px;
   --depth: 0;
   --noise: 0;
 }
@@ -58,6 +125,7 @@
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "DM Sans", sans-serif;
   --font-mono: "Geist Mono", monospace;
+  --font-editorial: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --color-background: var(--color-base-100);
   --color-foreground: var(--color-base-content);
   --color-card: var(--color-base-200);
@@ -81,6 +149,11 @@
   transition: color 150ms, background-color 150ms, border-color 150ms;
 }
 
+@utility market-container {
+  width: min(100% - clamp(2rem, 7vw, 6rem), 82rem);
+  margin-inline: auto;
+}
+
 @layer base {
   html,
   body,
@@ -95,8 +168,8 @@
     margin: 0;
   }
   ::selection {
-    background: #d7f347;
-    color: #101010;
+    background: var(--color-primary);
+    color: var(--color-primary-content);
   }
   :focus-visible {
     outline: 2px solid var(--color-primary);
@@ -229,7 +302,7 @@
     font-size: 16px;
   }
 }
-.btn {
+:where([data-theme="black"]) .btn {
   text-transform: uppercase;
   font-family: var(--font-mono);
   font-size: 11px;
@@ -238,7 +311,7 @@
   border-radius: 0;
   box-shadow: none;
 }
-.btn-primary:hover {
+:where([data-theme="black"]) .btn-primary:hover {
   background: #e3fa7a;
   border-color: #e3fa7a;
 }
@@ -288,9 +361,7 @@
   background: var(--color-base-200);
   border-left: 2px solid var(--color-primary);
 }
-.input,
-.textarea,
-.select {
+:where([data-theme="black"]) :is(.input, .textarea, .select) {
   background-color: var(--color-base-100);
   border-color: #41413a;
 }

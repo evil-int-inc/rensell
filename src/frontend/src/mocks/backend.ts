@@ -128,6 +128,11 @@ function roleView(user: User): UserRoleView {
 }
 
 export const mockBackend: backendInterface = {
+  listProperties: async () => [],
+  listManagedProperties: async () => [],
+  saveProperty: async () => {
+    throw new Error("Saving listings requires the real backend.");
+  },
   deletePlayer: async (id) => {
     if (!globalPlayers.some((player) => player.id === id)) {
       return { __kind__: "err", err: DeletePlayerError.notFound };

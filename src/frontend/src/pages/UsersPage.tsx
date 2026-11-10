@@ -37,7 +37,7 @@ function memberDate(timestamp: bigint) {
   });
 }
 
-export function UsersPage() {
+export function UsersPage({ marketplace = false }: { marketplace?: boolean }) {
   const { t } = useI18n();
   const { actor, isFetching } = useActor(createActor);
   const { isAdmin } = useAuth();
@@ -175,18 +175,34 @@ export function UsersPage() {
     <div data-ocid="users_page" className="club-page">
       <header className="mb-10 flex flex-wrap items-end justify-between gap-6">
         <div>
-          <p className="section-kicker mb-4">
-            {t("CHILLPONG / ADMIN ACCOUNTS")}
+          <p
+            className={
+              marketplace
+                ? "mb-3 text-xs font-bold tracking-widest text-primary uppercase"
+                : "section-kicker mb-4"
+            }
+          >
+            {marketplace
+              ? "Marketplace administration"
+              : t("CHILLPONG / ADMIN ACCOUNTS")}
           </p>
-          <h1 className="page-title">
-            {t("CLUB")}
-            <br />
-            <span className="text-primary">{t("ACCOUNTS.")}</span>
-          </h1>
+          {marketplace ? (
+            <h1 className="font-editorial text-4xl tracking-tight sm:text-5xl">
+              Accounts
+            </h1>
+          ) : (
+            <h1 className="page-title">
+              {t("CLUB")}
+              <br />
+              <span className="text-primary">{t("ACCOUNTS.")}</span>
+            </h1>
+          )}
           <p className="mt-5 max-w-xl text-sm leading-relaxed text-base-content/60">
-            {t(
-              "Manage member identities and account details. Tournament entrants are listed on the Players page.",
-            )}
+            {marketplace
+              ? "Manage account names, usernames, and profile details."
+              : t(
+                  "Manage member identities and account details. Tournament entrants are listed on the Players page.",
+                )}
           </p>
         </div>
         {isAdmin ? (
@@ -418,14 +434,18 @@ export function UsersPage() {
             <header className="mb-7 flex items-start justify-between gap-4">
               <div>
                 <p className="section-kicker mb-2">
-                  {t("CHILLPONG / MEMBER FILE")}
+                  {marketplace
+                    ? "Marketplace account"
+                    : t("CHILLPONG / MEMBER FILE")}
                 </p>
                 <h2
                   id="user-dialog-title"
                   className="font-display text-3xl font-bold uppercase tracking-tight"
                 >
                   {editor === "new"
-                    ? t("Add to the lineup.")
+                    ? marketplace
+                      ? "Add account"
+                      : t("Add to the lineup.")
                     : t("Edit member.")}
                 </h2>
               </div>

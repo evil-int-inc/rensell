@@ -14,10 +14,12 @@ import Common "types/common";
 import Users "types/users";
 import Tournaments "types/tournaments";
 import Players "types/players";
+import Properties "types/properties";
 import Telegram "types/telegram";
 import UsersApi "mixins/users-api";
 import TournamentsApi "mixins/tournaments-api";
 import PlayersApi "mixins/players-api";
+import PropertiesApi "mixins/properties-api";
 import TelegramApi "mixins/telegram-api";
 import RolesApi "mixins/roles-api";
 import TournamentsLib "lib/tournaments";
@@ -35,6 +37,7 @@ actor {
   let tournaments : Map.Map<Nat, Tournaments.Tournament>;
   let tournamentStates : Map.Map<Nat, Tournaments.TournamentStateData>;
   let players : Map.Map<Nat, Players.GlobalPlayer>;
+  let properties : Map.Map<Text, Properties.PropertyRecord>;
   let counters : Common.Counters;
   let owner : Common.OwnerState;
   let telegramConfig : Telegram.ConfigState;
@@ -48,6 +51,7 @@ actor {
   include UsersApi(accessControlState, users, usernames, owner);
   include TournamentsApi(accessControlState, tournaments, tournamentStates, counters, players, users);
   include PlayersApi(accessControlState, users, usernames, owner, players, counters);
+  include PropertiesApi(accessControlState, properties);
   include TelegramApi(accessControlState, users, usernames, owner, telegramConfig, telegramLinks, telegramOwners, telegramChallenges, telegramCache);
   include RolesApi(accessControlState, users, owner);
   include ApiDocMixin();

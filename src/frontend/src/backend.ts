@@ -167,6 +167,11 @@ export interface ProfileInput {
     username: string;
     displayName: string;
 }
+export interface PropertyRecord {
+    id: string;
+    data: string;
+    isDraft: boolean;
+}
 export interface Result {
     hasMore: boolean;
     rows: Array<Array<Cell>>;
@@ -507,11 +512,14 @@ export interface backendInterface {
     grantAdminRole(target: UserId): Promise<UserRoleView>;
     isCallerAdmin(): Promise<boolean>;
     linkPlayerToUser(playerId: bigint, userId: UserId): Promise<GlobalPlayerView>;
+    listManagedProperties(after: string | null): Promise<Array<PropertyRecord>>;
     listPlayers(): Promise<Array<GlobalPlayerView>>;
+    listProperties(after: string | null): Promise<Array<PropertyRecord>>;
     listUsers(): Promise<Array<User>>;
     listUsersWithRoles(): Promise<Array<UserRoleView>>;
     revokeAdminRole(target: UserId): Promise<UserRoleView>;
     saveCallerProfile(input: ProfileInput): Promise<User>;
+    saveProperty(property: PropertyRecord): Promise<void>;
     schema(): Promise<string>;
     setTelegramLinkConfig(clientId: string | null): Promise<void>;
     startTelegramLink(): Promise<LinkRequest>;
@@ -990,46 +998,74 @@ export class Backend implements backendInterface {
             return from_candid_GlobalPlayerView_n58(this._uploadFile, this._downloadFile, result);
         }
     }
-    async listPlayers(): Promise<Array<GlobalPlayerView>> {
+    async listManagedProperties(arg0: string | null): Promise<Array<PropertyRecord>> {
         if (this.processError) {
             try {
-                const result = await this.actor.listPlayers();
-                return from_candid_vec_n100(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.listManagedProperties(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
+                return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.listPlayers();
-            return from_candid_vec_n100(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.listManagedProperties(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
+            return result;
         }
     }
-    async listUsers(): Promise<Array<User>> {
+    async listPlayers(): Promise<Array<GlobalPlayerView>> {
         if (this.processError) {
             try {
-                const result = await this.actor.listUsers();
+                const result = await this.actor.listPlayers();
                 return from_candid_vec_n101(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.listUsers();
+            const result = await this.actor.listPlayers();
             return from_candid_vec_n101(this._uploadFile, this._downloadFile, result);
         }
     }
-    async listUsersWithRoles(): Promise<Array<UserRoleView>> {
+    async listProperties(arg0: string | null): Promise<Array<PropertyRecord>> {
         if (this.processError) {
             try {
-                const result = await this.actor.listUsersWithRoles();
+                const result = await this.actor.listProperties(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.listProperties(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
+            return result;
+        }
+    }
+    async listUsers(): Promise<Array<User>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.listUsers();
                 return from_candid_vec_n102(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.listUsersWithRoles();
+            const result = await this.actor.listUsers();
             return from_candid_vec_n102(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async listUsersWithRoles(): Promise<Array<UserRoleView>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.listUsersWithRoles();
+                return from_candid_vec_n103(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.listUsersWithRoles();
+            return from_candid_vec_n103(this._uploadFile, this._downloadFile, result);
         }
     }
     async revokeAdminRole(arg0: UserId): Promise<UserRoleView> {
@@ -1060,6 +1096,20 @@ export class Backend implements backendInterface {
             return from_candid_User_n51(this._uploadFile, this._downloadFile, result);
         }
     }
+    async saveProperty(arg0: PropertyRecord): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.saveProperty(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.saveProperty(arg0);
+            return result;
+        }
+    }
     async schema(): Promise<string> {
         if (this.processError) {
             try {
@@ -1077,14 +1127,14 @@ export class Backend implements backendInterface {
     async setTelegramLinkConfig(arg0: string | null): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.setTelegramLinkConfig(to_candid_opt_n103(this._uploadFile, this._downloadFile, arg0));
+                const result = await this.actor.setTelegramLinkConfig(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.setTelegramLinkConfig(to_candid_opt_n103(this._uploadFile, this._downloadFile, arg0));
+            const result = await this.actor.setTelegramLinkConfig(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
             return result;
         }
     }
@@ -1978,13 +2028,13 @@ function from_candid_variant_n92(_uploadFile: (file: ExternalBlob) => Promise<Ui
 }): UserRole {
     return "admin" in value ? UserRole.admin : "user" in value ? UserRole.user : "guest" in value ? UserRole.guest : value;
 }
-function from_candid_vec_n100(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_GlobalPlayerView>): Array<GlobalPlayerView> {
+function from_candid_vec_n101(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_GlobalPlayerView>): Array<GlobalPlayerView> {
     return value.map((x)=>from_candid_GlobalPlayerView_n58(_uploadFile, _downloadFile, x));
 }
-async function from_candid_vec_n101(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_User>): Promise<Array<User>> {
+async function from_candid_vec_n102(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_User>): Promise<Array<User>> {
     return await Promise.all(value.map(async (x)=>await from_candid_User_n51(_uploadFile, _downloadFile, x)));
 }
-function from_candid_vec_n102(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_UserRoleView>): Array<UserRoleView> {
+function from_candid_vec_n103(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_UserRoleView>): Array<UserRoleView> {
     return value.map((x)=>from_candid_UserRoleView_n98(_uploadFile, _downloadFile, x));
 }
 function from_candid_vec_n28(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_TournamentTable>): Array<TournamentTable> {
@@ -2035,7 +2085,7 @@ function to_candid__ImmutableObjectStorageRefillInformation_n2(_uploadFile: (fil
 function to_candid_opt_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ImmutableObjectStorageRefillInformation | null): [] | [__ImmutableObjectStorageRefillInformation] {
     return value === null ? candid_none() : candid_some(to_candid__ImmutableObjectStorageRefillInformation_n2(_uploadFile, _downloadFile, value));
 }
-function to_candid_opt_n103(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: string | null): [] | [string] {
+function to_candid_opt_n100(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: string | null): [] | [string] {
     return value === null ? candid_none() : candid_some(value);
 }
 function to_candid_record_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {

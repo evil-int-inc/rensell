@@ -299,6 +299,11 @@ export const UserRoleView = IDL.Record({
   'role' : IDL.Opt(Role),
   'avatarUrl' : IDL.Opt(IDL.Text),
 });
+export const PropertyRecord = IDL.Record({
+  'id' : IDL.Text,
+  'data' : IDL.Text,
+  'isDraft' : IDL.Bool,
+});
 export const ProfileInput = IDL.Record({
   'username' : IDL.Text,
   'displayName' : IDL.Text,
@@ -377,11 +382,22 @@ export const idlService = IDL.Service({
   'grantAdminRole' : IDL.Func([UserId], [UserRoleView], []),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'linkPlayerToUser' : IDL.Func([IDL.Nat, UserId], [GlobalPlayerView], []),
+  'listManagedProperties' : IDL.Func(
+      [IDL.Opt(IDL.Text)],
+      [IDL.Vec(PropertyRecord)],
+      ['query'],
+    ),
   'listPlayers' : IDL.Func([], [IDL.Vec(GlobalPlayerView)], ['query']),
+  'listProperties' : IDL.Func(
+      [IDL.Opt(IDL.Text)],
+      [IDL.Vec(PropertyRecord)],
+      ['query'],
+    ),
   'listUsers' : IDL.Func([], [IDL.Vec(User)], ['query']),
   'listUsersWithRoles' : IDL.Func([], [IDL.Vec(UserRoleView)], ['query']),
   'revokeAdminRole' : IDL.Func([UserId], [UserRoleView], []),
   'saveCallerProfile' : IDL.Func([ProfileInput], [User], []),
+  'saveProperty' : IDL.Func([PropertyRecord], [], []),
   'schema' : IDL.Func([], [IDL.Text], ['query']),
   'setTelegramLinkConfig' : IDL.Func([IDL.Opt(IDL.Text)], [], []),
   'startTelegramLink' : IDL.Func([], [LinkRequest], []),
@@ -696,6 +712,11 @@ export const idlFactory = ({ IDL }) => {
     'role' : IDL.Opt(Role),
     'avatarUrl' : IDL.Opt(IDL.Text),
   });
+  const PropertyRecord = IDL.Record({
+    'id' : IDL.Text,
+    'data' : IDL.Text,
+    'isDraft' : IDL.Bool,
+  });
   const ProfileInput = IDL.Record({
     'username' : IDL.Text,
     'displayName' : IDL.Text,
@@ -774,11 +795,22 @@ export const idlFactory = ({ IDL }) => {
     'grantAdminRole' : IDL.Func([UserId], [UserRoleView], []),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'linkPlayerToUser' : IDL.Func([IDL.Nat, UserId], [GlobalPlayerView], []),
+    'listManagedProperties' : IDL.Func(
+        [IDL.Opt(IDL.Text)],
+        [IDL.Vec(PropertyRecord)],
+        ['query'],
+      ),
     'listPlayers' : IDL.Func([], [IDL.Vec(GlobalPlayerView)], ['query']),
+    'listProperties' : IDL.Func(
+        [IDL.Opt(IDL.Text)],
+        [IDL.Vec(PropertyRecord)],
+        ['query'],
+      ),
     'listUsers' : IDL.Func([], [IDL.Vec(User)], ['query']),
     'listUsersWithRoles' : IDL.Func([], [IDL.Vec(UserRoleView)], ['query']),
     'revokeAdminRole' : IDL.Func([UserId], [UserRoleView], []),
     'saveCallerProfile' : IDL.Func([ProfileInput], [User], []),
+    'saveProperty' : IDL.Func([PropertyRecord], [], []),
     'schema' : IDL.Func([], [IDL.Text], ['query']),
     'setTelegramLinkConfig' : IDL.Func([IDL.Opt(IDL.Text)], [], []),
     'startTelegramLink' : IDL.Func([], [LinkRequest], []),

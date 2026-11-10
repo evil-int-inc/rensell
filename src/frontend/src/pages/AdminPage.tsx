@@ -14,6 +14,7 @@ import { PLAYERS_QUERY_KEY, playerService } from "@/services/players";
 import type { UserRoleView } from "@/types";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import {
   AlertCircle,
   ArrowUpRight,
@@ -58,7 +59,7 @@ function AdminSkeleton() {
   );
 }
 
-export function AdminPage() {
+export function AdminPage({ marketplace = false }: { marketplace?: boolean }) {
   const { t } = useI18n();
   const { actor, isFetching } = useActor(createActor);
   const { principal, isAdmin } = useAuth();
@@ -75,7 +76,7 @@ export function AdminPage() {
       if (!actor) throw new Error("The player directory is still connecting.");
       return playerService.list(actor);
     },
-    enabled: !!actor && !isFetching && isAdmin,
+    enabled: !!actor && !isFetching && isAdmin && !marketplace,
   });
 
   const usersQuery = useQuery<UserRoleView[]>({
@@ -119,6 +120,9 @@ export function AdminPage() {
   const visibleUsers = users.filter((user) =>
     user.id.toString().toLowerCase().includes(searchTerm),
   );
+  const headingClass = marketplace
+    ? "font-editorial text-4xl tracking-tight sm:text-5xl"
+    : "font-display text-4xl font-bold uppercase tracking-tight text-foreground";
 
   function handleToggle(user: UserRoleView) {
     if (!isAdmin || roleMutation.isPending) return;
@@ -151,9 +155,7 @@ export function AdminPage() {
       <div data-ocid="admin_page" className="club-page">
         <div className="mx-auto w-full max-w-5xl space-y-6">
           <header className="space-y-1">
-            <h1 className="font-display text-4xl font-bold uppercase tracking-tight text-foreground">
-              {t("Admin access")}
-            </h1>
+            <h1 className={headingClass}>{t("Admin access")}</h1>
             <p className="text-sm text-muted-foreground">
               {t("Authenticated accounts and their admin access.")}
             </p>
@@ -185,12 +187,18 @@ export function AdminPage() {
       <div className="mx-auto w-full max-w-5xl space-y-6">
         <header className="flex flex-wrap items-end justify-between gap-3">
           <div className="space-y-1">
-            <p className="section-kicker mb-4">
-              {t("CHILLPONG / CONTROL ROOM")}
+            <p
+              className={
+                marketplace
+                  ? "mb-3 text-xs font-bold tracking-widest text-primary uppercase"
+                  : "section-kicker mb-4"
+              }
+            >
+              {marketplace
+                ? "Marketplace administration"
+                : t("CHILLPONG / CONTROL ROOM")}
             </p>
-            <h1 className="font-display text-4xl font-bold uppercase tracking-tight text-foreground">
-              {t("Admin access")}
-            </h1>
+            <h1 className={headingClass}>{t("Admin access")}</h1>
             <p className="text-sm text-muted-foreground">
               {t(
                 "All signed-in accounts and their member IDs. Assign or revoke admin access here.",
@@ -198,18 +206,30 @@ export function AdminPage() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
+            {!marketplace && (
+              <a
+                href="https://t.me/chill_pong_bot"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline btn-sm"
+                data-ocid="admin.telegram_bot_link"
+              >
+                <Send className="size-4" aria-hidden="true" />
+                @chill_pong_bot
+                <ArrowUpRight className="size-3.5" aria-hidden="true" />
+              </a>
+            )}
+            {marketplace && (
+              <Link to="/sell" className="btn btn-primary btn-sm">
+                Manage listings
+              </Link>
+            )}
             <a
-              href="https://t.me/chill_pong_bot"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={
+                marketplace ? "/admin/accounts" : "/tournaments/admin/accounts"
+              }
               className="btn btn-outline btn-sm"
-              data-ocid="admin.telegram_bot_link"
             >
-              <Send className="size-4" aria-hidden="true" />
-              @chill_pong_bot
-              <ArrowUpRight className="size-3.5" aria-hidden="true" />
-            </a>
-            <a href="/admin/accounts" className="btn btn-outline btn-sm">
               {t("Edit profiles")}
             </a>
             <Button
@@ -231,7 +251,7 @@ export function AdminPage() {
             </span>
           </div>
         </header>
-        {actor ? <TelegramSettings actor={actor} /> : null}
+        {actor && !marketplace ? <TelegramSettings actor={actor} /> : null}
         <div className="space-y-2">
           <Input
             type="search"
@@ -288,9 +308,13 @@ export function AdminPage() {
           <EmptyState
             icon={<Users className="size-7" aria-hidden="true" />}
             title={t("No signed-in accounts yet")}
-            description={t(
-              "Accounts appear automatically after signing in to ChillPong.",
-            )}
+            description={
+              marketplace
+                ? "Accounts appear after users sign in."
+                : t(
+                    "Accounts appear automatically after signing in to ChillPong.",
+                  )
+            }
           />
         ) : visibleUsers.length === 0 ? (
           <EmptyState
@@ -313,9 +337,11 @@ export function AdminPage() {
               const isSelf =
                 principal !== null && user.id.toString() === principal;
               const isPending = pendingId === user.id.toString();
-              const linkedPlayer = directory.data?.find(
-                (player) => player.userId?.toString() === user.id.toString(),
-              );
+              const linkedPlayer =
+                !marketplace &&
+                directory.data?.find(
+                  (player) => player.userId?.toString() === user.id.toString(),
+                );
               return (
                 <li
                   key={user.id.toString()}
@@ -398,21 +424,23 @@ export function AdminPage() {
                     </div>
                   </div>
                   <div className="col-start-2 flex flex-wrap items-center gap-3 md:col-start-3 md:row-start-1 md:justify-end">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      aria-label={t("Link player for member {v1}", {
-                        v1: user.id.toString(),
-                      })}
-                      onClick={() => {
-                        setNotice(null);
-                        setLinkingUser(user);
-                      }}
-                    >
-                      {linkedPlayer
-                        ? t("Manage player link")
-                        : t("Link player")}
-                    </Button>
+                    {!marketplace && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        aria-label={t("Link player for member {v1}", {
+                          v1: user.id.toString(),
+                        })}
+                        onClick={() => {
+                          setNotice(null);
+                          setLinkingUser(user);
+                        }}
+                      >
+                        {linkedPlayer
+                          ? t("Manage player link")
+                          : t("Link player")}
+                      </Button>
+                    )}
                     <span
                       data-ocid={`admin_user.role.${index + 1}`}
                       className={

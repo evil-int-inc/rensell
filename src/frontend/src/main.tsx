@@ -1,4 +1,3 @@
-import { InternetIdentityProvider } from "@caffeineai/core-infrastructure";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
 import App from "./App";
@@ -15,15 +14,13 @@ declare global {
   }
 }
 
-// Apply the underground club theme before the first paint.
+// Apply the active section's palette before the first paint.
 themeService.initialize();
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
-    <InternetIdentityProvider>
-      <App />
-    </InternetIdentityProvider>
+    <App />
   </QueryClientProvider>,
 );

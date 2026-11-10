@@ -123,6 +123,11 @@ export interface ProfileInput {
     username: string;
     displayName: string;
 }
+export interface PropertyRecord {
+    id: string;
+    data: string;
+    isDraft: boolean;
+}
 export interface Result {
     hasMore: boolean;
     rows: Array<Array<Cell>>;
@@ -443,11 +448,14 @@ export interface backendInterface {
     grantAdminRole(target: UserId): Promise<UserRoleView>;
     isCallerAdmin(): Promise<boolean>;
     linkPlayerToUser(playerId: bigint, userId: UserId): Promise<GlobalPlayerView>;
+    listManagedProperties(after: string | null): Promise<Array<PropertyRecord>>;
     listPlayers(): Promise<Array<GlobalPlayerView>>;
+    listProperties(after: string | null): Promise<Array<PropertyRecord>>;
     listUsers(): Promise<Array<User>>;
     listUsersWithRoles(): Promise<Array<UserRoleView>>;
     revokeAdminRole(target: UserId): Promise<UserRoleView>;
     saveCallerProfile(input: ProfileInput): Promise<User>;
+    saveProperty(property: PropertyRecord): Promise<void>;
     schema(): Promise<string>;
     setTelegramLinkConfig(clientId: string | null): Promise<void>;
     startTelegramLink(): Promise<LinkRequest>;

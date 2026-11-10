@@ -28,10 +28,24 @@ export function Sidebar({ onNavigate }: { onNavigate: () => void }) {
     { label: "Players", to: "/players", icon: Users, number: "01" },
     { label: "Tournaments", to: "/tournaments", icon: Trophy, number: "02" },
     ...(isAuthenticated
-      ? [{ label: "Profile", to: "/profile", icon: UserRound, number: "03" }]
+      ? [
+          {
+            label: "Profile",
+            to: "/tournaments/profile",
+            icon: UserRound,
+            number: "03",
+          },
+        ]
       : []),
     ...(isAdmin
-      ? [{ label: "Admin", to: "/admin", icon: ShieldCheck, number: "04" }]
+      ? [
+          {
+            label: "Admin",
+            to: "/tournaments/admin",
+            icon: ShieldCheck,
+            number: "04",
+          },
+        ]
       : []),
   ];
   return (

@@ -38,11 +38,11 @@ export function Header({ onOpenSidebar }: { onOpenSidebar: () => void }) {
   const title =
     pathname === "/players" || pathname === "/users"
       ? "Players"
-      : pathname === "/admin/accounts"
+      : pathname === "/tournaments/admin/accounts"
         ? "Accounts"
-        : pathname === "/profile"
+        : pathname === "/tournaments/profile"
           ? "Profile"
-          : pathname === "/admin"
+          : pathname === "/tournaments/admin"
             ? "Admin"
             : pathname.startsWith("/tournaments/")
               ? "Tournament room"
@@ -111,7 +111,7 @@ export function Header({ onOpenSidebar }: { onOpenSidebar: () => void }) {
             </summary>
             <div className="dropdown-content z-50 mt-4 w-72 border border-base-300 bg-base-200 p-5 shadow-lg">
               <Link
-                to="/profile"
+                to="/tournaments/profile"
                 className="btn btn-primary btn-sm mb-5 w-full"
                 onClick={(event) =>
                   event.currentTarget

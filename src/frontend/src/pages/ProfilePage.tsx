@@ -182,7 +182,9 @@ function ProfileEditor({
   );
 }
 
-export function ProfilePage() {
+export function ProfilePage({
+  marketplace = false,
+}: { marketplace?: boolean }) {
   const { t } = useI18n();
   const { actor, isFetching } = useActor(createActor);
   const { principal, isAuthenticated } = useAuth();
@@ -201,14 +203,30 @@ export function ProfilePage() {
     <div data-ocid="profile_page" className="club-page">
       <div className="mx-auto max-w-2xl space-y-8">
         <header>
-          <p className="section-kicker mb-4">{t("CHILLPONG / MEMBER FILE")}</p>
-          <h1 className="page-title">
-            {t("YOUR")} <span className="text-primary">{t("PROFILE.")}</span>
-          </h1>
+          <p
+            className={
+              marketplace
+                ? "mb-3 text-xs font-bold tracking-widest text-primary uppercase"
+                : "section-kicker mb-4"
+            }
+          >
+            {marketplace ? "Marketplace account" : t("CHILLPONG / MEMBER FILE")}
+          </p>
+          {marketplace ? (
+            <h1 className="font-editorial text-4xl tracking-tight sm:text-5xl">
+              Your profile
+            </h1>
+          ) : (
+            <h1 className="page-title">
+              {t("YOUR")} <span className="text-primary">{t("PROFILE.")}</span>
+            </h1>
+          )}
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            {t(
-              "A name for the club. A handle for the crew. Both are optional.",
-            )}
+            {marketplace
+              ? "Choose the display name and username for your account."
+              : t(
+                  "A name for the club. A handle for the crew. Both are optional.",
+                )}
           </p>
         </header>
         <div className="space-y-2 border-l-2 border-primary pl-4">
@@ -240,11 +258,13 @@ export function ProfilePage() {
               principal={principal}
               profile={profileQuery.data ?? null}
             />
-            <TelegramLink
-              key={`telegram-${principal}`}
-              actor={actor}
-              principal={principal}
-            />
+            {!marketplace && (
+              <TelegramLink
+                key={`telegram-${principal}`}
+                actor={actor}
+                principal={principal}
+              />
+            )}
           </>
         )}
       </div>

@@ -82,7 +82,11 @@ export function useAuth() {
     profile: isAuthenticated ? (profileQuery.data ?? null) : null,
     profileLoading: profileQuery.isLoading,
     role: isAuthenticated ? (roleQuery.data ?? null) : null,
-    isAdmin: isAuthenticated && !isFetching && roleQuery.data === "admin",
-    roleLoading: roleQuery.isLoading,
+    isAdmin:
+      isAuthenticated &&
+      !isFetching &&
+      !roleQuery.isError &&
+      roleQuery.data === "admin",
+    roleLoading: isAuthenticated && (isFetching || roleQuery.isLoading),
   };
 }

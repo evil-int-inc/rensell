@@ -199,6 +199,8 @@ type NewActor__93192655 =
     users : Map__230067015<UserId__6567742, NewUser__281843501>;
     videos : Map__230067015<Nat, NewVideo__794546171>
   };
+type NewActor__97019947 =
+  {properties : Map__230067015<Text, PropertyRecord__780331224>};
 type NewCounters__845888662 =
   {
     var nextNotificationId : Nat;
@@ -378,6 +380,7 @@ type OldActor__281766694 =
     usernames : Map__230067015<Text, UserId__359307712>;
     users : Map__230067015<UserId__359307712, User__877428867>
   };
+type OldActor__50898932 = {};
 type OldActor__724703710 =
   {users : Map__230067015<Principal, OldUser__599188639>};
 type OldActor__73935259 =
@@ -593,6 +596,8 @@ type Playlist__5791582 =
     updatedAt : Timestamp__448015156;
     videoIds : [Nat]
   };
+type PropertyRecord__762828039 = {data : Text; id : Text; isDraft : Bool};
+type PropertyRecord__780331224 = {data : Text; id : Text; isDraft : Bool};
 type Role__243528967 = {#admin};
 type Role__287442295 = {#admin};
 type Role__349349103 = {#admin};
@@ -1099,7 +1104,8 @@ type Video__47199758 =
     (old : OldActor__916917201) -> NewActor__37944555;
   "20261004_095123" : (old : OldActor__970163513) -> NewActor__1040413914;
   "20261012_000000" : (old : OldActor__281766694) -> NewActor__756050636;
-  "20261016_090000" : (old : OldActor__724703710) -> NewActor__147081743
+  "20261016_090000" : (old : OldActor__724703710) -> NewActor__147081743;
+  "20261110_144914" : (_old : OldActor__50898932) -> NewActor__97019947
 }
 actor  {
   stable accessControlState :
@@ -1112,6 +1118,11 @@ actor  {
   stable players :
     {
       var root : Node__204828119<Nat, GlobalPlayer__433234045>;
+      var size : Nat__227979830
+    };
+  stable properties :
+    {
+      var root : Node__204828119<Text, PropertyRecord__762828039>;
       var size : Nat__227979830
     };
   stable telegramCache : {var keys : ?CachedKeys__408913751};

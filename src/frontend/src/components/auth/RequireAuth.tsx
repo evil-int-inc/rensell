@@ -55,16 +55,25 @@ export function RequireAuth({ children }: { children: ReactNode }) {
  * Guards a route behind the admin role. Renders a loading state while the role
  * is resolving, and a "not authorized" state for signed-in non-admins.
  */
-export function RequireAdmin({ children }: { children: ReactNode }) {
+export function RequireAdmin({
+  children,
+  promptOnMount = true,
+}: { children: ReactNode; promptOnMount?: boolean }) {
   const { t } = useI18n();
-  const { isAuthenticated, isInitializing, isAdmin, roleLoading, login } =
-    useAuth();
+  const {
+    isAuthenticated,
+    isInitializing,
+    isAdmin,
+    isLoggingIn,
+    roleLoading,
+    login,
+  } = useAuth();
 
   useEffect(() => {
-    if (!isInitializing && !isAuthenticated) {
+    if (promptOnMount && !isInitializing && !isAuthenticated) {
       login();
     }
-  }, [isInitializing, isAuthenticated, login]);
+  }, [isInitializing, isAuthenticated, login, promptOnMount]);
 
   if (isInitializing || (isAuthenticated && roleLoading)) {
     return (
@@ -82,6 +91,25 @@ export function RequireAdmin({ children }: { children: ReactNode }) {
   }
 
   if (!isAuthenticated) {
+    if (!promptOnMount) {
+      return (
+        <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4 px-6 text-center">
+          <ShieldAlert className="size-8 text-primary" aria-hidden="true" />
+          <h1 className="font-editorial text-4xl">Admin sign-in</h1>
+          <p className="text-sm text-base-content/70">
+            Sign in with an administrator account to continue.
+          </p>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => login()}
+            disabled={isLoggingIn}
+          >
+            {isLoggingIn ? t("Signing in") : "Sign in with Internet Identity"}
+          </button>
+        </div>
+      );
+    }
     return (
       <div
         data-ocid="loading_state"

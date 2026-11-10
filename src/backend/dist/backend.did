@@ -269,6 +269,12 @@ type Result =
    hasMore: bool;
    rows: vec vec Cell;
  };
+type PropertyRecord = 
+ record {
+   data: text;
+   id: text;
+   isDraft: bool;
+ };
 type ProfileInput = 
  record {
    displayName: text;
@@ -406,11 +412,14 @@ service : {
   grantAdminRole: (target: UserId) -> (UserRoleView);
   isCallerAdmin: () -> (bool) query;
   linkPlayerToUser: (playerId: nat, userId: UserId) -> (GlobalPlayerView);
+  listManagedProperties: (after: opt text) -> (vec PropertyRecord) query;
   listPlayers: () -> (vec GlobalPlayerView) query;
+  listProperties: (after: opt text) -> (vec PropertyRecord) query;
   listUsers: () -> (vec User) query;
   listUsersWithRoles: () -> (vec UserRoleView) query;
   revokeAdminRole: (target: UserId) -> (UserRoleView);
   saveCallerProfile: (input: ProfileInput) -> (User);
+  saveProperty: (property: PropertyRecord) -> ();
   schema: () -> (text) query;
   setTelegramLinkConfig: (clientId: opt text) -> ();
   startTelegramLink: () -> (LinkRequest);

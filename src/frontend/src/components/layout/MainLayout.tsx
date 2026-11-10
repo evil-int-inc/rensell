@@ -1,11 +1,13 @@
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { useI18n } from "@/i18n";
+import { themeService } from "@/services/themeService";
 import { Outlet, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export function MainLayout() {
   const { t } = useI18n();
+  useLayoutEffect(() => themeService.apply("black"), []);
   const fullscreen = useRouterState({
     select: (state) =>
       /^\/tournaments\/\d+\/?$/.test(state.location.pathname) &&
