@@ -304,6 +304,12 @@ export const PropertyRecord = IDL.Record({
   'data' : IDL.Text,
   'isDraft' : IDL.Bool,
 });
+export const HttpHeader = IDL.Record({ 'value' : IDL.Text, 'name' : IDL.Text });
+export const HttpRequestResult = IDL.Record({
+  'status' : IDL.Nat,
+  'body' : IDL.Vec(IDL.Nat8),
+  'headers' : IDL.Vec(HttpHeader),
+});
 export const ProfileInput = IDL.Record({
   'username' : IDL.Text,
   'displayName' : IDL.Text,
@@ -312,12 +318,6 @@ export const LinkRequest = IDL.Record({
   'clientId' : IDL.Text,
   'expiresAt' : IDL.Int,
   'nonce' : IDL.Text,
-});
-export const HttpHeader = IDL.Record({ 'value' : IDL.Text, 'name' : IDL.Text });
-export const HttpRequestResult = IDL.Record({
-  'status' : IDL.Nat,
-  'body' : IDL.Vec(IDL.Nat8),
-  'headers' : IDL.Vec(HttpHeader),
 });
 
 export const idlService = IDL.Service({
@@ -395,6 +395,17 @@ export const idlService = IDL.Service({
     ),
   'listUsers' : IDL.Func([], [IDL.Vec(User)], ['query']),
   'listUsersWithRoles' : IDL.Func([], [IDL.Vec(UserRoleView)], ['query']),
+  'myHomeListingTransform' : IDL.Func(
+      [
+        IDL.Record({
+          'context' : IDL.Vec(IDL.Nat8),
+          'response' : HttpRequestResult,
+        }),
+      ],
+      [HttpRequestResult],
+      ['query'],
+    ),
+  'readMyHomeListing' : IDL.Func([IDL.Text], [IDL.Text], []),
   'revokeAdminRole' : IDL.Func([UserId], [UserRoleView], []),
   'saveCallerProfile' : IDL.Func([ProfileInput], [User], []),
   'saveProperty' : IDL.Func([PropertyRecord], [], []),
@@ -717,6 +728,12 @@ export const idlFactory = ({ IDL }) => {
     'data' : IDL.Text,
     'isDraft' : IDL.Bool,
   });
+  const HttpHeader = IDL.Record({ 'value' : IDL.Text, 'name' : IDL.Text });
+  const HttpRequestResult = IDL.Record({
+    'status' : IDL.Nat,
+    'body' : IDL.Vec(IDL.Nat8),
+    'headers' : IDL.Vec(HttpHeader),
+  });
   const ProfileInput = IDL.Record({
     'username' : IDL.Text,
     'displayName' : IDL.Text,
@@ -725,12 +742,6 @@ export const idlFactory = ({ IDL }) => {
     'clientId' : IDL.Text,
     'expiresAt' : IDL.Int,
     'nonce' : IDL.Text,
-  });
-  const HttpHeader = IDL.Record({ 'value' : IDL.Text, 'name' : IDL.Text });
-  const HttpRequestResult = IDL.Record({
-    'status' : IDL.Nat,
-    'body' : IDL.Vec(IDL.Nat8),
-    'headers' : IDL.Vec(HttpHeader),
   });
   
   return IDL.Service({
@@ -808,6 +819,17 @@ export const idlFactory = ({ IDL }) => {
       ),
     'listUsers' : IDL.Func([], [IDL.Vec(User)], ['query']),
     'listUsersWithRoles' : IDL.Func([], [IDL.Vec(UserRoleView)], ['query']),
+    'myHomeListingTransform' : IDL.Func(
+        [
+          IDL.Record({
+            'context' : IDL.Vec(IDL.Nat8),
+            'response' : HttpRequestResult,
+          }),
+        ],
+        [HttpRequestResult],
+        ['query'],
+      ),
+    'readMyHomeListing' : IDL.Func([IDL.Text], [IDL.Text], []),
     'revokeAdminRole' : IDL.Func([UserId], [UserRoleView], []),
     'saveCallerProfile' : IDL.Func([ProfileInput], [User], []),
     'saveProperty' : IDL.Func([PropertyRecord], [], []),

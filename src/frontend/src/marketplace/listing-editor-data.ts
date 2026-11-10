@@ -7,6 +7,73 @@ export const listingStatusLabels: Record<PropertyStatus, string> = {
   draft: "Draft",
 };
 
+const importedFieldNames = [
+  "title",
+  "description",
+  "type",
+  "price",
+  "city",
+  "neighborhood",
+  "address",
+  "areaM2",
+  "livingAreaM2",
+  "bedrooms",
+  "bathrooms",
+  "rooms",
+  "floor",
+  "totalFloors",
+  "builtYear",
+  "condition",
+  "buildingType",
+] as const;
+
+export function importedFormValues(fields: Partial<PropertyListing>) {
+  const entries: [string, string | number | undefined][] = [
+    ...importedFieldNames.map((name): [string, string | number | undefined] => [
+      name,
+      fields[name],
+    ]),
+    ["latitude", fields.coordinates?.latitude],
+    ["longitude", fields.coordinates?.longitude],
+    ["amenities", fields.amenities?.join(", ")],
+    ["sellerName", fields.seller?.name],
+    ["sellerRole", fields.seller?.role],
+    ["sellerEmail", fields.seller?.email],
+    ["sellerPhone", fields.seller?.phone],
+  ];
+  return Object.fromEntries(
+    entries.filter(([, value]) => value != null && value !== ""),
+  );
+}
+
+export function getListingField(form: HTMLFormElement, name: string) {
+  const field = form.elements.namedItem(name);
+  if (
+    field instanceof HTMLInputElement ||
+    field instanceof HTMLSelectElement ||
+    field instanceof HTMLTextAreaElement
+  )
+    return field;
+}
+
+export function updateImportedField(
+  field: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
+  value?: string | number,
+) {
+  if (field instanceof HTMLSelectElement) {
+    const options = Array.from(field.options);
+    const option =
+      value == null
+        ? (options.find((item) => item.defaultSelected) ?? options[0])
+        : options.find((item) => item.value === value);
+    if (option) field.value = option.value;
+    return;
+  }
+
+  const text = value == null ? field.defaultValue : String(value);
+  field.value = field.maxLength >= 0 ? text.slice(0, field.maxLength) : text;
+}
+
 export function readListingForm(
   data: FormData,
   images: string[],

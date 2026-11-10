@@ -13,8 +13,10 @@ import { ListingEditor } from "./ListingEditor";
 import { useMarketplace } from "./MarketplaceContext";
 import { type PropertyListing, formatLocation, formatPrice } from "./catalog";
 import { listingStatusLabels } from "./listing-editor-data";
+import { useMyHomeImport } from "./myhome-import-service";
 
 export function SellerPage() {
+  const importMyHome = useMyHomeImport();
   const {
     ownedListings,
     ownedListingsLoading,
@@ -101,6 +103,7 @@ export function SellerPage() {
         <ListingEditor
           key={editor === "new" ? editor : editor.id}
           listing={editor === "new" ? undefined : editor}
+          importMyHome={importMyHome}
           onSave={onSave}
           onCancel={closeEditor}
         />

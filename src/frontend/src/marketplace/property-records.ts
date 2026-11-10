@@ -1,5 +1,6 @@
 import type { PropertyRecord } from "@/backend";
 import { type PropertyListing, propertyTypes } from "./catalog";
+import { readMyHomeSource } from "./myhome-import";
 
 const pageSize = 4;
 const recordByteLimit = 480_000;
@@ -10,6 +11,25 @@ function isPositiveNumber(value: unknown): value is number {
 
 function isDate(value: unknown) {
   return typeof value === "string" && Number.isFinite(Date.parse(value));
+}
+
+function decodeSource(
+  source: PropertyListing["source"],
+): PropertyListing["source"] {
+  if (source?.provider !== "myhome" || typeof source.url !== "string")
+    return undefined;
+  const matched = readMyHomeSource(source.url);
+  if (!matched || matched.id !== source.id) return undefined;
+
+  const facts = Array.isArray(source.facts)
+    ? source.facts.filter(
+        (fact) =>
+          fact &&
+          typeof fact.label === "string" &&
+          typeof fact.value === "string",
+      )
+    : undefined;
+  return { provider: "myhome", ...matched, facts };
 }
 
 function decodeListing({
@@ -64,7 +84,14 @@ function decodeListing({
             entry && isPositiveNumber(entry.price) && isDate(entry.date),
         )
       : undefined;
-    return { ...listing, id, status, priceHistory, demo: false };
+    return {
+      ...listing,
+      id,
+      status,
+      priceHistory,
+      source: decodeSource(listing.source),
+      demo: false,
+    };
   } catch {
     return null;
   }

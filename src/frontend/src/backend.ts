@@ -517,6 +517,11 @@ export interface backendInterface {
     listProperties(after: string | null): Promise<Array<PropertyRecord>>;
     listUsers(): Promise<Array<User>>;
     listUsersWithRoles(): Promise<Array<UserRoleView>>;
+    myHomeListingTransform(input: {
+        context: Uint8Array;
+        response: HttpRequestResult;
+    }): Promise<HttpRequestResult>;
+    readMyHomeListing(slug: string): Promise<string>;
     revokeAdminRole(target: UserId): Promise<UserRoleView>;
     saveCallerProfile(input: ProfileInput): Promise<User>;
     saveProperty(property: PropertyRecord): Promise<void>;
@@ -1066,6 +1071,37 @@ export class Backend implements backendInterface {
         } else {
             const result = await this.actor.listUsersWithRoles();
             return from_candid_vec_n103(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async myHomeListingTransform(arg0: {
+        context: Uint8Array;
+        response: HttpRequestResult;
+    }): Promise<HttpRequestResult> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.myHomeListingTransform(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.myHomeListingTransform(arg0);
+            return result;
+        }
+    }
+    async readMyHomeListing(arg0: string): Promise<string> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.readMyHomeListing(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.readMyHomeListing(arg0);
+            return result;
         }
     }
     async revokeAdminRole(arg0: UserId): Promise<UserRoleView> {

@@ -7,15 +7,27 @@ import {
   useRef,
   useState,
 } from "react";
+import { MyHomeImportPanel } from "./MyHomeImportPanel";
 import { type PropertyListing, propertyTypes } from "./catalog";
 import {
+  getListingField,
+  importedFormValues,
   listingStatusLabels,
   maxPhotos,
   prepareListingPhoto,
   readListingForm,
+  updateImportedField,
 } from "./listing-editor-data";
+import type { MyHomeImport } from "./myhome-import";
 
 type FieldProps = InputHTMLAttributes<HTMLInputElement> & { label: string };
+type EditorPhoto = { source: string; imported?: boolean };
+type LoadedAd = Omit<MyHomeImport, "photoUrls"> & { images: string[] };
+type ImportMyHomeAd = (
+  url: string,
+  signal: AbortSignal,
+  savedPage?: File,
+) => Promise<LoadedAd>;
 
 function Field({ label, required, ...props }: FieldProps) {
   return (
@@ -58,16 +70,27 @@ function FormSection({
 
 export function ListingEditor({
   listing,
+  importMyHome,
   onSave,
   onCancel,
 }: {
   listing?: PropertyListing;
+  importMyHome: ImportMyHomeAd;
   onSave: (listing: PropertyListing) => Promise<void>;
   onCancel: () => void;
 }) {
   const heading = useRef<HTMLHeadingElement>(null);
+  const form = useRef<HTMLFormElement>(null);
+  const editedFields = useRef(new Set<string>());
+  const previousImportFields = useRef<string[]>([]);
   const [listingId] = useState(() => listing?.id ?? crypto.randomUUID());
-  const [images, setImages] = useState(listing?.images ?? []);
+  const [source, setSource] = useState<PropertyListing["source"]>(
+    listing?.source,
+  );
+  const [photos, setPhotos] = useState<EditorPhoto[]>(
+    () => listing?.images.map((source) => ({ source })) ?? [],
+  );
+  const [isImporting, setIsImporting] = useState(false);
   const [isPreparing, setIsPreparing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [photoError, setPhotoError] = useState("");
@@ -78,18 +101,62 @@ export function ListingEditor({
     heading.current?.focus();
   }, []);
 
+  async function importAd(url: string, signal: AbortSignal, savedPage?: File) {
+    const imported = await importMyHome(url, signal, savedPage);
+    signal.throwIfAborted();
+    const editor = form.current;
+    if (!editor) throw new Error("The listing editor is closed.");
+
+    const values = importedFormValues(imported.fields);
+    const names = Object.keys(values);
+    if (!names.length && !imported.images.length) {
+      throw new Error("No listing details could be read from this MyHome ad.");
+    }
+    const fieldsToApply = new Set([...previousImportFields.current, ...names]);
+    const warnings = [...imported.warnings];
+    for (const name of fieldsToApply) {
+      if (editedFields.current.has(name)) continue;
+      const field = getListingField(editor, name);
+      if (field) updateImportedField(field, values[name]);
+    }
+    previousImportFields.current = names;
+    if (names.some((name) => editedFields.current.has(name))) {
+      warnings.push("Your manual edits were kept.");
+    }
+
+    const uploaded = photos.filter((photo) => !photo.imported);
+    const uploadedSources = new Set(uploaded.map(({ source }) => source));
+    const found = [...new Set(imported.images)].filter(
+      (source) => !uploadedSources.has(source),
+    );
+    const added = found.slice(0, maxPhotos - uploaded.length);
+    if (added.length < found.length) {
+      warnings.push(
+        `Some source photos were skipped because the listing can hold up to ${maxPhotos} photos.`,
+      );
+    }
+    setPhotos([
+      ...uploaded,
+      ...added.map((source) => ({ source, imported: true })),
+    ]);
+    setSource({ provider: "myhome", ...imported.source });
+    setSaveError("");
+    return { sourceUrl: imported.source.url, warnings };
+  }
+
   async function addPhotos(files: File[]) {
     setPhotoError("");
-    if (!files.length) return;
-    if (files.length + images.length > maxPhotos) {
+    if (!files.length || isImporting) return;
+    if (files.length + photos.length > maxPhotos) {
       setPhotoError(`You can add up to ${maxPhotos} photos per listing.`);
       return;
     }
     setIsPreparing(true);
     try {
-      const photos: string[] = [];
-      for (const file of files) photos.push(await prepareListingPhoto(file));
-      setImages((current) => [...current, ...photos]);
+      const uploaded: EditorPhoto[] = [];
+      for (const file of files)
+        uploaded.push({ source: await prepareListingPhoto(file) });
+      setPhotos((current) => [...current, ...uploaded]);
     } catch (error) {
       setPhotoError(
         error instanceof Error
@@ -103,17 +170,17 @@ export function ListingEditor({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (isPreparing || isSaving) return;
+    if (isImporting || isPreparing || isSaving) return;
     setSaveError("");
     try {
       const nextListing = readListingForm(
         new FormData(event.currentTarget),
-        images,
+        photos.map(({ source }) => source),
         listingId,
         listing,
       );
       setIsSaving(true);
-      await onSave(nextListing);
+      await onSave({ ...nextListing, source });
     } catch (error) {
       setSaveError(
         error instanceof Error
@@ -154,7 +221,32 @@ export function ListingEditor({
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} aria-busy={isSaving}>
+      {!listing && (
+        <MyHomeImportPanel
+          disabled={isPreparing || isSaving}
+          importing={isImporting}
+          onImportingChange={setIsImporting}
+          onImport={importAd}
+          onReview={() => {
+            if (form.current) getListingField(form.current, "title")?.focus();
+          }}
+        />
+      )}
+
+      <form
+        ref={form}
+        onSubmit={handleSubmit}
+        onChange={(event) => {
+          const { target } = event;
+          if (
+            target instanceof HTMLInputElement ||
+            target instanceof HTMLSelectElement ||
+            target instanceof HTMLTextAreaElement
+          )
+            editedFields.current.add(target.name);
+        }}
+        aria-busy={isSaving}
+      >
         <fieldset disabled={isSaving} className="grid min-w-0 gap-6">
           <FormSection
             title="Property essentials"
@@ -286,26 +378,26 @@ export function ListingEditor({
             title="Photos"
             description={`Add up to ${maxPhotos} photos. The first photo is used as the cover image.`}
           >
-            {images.length > 0 && (
+            {photos.length > 0 && (
               <ul className="grid grid-cols-2 gap-3 sm:col-span-2 sm:grid-cols-3 lg:grid-cols-5">
-                {images.map((source, index) => (
+                {photos.map(({ source }, index) => (
                   <li
                     className="relative aspect-4/3 overflow-hidden rounded-box bg-base-200"
                     key={`${index}-${source}`}
                   >
                     <img
                       src={source}
-                      alt={`Listing upload ${index + 1}`}
+                      alt={`Listing view ${index + 1}`}
                       className="h-full w-full object-cover"
                     />
                     <button
                       type="button"
                       className="btn btn-square btn-sm absolute top-2 right-2 border-base-300 bg-base-100 text-base-content"
                       aria-label={`Remove photo ${index + 1}`}
-                      disabled={isPreparing}
+                      disabled={isPreparing || isImporting}
                       onClick={() =>
-                        setImages(
-                          images.filter(
+                        setPhotos((current) =>
+                          current.filter(
                             (_, photoIndex) => photoIndex !== index,
                           ),
                         )
@@ -322,7 +414,7 @@ export function ListingEditor({
                 ))}
               </ul>
             )}
-            {images.length < maxPhotos && (
+            {photos.length < maxPhotos && (
               <label className="flex flex-col items-start gap-2 rounded-box border border-dashed border-base-300 bg-base-200 p-4 text-sm font-semibold sm:col-span-2 sm:p-5">
                 <span className="flex items-center gap-2">
                   <Camera className="size-4 text-primary" aria-hidden="true" />{" "}
@@ -333,7 +425,7 @@ export function ListingEditor({
                   type="file"
                   accept="image/*"
                   multiple
-                  disabled={isPreparing}
+                  disabled={isPreparing || isImporting}
                   onChange={(event) => {
                     const files = [...(event.currentTarget.files ?? [])];
                     event.currentTarget.value = "";
@@ -505,7 +597,7 @@ export function ListingEditor({
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={isPreparing}
+              disabled={isPreparing || isImporting}
             >
               {isSaving ? "Saving…" : "Save listing"}
             </button>

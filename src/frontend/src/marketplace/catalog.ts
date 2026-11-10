@@ -42,6 +42,12 @@ export interface PropertyListing {
   listedAt: string;
   amenities: string[];
   priceHistory?: { price: number; date: string }[];
+  source?: {
+    provider: "myhome";
+    id: string;
+    url: string;
+    facts?: { label: string; value: string }[];
+  };
   seller: {
     name: string;
     role: string;

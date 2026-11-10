@@ -345,6 +345,11 @@ export interface _SERVICE {
   'listProperties' : ActorMethod<[[] | [string]], Array<PropertyRecord>>,
   'listUsers' : ActorMethod<[], Array<User>>,
   'listUsersWithRoles' : ActorMethod<[], Array<UserRoleView>>,
+  'myHomeListingTransform' : ActorMethod<
+    [{ 'context' : Uint8Array, 'response' : HttpRequestResult }],
+    HttpRequestResult
+  >,
+  'readMyHomeListing' : ActorMethod<[string], string>,
   'revokeAdminRole' : ActorMethod<[UserId], UserRoleView>,
   'saveCallerProfile' : ActorMethod<[ProfileInput], User>,
   'saveProperty' : ActorMethod<[PropertyRecord], undefined>,

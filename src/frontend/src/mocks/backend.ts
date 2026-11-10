@@ -133,6 +133,10 @@ export const mockBackend: backendInterface = {
   saveProperty: async () => {
     throw new Error("Saving listings requires the real backend.");
   },
+  readMyHomeListing: async () => {
+    throw new Error("Fetching a MyHome link requires the real backend.");
+  },
+  myHomeListingTransform: async ({ response }) => ({ ...response, headers: [] }),
   deletePlayer: async (id) => {
     if (!globalPlayers.some((player) => player.id === id)) {
       return { __kind__: "err", err: DeletePlayerError.notFound };

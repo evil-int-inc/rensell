@@ -445,6 +445,33 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
                 </ul>
               </DetailSection>
             )}
+
+            {listing.source && (
+              <DetailSection id="source" title="Original listing">
+                <a
+                  href={listing.source.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link inline-flex items-center gap-1 text-sm font-semibold text-primary"
+                >
+                  MyHome listing {listing.source.id}
+                  <ArrowUpRight className="size-4" aria-hidden="true" />
+                </a>
+                {!!listing.source.facts?.length && (
+                  <dl className="mt-5 grid max-w-2xl gap-4 text-sm sm:grid-cols-2">
+                    {listing.source.facts.map(({ label, value }) => (
+                      <div
+                        key={`${label}:${value}`}
+                        className="border-t border-base-300 pt-3"
+                      >
+                        <dt className="text-base-content/65">{label}</dt>
+                        <dd className="mt-1 font-semibold">{value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+              </DetailSection>
+            )}
           </div>
         </div>
 

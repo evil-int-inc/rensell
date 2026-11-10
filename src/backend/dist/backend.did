@@ -417,6 +417,12 @@ service : {
   listProperties: (after: opt text) -> (vec PropertyRecord) query;
   listUsers: () -> (vec User) query;
   listUsersWithRoles: () -> (vec UserRoleView) query;
+  myHomeListingTransform: (input:
+   record {
+     context: blob;
+     response: HttpRequestResult;
+   }) -> (HttpRequestResult) query;
+  readMyHomeListing: (slug: text) -> (text);
   revokeAdminRole: (target: UserId) -> (UserRoleView);
   saveCallerProfile: (input: ProfileInput) -> (User);
   saveProperty: (property: PropertyRecord) -> ();

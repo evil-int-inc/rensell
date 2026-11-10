@@ -453,6 +453,11 @@ export interface backendInterface {
     listProperties(after: string | null): Promise<Array<PropertyRecord>>;
     listUsers(): Promise<Array<User>>;
     listUsersWithRoles(): Promise<Array<UserRoleView>>;
+    myHomeListingTransform(input: {
+        context: Uint8Array;
+        response: HttpRequestResult;
+    }): Promise<HttpRequestResult>;
+    readMyHomeListing(slug: string): Promise<string>;
     revokeAdminRole(target: UserId): Promise<UserRoleView>;
     saveCallerProfile(input: ProfileInput): Promise<User>;
     saveProperty(property: PropertyRecord): Promise<void>;
