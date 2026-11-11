@@ -362,6 +362,7 @@ export const idlService = IDL.Service({
   'createTournament' : IDL.Func([TournamentInput], [Tournament], []),
   'createUser' : IDL.Func([UserId, UserInput], [User], []),
   'deletePlayer' : IDL.Func([IDL.Nat], [DeletePlayerResult], []),
+  'deleteProperty' : IDL.Func([IDL.Text], [], []),
   'deleteTournament' : IDL.Func([IDL.Nat], [DeleteTournamentResult], []),
   'execute' : IDL.Func([IDL.Text], [Result], ['query']),
   'getApiDoc' : IDL.Func([], [IDL.Text], ['query']),
@@ -395,6 +396,7 @@ export const idlService = IDL.Service({
     ),
   'listUsers' : IDL.Func([], [IDL.Vec(User)], ['query']),
   'listUsersWithRoles' : IDL.Func([], [IDL.Vec(UserRoleView)], ['query']),
+  'makePropertyDraft' : IDL.Func([IDL.Text], [], []),
   'myHomeListingTransform' : IDL.Func(
       [
         IDL.Record({
@@ -405,6 +407,7 @@ export const idlService = IDL.Service({
       [HttpRequestResult],
       ['query'],
     ),
+  'publishProperty' : IDL.Func([IDL.Text], [], []),
   'readMyHomeListing' : IDL.Func([IDL.Text], [IDL.Text], []),
   'revokeAdminRole' : IDL.Func([UserId], [UserRoleView], []),
   'saveCallerProfile' : IDL.Func([ProfileInput], [User], []),
@@ -425,6 +428,7 @@ export const idlService = IDL.Service({
   'unlinkPlayerFromUser' : IDL.Func([IDL.Nat], [GlobalPlayerView], []),
   'unlinkTelegram' : IDL.Func([], [User], []),
   'updatePlayer' : IDL.Func([IDL.Nat, PlayerInput], [GlobalPlayerView], []),
+  'updateProperty' : IDL.Func([PropertyRecord], [], []),
   'updateTournament' : IDL.Func([IDL.Nat, TournamentInput], [Tournament], []),
   'updateUser' : IDL.Func([UserId, UserInput], [User], []),
 });
@@ -786,6 +790,7 @@ export const idlFactory = ({ IDL }) => {
     'createTournament' : IDL.Func([TournamentInput], [Tournament], []),
     'createUser' : IDL.Func([UserId, UserInput], [User], []),
     'deletePlayer' : IDL.Func([IDL.Nat], [DeletePlayerResult], []),
+    'deleteProperty' : IDL.Func([IDL.Text], [], []),
     'deleteTournament' : IDL.Func([IDL.Nat], [DeleteTournamentResult], []),
     'execute' : IDL.Func([IDL.Text], [Result], ['query']),
     'getApiDoc' : IDL.Func([], [IDL.Text], ['query']),
@@ -819,6 +824,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     'listUsers' : IDL.Func([], [IDL.Vec(User)], ['query']),
     'listUsersWithRoles' : IDL.Func([], [IDL.Vec(UserRoleView)], ['query']),
+    'makePropertyDraft' : IDL.Func([IDL.Text], [], []),
     'myHomeListingTransform' : IDL.Func(
         [
           IDL.Record({
@@ -829,6 +835,7 @@ export const idlFactory = ({ IDL }) => {
         [HttpRequestResult],
         ['query'],
       ),
+    'publishProperty' : IDL.Func([IDL.Text], [], []),
     'readMyHomeListing' : IDL.Func([IDL.Text], [IDL.Text], []),
     'revokeAdminRole' : IDL.Func([UserId], [UserRoleView], []),
     'saveCallerProfile' : IDL.Func([ProfileInput], [User], []),
@@ -849,6 +856,7 @@ export const idlFactory = ({ IDL }) => {
     'unlinkPlayerFromUser' : IDL.Func([IDL.Nat], [GlobalPlayerView], []),
     'unlinkTelegram' : IDL.Func([], [User], []),
     'updatePlayer' : IDL.Func([IDL.Nat, PlayerInput], [GlobalPlayerView], []),
+    'updateProperty' : IDL.Func([PropertyRecord], [], []),
     'updateTournament' : IDL.Func([IDL.Nat, TournamentInput], [Tournament], []),
     'updateUser' : IDL.Func([UserId, UserInput], [User], []),
   });

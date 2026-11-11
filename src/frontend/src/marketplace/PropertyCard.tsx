@@ -1,5 +1,17 @@
 import { Link } from "@tanstack/react-router";
-import { Bath, BedDouble, Heart, House, MapPin, Scan } from "lucide-react";
+import {
+  Bath,
+  BedDouble,
+  ChevronLeft,
+  ChevronRight,
+  Heart,
+  House,
+  MapPin,
+  Maximize2,
+  Scan,
+} from "lucide-react";
+import { type ReactNode, useRef, useState } from "react";
+import { PropertyPhotoDialog } from "./PropertyPhotoDialog";
 import {
   type PropertyListing,
   formatArea,
@@ -11,27 +23,48 @@ type PropertyCardProps = {
   listing: PropertyListing;
   isFavorite: boolean;
   onToggleFavorite: (id: string) => void;
+  managementActions?: ReactNode;
+  showPhotoControls?: boolean;
 };
+
+const imageAspect = "aspect-[1.53]";
+const photoButtonClass =
+  "btn btn-circle pointer-events-auto absolute size-11 border-neutral-content/25 bg-neutral/75 p-0 text-neutral-content shadow-sm hover:border-neutral-content/40 hover:bg-neutral/90 focus-visible:outline-neutral-content";
 
 export function PropertyCard({
   listing,
   isFavorite,
   onToggleFavorite,
+  managementActions,
+  showPhotoControls = false,
 }: PropertyCardProps) {
+  const photoDialog = useRef<HTMLDialogElement>(null);
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const photoCount = listing.images.length;
+  const activeIndex = photoCount > 0 ? photoIndex % photoCount : 0;
+  const activePhoto = listing.images[activeIndex];
+
+  function stepPhoto(offset: number) {
+    if (photoCount < 2) return;
+    setPhotoIndex((index) => (index + offset + photoCount) % photoCount);
+  }
+
   return (
     <article className="card group relative h-full overflow-hidden rounded-box border border-base-300 bg-base-100 shadow-sm transition-shadow hover:shadow-md">
       <Link
         to="/properties/$listingId"
         params={{ listingId: listing.id }}
-        className="flex h-full flex-col rounded-box focus-visible:-outline-offset-3"
+        className="flex grow flex-col rounded-box focus-visible:-outline-offset-3"
       >
-        <div className="relative isolate grid aspect-[1.53] place-items-center overflow-hidden bg-base-200">
+        <div
+          className={`relative isolate grid ${imageAspect} place-items-center overflow-hidden bg-base-200`}
+        >
           <House aria-hidden="true" className="size-10 text-base-content/35" />
-          {listing.images[0] && (
+          {activePhoto && (
             <img
-              key={listing.images[0]}
-              src={listing.images[0]}
-              alt={listing.imageDescriptions?.[0] ?? ""}
+              key={activePhoto}
+              src={activePhoto}
+              alt={listing.imageDescriptions?.[activeIndex] ?? ""}
               loading="lazy"
               decoding="async"
               onError={(event) => {
@@ -49,11 +82,6 @@ export function PropertyCard({
             <p className="text-xl font-bold tracking-tight">
               {formatPrice(listing.price)}
             </p>
-            {listing.demo && (
-              <span className="badge badge-sm border-base-300 bg-base-200 text-base-content/70">
-                Sample
-              </span>
-            )}
             {listing.status === "pending" && (
               <span className="badge badge-soft badge-warning">Pending</span>
             )}
@@ -90,6 +118,54 @@ export function PropertyCard({
           </ul>
         </div>
       </Link>
+      {showPhotoControls && photoCount > 0 && (
+        <>
+          <div
+            className={`pointer-events-none absolute inset-x-0 top-0 z-10 ${imageAspect}`}
+          >
+            {photoCount > 1 && (
+              <>
+                <button
+                  type="button"
+                  className={`${photoButtonClass} top-1/2 left-2 -translate-y-1/2`}
+                  aria-label="Previous photo"
+                  onClick={() => stepPhoto(-1)}
+                >
+                  <ChevronLeft className="size-5" aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  className={`${photoButtonClass} top-1/2 right-2 -translate-y-1/2`}
+                  aria-label="Next photo"
+                  onClick={() => stepPhoto(1)}
+                >
+                  <ChevronRight className="size-5" aria-hidden="true" />
+                </button>
+              </>
+            )}
+            <output className="absolute bottom-3 left-3 rounded-full border border-neutral-content/25 bg-neutral/75 px-2.5 py-1 text-xs font-semibold text-neutral-content tabular-nums shadow-sm">
+              {activeIndex + 1} / {photoCount}
+            </output>
+            <button
+              type="button"
+              className={`${photoButtonClass} right-2 bottom-2`}
+              aria-label="Expand photos"
+              aria-haspopup="dialog"
+              onClick={() => photoDialog.current?.showModal()}
+            >
+              <Maximize2 className="size-4" aria-hidden="true" />
+            </button>
+          </div>
+          <PropertyPhotoDialog
+            dialogRef={photoDialog}
+            title={listing.title}
+            images={listing.images}
+            imageDescriptions={listing.imageDescriptions}
+            activeIndex={activeIndex}
+            onStep={stepPhoto}
+          />
+        </>
+      )}
       <button
         type="button"
         className="btn btn-circle absolute top-3 right-3 size-10 border-base-100/50 bg-base-100/95 p-0 text-base-content shadow-sm hover:border-base-100 hover:bg-base-100 hover:text-primary"
@@ -104,6 +180,11 @@ export function PropertyCard({
           }
         />
       </button>
+      {managementActions && (
+        <div className="border-t border-base-300 px-4.5 py-3 sm:px-5">
+          {managementActions}
+        </div>
+      )}
     </article>
   );
 }

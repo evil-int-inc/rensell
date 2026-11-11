@@ -9,7 +9,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { type PropertyListing, sampleListings } from "./catalog";
+import type { PropertyListing } from "./catalog";
 import type { DiscoveryFilters } from "./discovery-filters";
 import { encodeListing, fetchPropertyListings } from "./property-records";
 
@@ -21,6 +21,7 @@ type SavedItems = {
 };
 
 type MarketplaceContextValue = SavedItems & {
+  canManageListings: boolean;
   listings: PropertyListing[];
   listingsLoading: boolean;
   listingsError: boolean;
@@ -33,14 +34,16 @@ type MarketplaceContextValue = SavedItems & {
   toggleFavorite(id: string): void;
   saveSearch(filters: DiscoveryFilters): void;
   removeSearch(id: string): void;
-  saveListing(listing: PropertyListing): Promise<void>;
+  saveListing(listing: PropertyListing, editing: boolean): Promise<void>;
+  publishListing(id: string): Promise<void>;
+  makeListingDraft(id: string): Promise<void>;
+  deleteListing(id: string): Promise<void>;
 };
 
 const storageKey = "property-marketplace:v2";
 const previousStorageKey = "property-marketplace:v1";
 const emptySavedItems: SavedItems = { favorites: [], savedSearches: [] };
 const listingsKey = ["marketplace", "listings"] as const;
-const sampleIds = new Set(sampleListings.map(({ id }) => id));
 const MarketplaceContext = createContext<MarketplaceContextValue | null>(null);
 
 function readSavedItems(): SavedItems {
@@ -117,17 +120,39 @@ export function MarketplaceProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const liveListings = (publicQuery.data ?? []).filter(
-    (listing) => listing.status !== "draft",
-  );
+  async function refreshListings() {
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: listingsKey }),
+      queryClient.invalidateQueries({ queryKey: managedKey }),
+    ]);
+  }
+
+  async function hideListing(id: string, keepDraft: boolean) {
+    await Promise.all([
+      queryClient.cancelQueries({ queryKey: listingsKey }),
+      queryClient.cancelQueries({ queryKey: managedKey }),
+    ]);
+    const withoutListing = (listings?: PropertyListing[]) =>
+      listings?.filter((listing) => listing.id !== id);
+    queryClient.setQueryData<PropertyListing[]>(listingsKey, withoutListing);
+    queryClient.setQueryData<PropertyListing[]>(
+      managedKey,
+      keepDraft
+        ? (listings) =>
+            listings?.map((listing) =>
+              listing.id === id ? { ...listing, status: "draft" } : listing,
+            )
+        : withoutListing,
+    );
+    void refreshListings();
+  }
+
   const value: MarketplaceContextValue = {
     ...savedItems,
-    listings: [
-      ...liveListings,
-      ...sampleListings.filter(
-        (sample) => !liveListings.some(({ id }) => id === sample.id),
-      ),
-    ],
+    canManageListings: isAdmin,
+    listings: (publicQuery.data ?? []).filter(
+      ({ status }) => status !== "draft",
+    ),
     listingsLoading: !publicQuery.data && (isFetching || publicQuery.isLoading),
     listingsError: (!actor && !isFetching) || publicQuery.isError,
     ownedListings: isAdmin ? (managedQuery.data ?? []) : [],
@@ -170,16 +195,37 @@ export function MarketplaceProvider({ children }: { children: ReactNode }) {
         ),
       }));
     },
-    async saveListing(listing) {
+    async saveListing(listing, editing) {
       if (!actor || isFetching || !isAdmin)
         throw new Error("Only admins can save listings.");
-      if (sampleIds.has(listing.id))
-        throw new Error("Sample listings cannot be edited.");
-      await actor.saveProperty(encodeListing(listing));
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: listingsKey }),
-        queryClient.invalidateQueries({ queryKey: managedKey }),
-      ]);
+      const record = encodeListing(listing);
+      if (editing) await actor.updateProperty(record);
+      else await actor.saveProperty(record);
+      await refreshListings();
+    },
+    async publishListing(id) {
+      if (!actor || isFetching || !isAdmin)
+        throw new Error("Only admins can publish listings.");
+      await actor.publishProperty(id);
+      await refreshListings();
+    },
+    async makeListingDraft(id) {
+      if (!actor || isFetching || !isAdmin)
+        throw new Error("Only admins can make listings drafts.");
+      await actor.makePropertyDraft(id);
+      await hideListing(id, true);
+    },
+    async deleteListing(id) {
+      if (!actor || isFetching || !isAdmin)
+        throw new Error("Only admins can remove listings.");
+      await actor.deleteProperty(id);
+      await hideListing(id, false);
+      if (readSavedItems().favorites.includes(id)) {
+        saveFromBrowse((previous) => ({
+          ...previous,
+          favorites: previous.favorites.filter((favorite) => favorite !== id),
+        }));
+      }
     },
   };
 

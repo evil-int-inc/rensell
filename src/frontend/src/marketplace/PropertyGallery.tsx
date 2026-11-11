@@ -1,5 +1,6 @@
-import { ArrowLeft, ArrowRight, ImageOff, Images, X } from "lucide-react";
+import { ImageOff, Images } from "lucide-react";
 import { useRef, useState } from "react";
+import { PropertyPhotoDialog } from "./PropertyPhotoDialog";
 
 export function PropertyGallery({
   images,
@@ -48,7 +49,7 @@ export function PropertyGallery({
             <img
               className="h-full w-full object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-105"
               src={images[0]}
-              alt={imageDescriptions?.[0] ?? title}
+              alt={imageDescriptions?.[0] || title}
               fetchPriority="high"
             />
           </button>
@@ -86,69 +87,14 @@ export function PropertyGallery({
         )}
       </div>
 
-      <dialog
-        className="modal"
-        aria-label={`${title} photo gallery`}
-        ref={gallery}
-        onKeyDown={(event) => {
-          if (images.length < 2) return;
-          if (event.key === "ArrowLeft") stepGallery(-1);
-          if (event.key === "ArrowRight") stepGallery(1);
-        }}
-      >
-        <div className="modal-box max-w-5xl bg-base-100 p-3 sm:p-5">
-          <div className="mb-3 flex items-center justify-between gap-4">
-            <p className="truncate px-1 text-sm font-semibold">{title}</p>
-            <form method="dialog">
-              <button
-                type="submit"
-                className="btn btn-ghost btn-square btn-sm"
-                aria-label="Close gallery"
-              >
-                <X className="size-5" aria-hidden="true" />
-              </button>
-            </form>
-          </div>
-          <div className="grid h-[min(65vh,45rem)] place-items-center overflow-hidden rounded-box bg-base-200">
-            <img
-              className="h-full min-h-0 w-full object-contain"
-              src={images[activeIndex] ?? images[0]}
-              alt={imageDescriptions?.[activeIndex] ?? title}
-            />
-          </div>
-          {images.length > 1 && (
-            <div className="mt-3 flex items-center justify-between">
-              <button
-                type="button"
-                className="btn btn-ghost btn-sm"
-                onClick={() => stepGallery(-1)}
-              >
-                <ArrowLeft className="size-4" aria-hidden="true" />
-                Previous
-              </button>
-              <p
-                className="text-sm tabular-nums text-base-content/65"
-                aria-live="polite"
-              >
-                {activeIndex + 1} of {images.length}
-              </p>
-              <button
-                type="button"
-                className="btn btn-ghost btn-sm"
-                onClick={() => stepGallery(1)}
-              >
-                Next
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </button>
-            </div>
-          )}
-        </div>
-        <form method="dialog" className="modal-backdrop" aria-hidden="true">
-          <button type="submit" tabIndex={-1}>
-            Close gallery
-          </button>
-        </form>
-      </dialog>
+      <PropertyPhotoDialog
+        images={images}
+        imageDescriptions={imageDescriptions}
+        title={title}
+        activeIndex={activeIndex}
+        onStep={stepGallery}
+        dialogRef={gallery}
+      />
     </>
   );
 }

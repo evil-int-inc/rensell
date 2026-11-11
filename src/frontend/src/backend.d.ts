@@ -432,6 +432,7 @@ export interface backendInterface {
     createTournament(input: TournamentInput): Promise<Tournament>;
     createUser(userId: UserId, input: UserInput): Promise<User>;
     deletePlayer(playerId: bigint): Promise<DeletePlayerResult>;
+    deleteProperty(id: string): Promise<void>;
     deleteTournament(id: bigint): Promise<DeleteTournamentResult>;
     execute(qJson: string): Promise<Result>;
     getApiDoc(): Promise<string>;
@@ -453,10 +454,12 @@ export interface backendInterface {
     listProperties(after: string | null): Promise<Array<PropertyRecord>>;
     listUsers(): Promise<Array<User>>;
     listUsersWithRoles(): Promise<Array<UserRoleView>>;
+    makePropertyDraft(id: string): Promise<void>;
     myHomeListingTransform(input: {
         context: Uint8Array;
         response: HttpRequestResult;
     }): Promise<HttpRequestResult>;
+    publishProperty(id: string): Promise<void>;
     readMyHomeListing(slug: string): Promise<string>;
     revokeAdminRole(target: UserId): Promise<UserRoleView>;
     saveCallerProfile(input: ProfileInput): Promise<User>;
@@ -471,6 +474,7 @@ export interface backendInterface {
     unlinkPlayerFromUser(playerId: bigint): Promise<GlobalPlayerView>;
     unlinkTelegram(): Promise<User>;
     updatePlayer(playerId: bigint, input: PlayerInput): Promise<GlobalPlayerView>;
+    updateProperty(property: PropertyRecord): Promise<void>;
     updateTournament(id: bigint, input: TournamentInput): Promise<Tournament>;
     updateUser(userId: UserId, input: UserInput): Promise<User>;
 }

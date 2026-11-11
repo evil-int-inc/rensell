@@ -133,6 +133,18 @@ export const mockBackend: backendInterface = {
   saveProperty: async () => {
     throw new Error("Saving listings requires the real backend.");
   },
+  updateProperty: async () => {
+    throw new Error("Updating listings requires the real backend.");
+  },
+  publishProperty: async () => {
+    throw new Error("Publishing listings requires the real backend.");
+  },
+  makePropertyDraft: async () => {
+    throw new Error("Moving listings to drafts requires the real backend.");
+  },
+  deleteProperty: async () => {
+    throw new Error("Removing listings requires the real backend.");
+  },
   readMyHomeListing: async () => {
     throw new Error("Fetching a MyHome link requires the real backend.");
   },

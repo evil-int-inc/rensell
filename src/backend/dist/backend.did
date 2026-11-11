@@ -396,6 +396,7 @@ service : {
   createTournament: (input: TournamentInput) -> (Tournament);
   createUser: (userId: UserId, input: UserInput) -> (User);
   deletePlayer: (playerId: nat) -> (DeletePlayerResult);
+  deleteProperty: (id: text) -> ();
   deleteTournament: (id: nat) -> (DeleteTournamentResult);
   execute: (qJson: text) -> (Result) query;
   getApiDoc: () -> (text) query;
@@ -417,11 +418,13 @@ service : {
   listProperties: (after: opt text) -> (vec PropertyRecord) query;
   listUsers: () -> (vec User) query;
   listUsersWithRoles: () -> (vec UserRoleView) query;
+  makePropertyDraft: (id: text) -> ();
   myHomeListingTransform: (input:
    record {
      context: blob;
      response: HttpRequestResult;
    }) -> (HttpRequestResult) query;
+  publishProperty: (id: text) -> ();
   readMyHomeListing: (slug: text) -> (text);
   revokeAdminRole: (target: UserId) -> (UserRoleView);
   saveCallerProfile: (input: ProfileInput) -> (User);
@@ -437,6 +440,7 @@ service : {
   unlinkPlayerFromUser: (playerId: nat) -> (GlobalPlayerView);
   unlinkTelegram: () -> (User);
   updatePlayer: (playerId: nat, input: PlayerInput) -> (GlobalPlayerView);
+  updateProperty: (property: PropertyRecord) -> ();
   updateTournament: (id: nat, input: TournamentInput) -> (Tournament);
   updateUser: (userId: UserId, input: UserInput) -> (User);
 }

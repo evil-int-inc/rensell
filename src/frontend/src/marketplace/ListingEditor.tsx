@@ -10,6 +10,7 @@ import {
 import { MyHomeImportPanel } from "./MyHomeImportPanel";
 import { type PropertyListing, propertyTypes } from "./catalog";
 import {
+  type ListingPhoto,
   getListingField,
   importedFormValues,
   listingStatusLabels,
@@ -21,13 +22,17 @@ import {
 import type { MyHomeImport } from "./myhome-import";
 
 type FieldProps = InputHTMLAttributes<HTMLInputElement> & { label: string };
-type EditorPhoto = { source: string; imported?: boolean };
+type EditorPhoto = ListingPhoto & { imported?: boolean };
+type ListingSource = NonNullable<PropertyListing["source"]>;
+type EditorSourceFact = { key: number; label: string; value: string };
 type LoadedAd = Omit<MyHomeImport, "photoUrls"> & { images: string[] };
 type ImportMyHomeAd = (
   url: string,
   signal: AbortSignal,
   savedPage?: File,
 ) => Promise<LoadedAd>;
+
+const sellerRoles = ["Owner", "Real estate agent", "Property developer"];
 
 function Field({ label, required, ...props }: FieldProps) {
   return (
@@ -54,17 +59,28 @@ function FormSection({
   title,
   description,
   children,
-}: { title: string; description: string; children: ReactNode }) {
+}: { title: string; description?: string; children: ReactNode }) {
   return (
     <fieldset className="grid gap-4 rounded-box border border-base-300 bg-base-100 p-5 sm:grid-cols-2 sm:p-7">
       <legend className="px-2 font-editorial text-2xl tracking-tight">
         {title}
       </legend>
-      <p className="text-sm text-base-content/70 sm:col-span-2">
-        {description}
-      </p>
+      {description && (
+        <p className="text-sm text-base-content/70 sm:col-span-2">
+          {description}
+        </p>
+      )}
       {children}
     </fieldset>
+  );
+}
+
+function editableSource(source?: ListingSource) {
+  return (
+    source && {
+      ...source,
+      facts: source.facts?.map((fact, key) => ({ ...fact, key })) ?? [],
+    }
   );
 }
 
@@ -84,11 +100,13 @@ export function ListingEditor({
   const editedFields = useRef(new Set<string>());
   const previousImportFields = useRef<string[]>([]);
   const [listingId] = useState(() => listing?.id ?? crypto.randomUUID());
-  const [source, setSource] = useState<PropertyListing["source"]>(
-    listing?.source,
-  );
+  const [source, setSource] = useState(() => editableSource(listing?.source));
   const [photos, setPhotos] = useState<EditorPhoto[]>(
-    () => listing?.images.map((source) => ({ source })) ?? [],
+    () =>
+      listing?.images.map((source, index) => ({
+        source,
+        description: listing.imageDescriptions?.[index],
+      })) ?? [],
   );
   const [isImporting, setIsImporting] = useState(false);
   const [isPreparing, setIsPreparing] = useState(false);
@@ -96,6 +114,7 @@ export function ListingEditor({
   const [photoError, setPhotoError] = useState("");
   const [saveError, setSaveError] = useState("");
   const title = listing ? "Edit property" : "Create a property listing";
+  const sellerRole = listing?.seller.role || "Owner";
 
   useEffect(() => {
     heading.current?.focus();
@@ -139,9 +158,17 @@ export function ListingEditor({
       ...uploaded,
       ...added.map((source) => ({ source, imported: true })),
     ]);
-    setSource({ provider: "myhome", ...imported.source });
+    setSource(editableSource({ provider: "myhome", ...imported.source }));
     setSaveError("");
     return { sourceUrl: imported.source.url, warnings };
+  }
+
+  function updateSourceFacts(
+    update: (facts: EditorSourceFact[]) => EditorSourceFact[],
+  ) {
+    setSource((current) =>
+      current ? { ...current, facts: update(current.facts) } : current,
+    );
   }
 
   async function addPhotos(files: File[]) {
@@ -175,12 +202,26 @@ export function ListingEditor({
     try {
       const nextListing = readListingForm(
         new FormData(event.currentTarget),
-        photos.map(({ source }) => source),
+        photos,
         listingId,
         listing,
       );
+      const facts = source?.facts
+        .map(({ label, value }) => ({
+          label: label.trim(),
+          value: value.trim(),
+        }))
+        .filter(({ label, value }) => label && value);
       setIsSaving(true);
-      await onSave({ ...nextListing, source });
+      await onSave({
+        ...nextListing,
+        source: source && {
+          provider: source.provider,
+          id: source.id,
+          url: source.url,
+          ...(facts?.length ? { facts } : {}),
+        },
+      });
     } catch (error) {
       setSaveError(
         error instanceof Error
@@ -315,6 +356,15 @@ export function ListingEditor({
                 ))}
               </select>
             </label>
+            <label className="flex items-center gap-2.5 self-end rounded-field border border-base-300 px-3 py-2.5 text-sm font-semibold">
+              <input
+                type="checkbox"
+                name="featured"
+                defaultChecked={listing?.featured}
+                className="checkbox checkbox-primary checkbox-sm"
+              />
+              Featured listing
+            </label>
           </FormSection>
 
           <FormSection
@@ -380,36 +430,55 @@ export function ListingEditor({
           >
             {photos.length > 0 && (
               <ul className="grid grid-cols-2 gap-3 sm:col-span-2 sm:grid-cols-3 lg:grid-cols-5">
-                {photos.map(({ source }, index) => (
+                {photos.map(({ source, description }, index) => (
                   <li
-                    className="relative aspect-4/3 overflow-hidden rounded-box bg-base-200"
+                    className="grid min-w-0 content-start gap-2"
                     key={`${index}-${source}`}
                   >
-                    <img
-                      src={source}
-                      alt={`Listing view ${index + 1}`}
-                      className="h-full w-full object-cover"
-                    />
-                    <button
-                      type="button"
-                      className="btn btn-square btn-sm absolute top-2 right-2 border-base-300 bg-base-100 text-base-content"
-                      aria-label={`Remove photo ${index + 1}`}
-                      disabled={isPreparing || isImporting}
-                      onClick={() =>
+                    <div className="relative aspect-4/3 overflow-hidden rounded-box bg-base-200">
+                      <img
+                        src={source}
+                        alt={`Listing view ${index + 1}`}
+                        className="h-full w-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-square btn-sm absolute top-2 right-2 border-base-300 bg-base-100 text-base-content"
+                        aria-label={`Remove photo ${index + 1}`}
+                        disabled={isPreparing || isImporting}
+                        onClick={() =>
+                          setPhotos((current) =>
+                            current.filter(
+                              (_, photoIndex) => photoIndex !== index,
+                            ),
+                          )
+                        }
+                      >
+                        <X className="size-4" aria-hidden="true" />
+                      </button>
+                      {index === 0 && (
+                        <span className="badge badge-sm absolute bottom-2 left-2 bg-base-100 text-base-content">
+                          Cover
+                        </span>
+                      )}
+                    </div>
+                    <Field
+                      label={`Photo ${index + 1} description`}
+                      placeholder="Optional"
+                      maxLength={180}
+                      value={description ?? ""}
+                      disabled={isImporting}
+                      onChange={(event) => {
+                        const description = event.currentTarget.value;
                         setPhotos((current) =>
-                          current.filter(
-                            (_, photoIndex) => photoIndex !== index,
+                          current.map((photo, photoIndex) =>
+                            photoIndex === index
+                              ? { ...photo, description }
+                              : photo,
                           ),
-                        )
-                      }
-                    >
-                      <X className="size-4" aria-hidden="true" />
-                    </button>
-                    {index === 0 && (
-                      <span className="badge badge-sm absolute bottom-2 left-2 bg-base-100 text-base-content">
-                        Cover
-                      </span>
-                    )}
+                        );
+                      }}
+                    />
                   </li>
                 ))}
               </ul>
@@ -448,6 +517,84 @@ export function ListingEditor({
               </p>
             )}
           </FormSection>
+
+          {source && (listing || source.facts.length > 0) && (
+            <FormSection
+              title="MyHome source"
+              description={
+                source.facts.length
+                  ? "Edit or remove imported facts shown on this listing."
+                  : undefined
+              }
+            >
+              {listing && (
+                <a
+                  href={source.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link link-primary w-fit text-sm font-semibold sm:col-span-2"
+                >
+                  Original MyHome ad {source.id}
+                </a>
+              )}
+              {source.facts.length > 0 && (
+                <ul className="grid gap-3 sm:col-span-2">
+                  {source.facts.map((fact, index) => (
+                    <li
+                      key={fact.key}
+                      className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-2 rounded-field border border-base-300 p-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto]"
+                    >
+                      <div className="col-span-2 sm:col-span-1">
+                        <Field
+                          label={`Imported fact ${index + 1} label`}
+                          value={fact.label}
+                          disabled={isImporting}
+                          maxLength={100}
+                          onChange={(event) => {
+                            const label = event.currentTarget.value;
+                            updateSourceFacts((facts) =>
+                              facts.map((item) =>
+                                item.key === fact.key
+                                  ? { ...item, label }
+                                  : item,
+                              ),
+                            );
+                          }}
+                        />
+                      </div>
+                      <Field
+                        label={`Imported fact ${index + 1} value`}
+                        value={fact.value}
+                        disabled={isImporting}
+                        maxLength={500}
+                        onChange={(event) => {
+                          const value = event.currentTarget.value;
+                          updateSourceFacts((facts) =>
+                            facts.map((item) =>
+                              item.key === fact.key ? { ...item, value } : item,
+                            ),
+                          );
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-square btn-ghost"
+                        aria-label={`Remove imported fact ${index + 1}`}
+                        disabled={isImporting}
+                        onClick={() =>
+                          updateSourceFacts((facts) =>
+                            facts.filter((item) => item.key !== fact.key),
+                          )
+                        }
+                      >
+                        <X className="size-4" aria-hidden="true" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </FormSection>
+          )}
 
           <FormSection
             title="Details and amenities"
@@ -561,11 +708,14 @@ export function ListingEditor({
               <select
                 className="select w-full border-base-300"
                 name="sellerRole"
-                defaultValue={listing?.seller.role ?? "Owner"}
+                defaultValue={sellerRole}
               >
-                <option>Owner</option>
-                <option>Real estate agent</option>
-                <option>Property developer</option>
+                {sellerRoles.map((role) => (
+                  <option key={role}>{role}</option>
+                ))}
+                {!sellerRoles.includes(sellerRole) && (
+                  <option>{sellerRole}</option>
+                )}
               </select>
             </label>
             <Field

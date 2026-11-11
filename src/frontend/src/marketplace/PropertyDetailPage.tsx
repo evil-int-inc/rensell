@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowDownRight,
   ArrowLeft,
@@ -15,10 +15,12 @@ import {
   Share2,
   UserRound,
 } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
+import { ListingManagementActions } from "./ListingManagementActions";
 import { useMarketplace } from "./MarketplaceContext";
 import { PropertyGallery } from "./PropertyGallery";
 import { PropertyMap } from "./PropertyMap";
+import { PublishListingButton } from "./PublishListingButton";
 import { type PropertyListing, formatArea, formatPrice } from "./catalog";
 import { listingStatusLabels } from "./listing-editor-data";
 
@@ -49,10 +51,7 @@ function DetailSection({
   );
 }
 
-function SellerContact({
-  listing,
-  isSample,
-}: { listing: PropertyListing; isSample: boolean }) {
+function SellerContact({ listing }: { listing: PropertyListing }) {
   const { seller } = listing;
   const email = seller.email
     ? `mailto:${encodeURIComponent(seller.email).replace("%40", "@")}`
@@ -74,50 +73,44 @@ function SellerContact({
         </div>
       </div>
 
-      {isSample ? (
-        <p className="mt-6 rounded-field bg-base-200 px-4 py-3 text-sm leading-relaxed text-base-content/70">
-          This sample listing illustrates the marketplace. Seller contact is
-          unavailable.
-        </p>
-      ) : (
-        <div className="mt-6 grid gap-2.5">
-          {email && (
-            <a
-              className="btn btn-primary w-full"
-              href={`${email}?subject=${encodeURIComponent(`Inquiry about ${listing.title}`)}`}
-            >
-              <Mail className="size-4" aria-hidden="true" /> Contact seller
-            </a>
-          )}
-          {email && listing.status === "available" && (
-            <a
-              className="btn btn-outline w-full"
-              href={`${email}?subject=${encodeURIComponent(`Viewing request for ${listing.title}`)}&body=${encodeURIComponent(`Hello ${seller.name},\n\nI would like to arrange a viewing of ${listing.title}. My preferred times are:\n\n`)}`}
-            >
-              Request a viewing{" "}
-              <ArrowUpRight className="size-4" aria-hidden="true" />
-            </a>
-          )}
-          {telephone && (
-            <a
-              className={`btn w-full ${email ? "btn-ghost" : "btn-primary"}`}
-              href={`tel:${telephone}`}
-            >
-              <Phone className="size-4" aria-hidden="true" /> {seller.phone}
-            </a>
-          )}
-          {!email && !telephone && (
-            <p className="text-sm text-base-content/70">
-              The seller hasn’t added contact details yet.
-            </p>
-          )}
-        </div>
-      )}
+      <div className="mt-6 grid gap-2.5">
+        {email && (
+          <a
+            className="btn btn-primary w-full"
+            href={`${email}?subject=${encodeURIComponent(`Inquiry about ${listing.title}`)}`}
+          >
+            <Mail className="size-4" aria-hidden="true" /> Contact seller
+          </a>
+        )}
+        {email && listing.status === "available" && (
+          <a
+            className="btn btn-outline w-full"
+            href={`${email}?subject=${encodeURIComponent(`Viewing request for ${listing.title}`)}&body=${encodeURIComponent(`Hello ${seller.name},\n\nI would like to arrange a viewing of ${listing.title}. My preferred times are:\n\n`)}`}
+          >
+            Request a viewing{" "}
+            <ArrowUpRight className="size-4" aria-hidden="true" />
+          </a>
+        )}
+        {telephone && (
+          <a
+            className={`btn w-full ${email ? "btn-ghost" : "btn-primary"}`}
+            href={`tel:${telephone}`}
+          >
+            <Phone className="size-4" aria-hidden="true" /> {seller.phone}
+          </a>
+        )}
+        {!email && !telephone && (
+          <p className="text-sm text-base-content/70">
+            The seller hasn’t added contact details yet.
+          </p>
+        )}
+      </div>
     </div>
   );
 }
 
 export function PropertyDetailPage({ listingId }: { listingId: string }) {
+  const navigate = useNavigate();
   const {
     listings,
     listingsLoading,
@@ -133,6 +126,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
   const [shareState, setShareState] = useState<"idle" | "copied" | "show-link">(
     "idle",
   );
+  const titleHeading = useRef<HTMLHeadingElement>(null);
   const listing =
     ownedListings.find((item) => item.id === listingId) ??
     listings.find((item) => item.id === listingId);
@@ -188,7 +182,6 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
     );
   }
 
-  const isSample = listing.demo === true;
   const isDraft = listing.status === "draft";
   const isFavorite = favorites.includes(listing.id);
   const pricePerArea = listing.areaM2
@@ -265,13 +258,12 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
             >
               {listingStatusLabels[listing.status]}
             </span>
-            {isSample && (
-              <span className="badge badge-outline border-base-300 text-base-content/70">
-                Sample listing
-              </span>
-            )}
           </div>
-          <h1 className="max-w-[17ch] font-editorial text-[clamp(2.5rem,5.4vw,4.6rem)] leading-[0.98] tracking-[-0.045em] break-words">
+          <h1
+            ref={titleHeading}
+            tabIndex={-1}
+            className="max-w-[17ch] font-editorial text-[clamp(2.5rem,5.4vw,4.6rem)] leading-[0.98] tracking-[-0.045em] break-words focus:outline-none"
+          >
             {listing.title}
           </h1>
           <p className="mt-4 flex items-start gap-2 text-sm text-base-content/70 sm:text-base">
@@ -282,36 +274,47 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
             <span>{address}</span>
           </p>
         </div>
-        {!isDraft && (
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              className="btn btn-outline border-base-300"
-              onClick={shareListing}
-            >
-              {shareState === "copied" ? (
-                <Check className="size-4" aria-hidden="true" />
-              ) : (
-                <Share2 className="size-4" aria-hidden="true" />
-              )}
-              <span aria-live="polite">
-                {shareState === "copied" ? "Link copied" : "Share"}
-              </span>
-            </button>
-            <button
-              type="button"
-              className={`btn btn-outline ${isFavorite ? "border-primary text-primary" : "border-base-300"}`}
-              aria-pressed={isFavorite}
-              onClick={() => toggleFavorite(listing.id)}
-            >
-              <Heart
-                className={`size-4 ${isFavorite ? "fill-current" : ""}`}
-                aria-hidden="true"
-              />
-              {isFavorite ? "Saved" : "Save property"}
-            </button>
-          </div>
-        )}
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
+          {isDraft ? (
+            <PublishListingButton id={listing.id} title={listing.title} />
+          ) : (
+            <>
+              <button
+                type="button"
+                className="btn btn-outline border-base-300"
+                onClick={shareListing}
+              >
+                {shareState === "copied" ? (
+                  <Check className="size-4" aria-hidden="true" />
+                ) : (
+                  <Share2 className="size-4" aria-hidden="true" />
+                )}
+                <span aria-live="polite">
+                  {shareState === "copied" ? "Link copied" : "Share"}
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`btn btn-outline ${isFavorite ? "border-primary text-primary" : "border-base-300"}`}
+                aria-pressed={isFavorite}
+                onClick={() => toggleFavorite(listing.id)}
+              >
+                <Heart
+                  className={`size-4 ${isFavorite ? "fill-current" : ""}`}
+                  aria-hidden="true"
+                />
+                {isFavorite ? "Saved" : "Save property"}
+              </button>
+            </>
+          )}
+          <ListingManagementActions
+            listing={listing}
+            onDrafted={() => titleHeading.current?.focus()}
+            onRemoved={() => {
+              void navigate({ to: isDraft ? "/sell" : "/", replace: true });
+            }}
+          />
+        </div>
         {!isDraft && shareState === "show-link" && (
           <label className="flex w-full max-w-md flex-col gap-2 text-sm font-semibold">
             Copy this property link
@@ -402,11 +405,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
             )}
 
             <DetailSection id="location" title="Explore the location">
-              <p className="mb-4 text-sm text-base-content/70">
-                {isSample
-                  ? `Neighborhood preview · ${listing.neighborhood}, ${listing.city}`
-                  : address}
-              </p>
+              <p className="mb-4 text-sm text-base-content/70">{address}</p>
               {listing.coordinates && (
                 <PropertyMap
                   listings={[listing]}
@@ -479,7 +478,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
           className="order-2 grid gap-4 lg:sticky lg:top-28"
           aria-label="Seller information"
         >
-          <SellerContact listing={listing} isSample={isSample} />
+          <SellerContact listing={listing} />
           <div className="flex items-center justify-between gap-3 rounded-box border border-base-300 px-5 py-4 text-xs text-base-content/70">
             <p>
               Listed{" "}

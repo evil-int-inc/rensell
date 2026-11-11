@@ -7,6 +7,8 @@ export const listingStatusLabels: Record<PropertyStatus, string> = {
   draft: "Draft",
 };
 
+export type ListingPhoto = { source: string; description?: string };
+
 const importedFieldNames = [
   "title",
   "description",
@@ -76,7 +78,7 @@ export function updateImportedField(
 
 export function readListingForm(
   data: FormData,
-  images: string[],
+  photos: ListingPhoto[],
   id: string,
   existing?: PropertyListing,
 ): PropertyListing {
@@ -141,6 +143,9 @@ export function readListingForm(
   const priceHistory =
     existing?.priceHistory ??
     (existing ? [{ price: existing.price, date: existing.listedAt }] : []);
+  const imageDescriptions = photos.map(
+    ({ description }) => description?.trim() ?? "",
+  );
 
   return {
     ...existing,
@@ -166,13 +171,11 @@ export function readListingForm(
       latitude != null && longitude != null
         ? { latitude, longitude }
         : undefined,
-    images,
-    imageDescriptions: existing?.imageDescriptions
-      ? images.map(
-          (image) =>
-            existing.imageDescriptions?.[existing.images.indexOf(image)] ?? "",
-        )
+    images: photos.map(({ source }) => source),
+    imageDescriptions: imageDescriptions.some(Boolean)
+      ? imageDescriptions
       : undefined,
+    featured: data.has("featured"),
     status: text("status") as PropertyStatus,
     listedAt: existing?.listedAt ?? now,
     amenities: [

@@ -40,6 +40,7 @@ it("enforces the admin role for property writes and drafts through publishing an
   for (const caller of [anonymous, member]) {
     actor.setPrincipal(caller);
     await expect(actor.saveProperty(draft)).rejects.toThrow(/Only admins/);
+    await expect(actor.publishProperty(draft.id)).rejects.toThrow(/Only admins/);
     await expect(actor.listManagedProperties([])).rejects.toThrow(/Only admins/);
   }
 
@@ -59,7 +60,11 @@ it("enforces the admin role for property writes and drafts through publishing an
   expect(await actor.listProperties(["listing-e"])).toEqual([property("listing-f")]);
 
   actor.setPrincipal(member);
-  await actor.saveProperty(property("listing-a"));
+  await actor.publishProperty(draft.id);
+  await actor.publishProperty(draft.id);
+  actor.setPrincipal(anonymous);
+  const published = { ...draft, isDraft: false };
+  expect((await actor.listProperties([]))[0]).toEqual(published);
   actor.setPrincipal(owner);
   await actor.revokeAdminRole(member);
   actor.setPrincipal(member);
@@ -74,9 +79,47 @@ it("enforces the admin role for property writes and drafts through publishing an
     },
   });
   actor.setPrincipal(anonymous);
-  expect((await actor.listProperties([]))[0]).toEqual(property("listing-a"));
+  expect((await actor.listProperties([]))[0]).toEqual(published);
   actor.setPrincipal(owner);
   expect((await actor.listManagedProperties(["listing-d"])).map(({ id }) => id)).toEqual([
     "listing-e", "listing-f",
   ]);
+});
+
+it("restricts drafting and removal to admins and prevents stale edits from recreating a removed ad", async () => {
+  const listing = {
+    id: "ad-lifecycle",
+    isDraft: false,
+    data: JSON.stringify({ title: "Listed apartment", status: "pending" }),
+  };
+  actor.setPrincipal(owner);
+  await actor.saveProperty(listing);
+
+  for (const caller of [anonymous, member]) {
+    actor.setPrincipal(caller);
+    await expect(actor.makePropertyDraft(listing.id)).rejects.toThrow(/Only admins/);
+    await expect(actor.deleteProperty(listing.id)).rejects.toThrow(/Only admins/);
+    await expect(actor.updateProperty(listing)).rejects.toThrow(/Only admins/);
+    expect(await actor.listProperties([])).toContainEqual(listing);
+  }
+
+  actor.setPrincipal(owner);
+  await actor.makePropertyDraft(listing.id);
+  await actor.makePropertyDraft(listing.id);
+  expect(await actor.listManagedProperties([])).toContainEqual({
+    ...listing,
+    isDraft: true,
+  });
+  actor.setPrincipal(anonymous);
+  expect((await actor.listProperties([])).map(({ id }) => id)).not.toContain(listing.id);
+
+  actor.setPrincipal(owner);
+  await actor.publishProperty(listing.id);
+  expect(await actor.listProperties([])).toContainEqual(listing);
+  await actor.deleteProperty(listing.id);
+  await actor.deleteProperty(listing.id);
+  await expect(actor.updateProperty(listing)).rejects.toThrow(/Property not found/);
+  expect((await actor.listManagedProperties([])).map(({ id }) => id)).not.toContain(listing.id);
+  actor.setPrincipal(anonymous);
+  expect((await actor.listProperties([])).map(({ id }) => id)).not.toContain(listing.id);
 });

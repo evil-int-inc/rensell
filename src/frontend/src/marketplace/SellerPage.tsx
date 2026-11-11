@@ -4,13 +4,14 @@ import {
   Building2,
   Check,
   CircleAlert,
-  Pencil,
   Plus,
   ShieldCheck,
 } from "lucide-react";
 import { useRef, useState } from "react";
 import { ListingEditor } from "./ListingEditor";
+import { ListingManagementActions } from "./ListingManagementActions";
 import { useMarketplace } from "./MarketplaceContext";
+import { PublishListingButton } from "./PublishListingButton";
 import { type PropertyListing, formatLocation, formatPrice } from "./catalog";
 import { listingStatusLabels } from "./listing-editor-data";
 import { useMyHomeImport } from "./myhome-import-service";
@@ -34,7 +35,7 @@ export function SellerPage() {
   }
 
   async function onSave(listing: PropertyListing) {
-    await saveListing(listing);
+    await saveListing(listing, editor !== "new");
     setNotice(
       listing.status === "draft"
         ? "Draft saved. Only admins can preview it."
@@ -206,14 +207,29 @@ export function SellerPage() {
                         Preview{" "}
                         <ArrowUpRight className="size-3.5" aria-hidden="true" />
                       </Link>
-                      <button
-                        type="button"
-                        className="btn btn-outline btn-sm border-base-300"
-                        aria-label={`Edit ${listing.title}`}
-                        onClick={() => editListing(listing)}
-                      >
-                        <Pencil className="size-3.5" aria-hidden="true" /> Edit
-                      </button>
+                      {listing.status === "draft" && (
+                        <PublishListingButton
+                          id={listing.id}
+                          title={listing.title}
+                          small
+                          onPublished={() =>
+                            setNotice("Listing published to the marketplace.")
+                          }
+                        />
+                      )}
+                      <ListingManagementActions
+                        listing={listing}
+                        small
+                        onEdit={() => editListing(listing)}
+                        onDrafted={() => {
+                          setNotice("Listing moved to drafts.");
+                          pageHeading.current?.focus();
+                        }}
+                        onRemoved={() => {
+                          setNotice("Listing removed.");
+                          pageHeading.current?.focus();
+                        }}
+                      />
                     </div>
                   </li>
                 ))}

@@ -36,4 +36,25 @@ module {
     };
     properties.add(property.id, property);
   };
+
+  public func update(
+    properties : Map.Map<Text, Properties.PropertyRecord>,
+    property : Properties.PropertyRecord,
+  ) : () {
+    if (not properties.containsKey(property.id)) {
+      Runtime.trap("Property not found");
+    };
+    save(properties, property);
+  };
+
+  public func setDraft(
+    properties : Map.Map<Text, Properties.PropertyRecord>,
+    id : Text,
+    isDraft : Bool,
+  ) : () {
+    let property = properties.get(id) ?? Runtime.trap("Property not found");
+    if (property.isDraft != isDraft) {
+      properties.add(id, { property with isDraft });
+    };
+  };
 };

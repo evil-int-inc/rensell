@@ -496,6 +496,7 @@ export interface backendInterface {
     createTournament(input: TournamentInput): Promise<Tournament>;
     createUser(userId: UserId, input: UserInput): Promise<User>;
     deletePlayer(playerId: bigint): Promise<DeletePlayerResult>;
+    deleteProperty(id: string): Promise<void>;
     deleteTournament(id: bigint): Promise<DeleteTournamentResult>;
     execute(qJson: string): Promise<Result>;
     getApiDoc(): Promise<string>;
@@ -517,10 +518,12 @@ export interface backendInterface {
     listProperties(after: string | null): Promise<Array<PropertyRecord>>;
     listUsers(): Promise<Array<User>>;
     listUsersWithRoles(): Promise<Array<UserRoleView>>;
+    makePropertyDraft(id: string): Promise<void>;
     myHomeListingTransform(input: {
         context: Uint8Array;
         response: HttpRequestResult;
     }): Promise<HttpRequestResult>;
+    publishProperty(id: string): Promise<void>;
     readMyHomeListing(slug: string): Promise<string>;
     revokeAdminRole(target: UserId): Promise<UserRoleView>;
     saveCallerProfile(input: ProfileInput): Promise<User>;
@@ -535,6 +538,7 @@ export interface backendInterface {
     unlinkPlayerFromUser(playerId: bigint): Promise<GlobalPlayerView>;
     unlinkTelegram(): Promise<User>;
     updatePlayer(playerId: bigint, input: PlayerInput): Promise<GlobalPlayerView>;
+    updateProperty(property: PropertyRecord): Promise<void>;
     updateTournament(id: bigint, input: TournamentInput): Promise<Tournament>;
     updateUser(userId: UserId, input: UserInput): Promise<User>;
 }
@@ -777,6 +781,20 @@ export class Backend implements backendInterface {
         } else {
             const result = await this.actor.deletePlayer(arg0);
             return from_candid_DeletePlayerResult_n74(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async deleteProperty(arg0: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.deleteProperty(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.deleteProperty(arg0);
+            return result;
         }
     }
     async deleteTournament(arg0: bigint): Promise<DeleteTournamentResult> {
@@ -1073,6 +1091,20 @@ export class Backend implements backendInterface {
             return from_candid_vec_n103(this._uploadFile, this._downloadFile, result);
         }
     }
+    async makePropertyDraft(arg0: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.makePropertyDraft(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.makePropertyDraft(arg0);
+            return result;
+        }
+    }
     async myHomeListingTransform(arg0: {
         context: Uint8Array;
         response: HttpRequestResult;
@@ -1087,6 +1119,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.myHomeListingTransform(arg0);
+            return result;
+        }
+    }
+    async publishProperty(arg0: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.publishProperty(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.publishProperty(arg0);
             return result;
         }
     }
@@ -1245,6 +1291,20 @@ export class Backend implements backendInterface {
         } else {
             const result = await this.actor.updatePlayer(arg0, arg1);
             return from_candid_GlobalPlayerView_n58(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async updateProperty(arg0: PropertyRecord): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.updateProperty(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.updateProperty(arg0);
+            return result;
         }
     }
     async updateTournament(arg0: bigint, arg1: TournamentInput): Promise<Tournament> {

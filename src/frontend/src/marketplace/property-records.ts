@@ -69,7 +69,12 @@ function decodeListing({
     )
       return null;
 
-    const status = isDraft ? "draft" : listing.status;
+    // The canister flag controls draft visibility without changing the saved ad data.
+    const status = isDraft
+      ? "draft"
+      : listing.status === "draft"
+        ? "available"
+        : listing.status;
     if (
       !isDraft &&
       status !== "available" &&
@@ -84,13 +89,19 @@ function decodeListing({
             entry && isPositiveNumber(entry.price) && isDate(entry.date),
         )
       : undefined;
+    const descriptions = listing.imageDescriptions;
+    const imageDescriptions = Array.isArray(descriptions)
+      ? listing.images.map((_, index) =>
+          typeof descriptions[index] === "string" ? descriptions[index] : "",
+        )
+      : undefined;
     return {
       ...listing,
       id,
       status,
+      imageDescriptions,
       priceHistory,
       source: decodeSource(listing.source),
-      demo: false,
     };
   } catch {
     return null;

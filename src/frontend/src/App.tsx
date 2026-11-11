@@ -4,6 +4,7 @@ import { useI18n } from "@/i18n";
 import { DiscoveryPage } from "@/marketplace/DiscoveryPage";
 import { MarketplaceLayout } from "@/marketplace/MarketplaceLayout";
 import { PropertyDetailPage } from "@/marketplace/PropertyDetailPage";
+import { PropertyEditPage } from "@/marketplace/PropertyEditPage";
 import { SavedPage } from "@/marketplace/SavedPage";
 import { SellerPage } from "@/marketplace/SellerPage";
 import {
@@ -72,6 +73,21 @@ const propertyRoute = createRoute({
 function PropertyRoute() {
   const { listingId } = propertyRoute.useParams();
   return <PropertyDetailPage key={listingId} listingId={listingId} />;
+}
+
+const propertyEditRoute = createRoute({
+  getParentRoute: () => marketplaceRoute,
+  path: "/properties/$listingId/edit",
+  component: PropertyEditRoute,
+});
+
+function PropertyEditRoute() {
+  const { listingId } = propertyEditRoute.useParams();
+  return (
+    <RequireAdmin promptOnMount={false}>
+      <PropertyEditPage key={listingId} listingId={listingId} />
+    </RequireAdmin>
+  );
 }
 
 const savedRoute = createRoute({
@@ -192,6 +208,7 @@ export const routeTree = rootRoute.addChildren([
   marketplaceRoute.addChildren([
     indexRoute,
     propertyRoute,
+    propertyEditRoute,
     savedRoute,
     sellerRoute,
     adminRoute,

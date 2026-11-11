@@ -324,6 +324,7 @@ export interface _SERVICE {
   'createTournament' : ActorMethod<[TournamentInput], Tournament>,
   'createUser' : ActorMethod<[UserId, UserInput], User>,
   'deletePlayer' : ActorMethod<[bigint], DeletePlayerResult>,
+  'deleteProperty' : ActorMethod<[string], undefined>,
   'deleteTournament' : ActorMethod<[bigint], DeleteTournamentResult>,
   'execute' : ActorMethod<[string], Result>,
   'getApiDoc' : ActorMethod<[], string>,
@@ -345,10 +346,12 @@ export interface _SERVICE {
   'listProperties' : ActorMethod<[[] | [string]], Array<PropertyRecord>>,
   'listUsers' : ActorMethod<[], Array<User>>,
   'listUsersWithRoles' : ActorMethod<[], Array<UserRoleView>>,
+  'makePropertyDraft' : ActorMethod<[string], undefined>,
   'myHomeListingTransform' : ActorMethod<
     [{ 'context' : Uint8Array, 'response' : HttpRequestResult }],
     HttpRequestResult
   >,
+  'publishProperty' : ActorMethod<[string], undefined>,
   'readMyHomeListing' : ActorMethod<[string], string>,
   'revokeAdminRole' : ActorMethod<[UserId], UserRoleView>,
   'saveCallerProfile' : ActorMethod<[ProfileInput], User>,
@@ -363,6 +366,7 @@ export interface _SERVICE {
   'unlinkPlayerFromUser' : ActorMethod<[bigint], GlobalPlayerView>,
   'unlinkTelegram' : ActorMethod<[], User>,
   'updatePlayer' : ActorMethod<[bigint, PlayerInput], GlobalPlayerView>,
+  'updateProperty' : ActorMethod<[PropertyRecord], undefined>,
   'updateTournament' : ActorMethod<[bigint, TournamentInput], Tournament>,
   'updateUser' : ActorMethod<[UserId, UserInput], User>,
 }

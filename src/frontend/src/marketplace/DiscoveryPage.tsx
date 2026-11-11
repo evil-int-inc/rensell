@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { type FormEvent, useRef, useState } from "react";
+import { ListingManagementActions } from "./ListingManagementActions";
 import { useMarketplace } from "./MarketplaceContext";
 import { PropertyCard } from "./PropertyCard";
 import { PropertyMap } from "./PropertyMap";
@@ -371,6 +372,7 @@ export function DiscoveryPage() {
     listings,
     listingsLoading,
     listingsError,
+    canManageListings,
     retryListings,
     favorites,
     toggleFavorite,
@@ -408,9 +410,15 @@ export function DiscoveryPage() {
     filters.maxArea,
     filters.bedrooms,
   ].filter(Boolean).length;
+  const hasPublishedListings = listings.length > 0;
 
   function applyFilters(next: DiscoveryFilters) {
     void navigate({ search: next, resetScroll: false });
+  }
+
+  function handleListingHidden(id: string) {
+    setSelectedId((current) => (current === id ? undefined : current));
+    resultsRef.current?.focus({ preventScroll: true });
   }
 
   return (
@@ -502,8 +510,9 @@ export function DiscoveryPage() {
               aria-live="polite"
               className="text-sm font-medium text-base-content/65"
             >
-              {filtered.length}{" "}
-              {filtered.length === 1 ? "property" : "properties"}
+              {(!listingsLoading && !listingsError) || hasPublishedListings
+                ? `${filtered.length} ${filtered.length === 1 ? "property" : "properties"}`
+                : ""}
             </p>
             {active && (
               <button
@@ -564,8 +573,7 @@ export function DiscoveryPage() {
                 className="mt-0.5 size-4 shrink-0 text-warning"
                 aria-hidden="true"
               />
-              Live listings are unavailable. You can still browse sample
-              properties.
+              Properties couldn’t be loaded.
             </p>
             <button
               type="button"
@@ -581,34 +589,39 @@ export function DiscoveryPage() {
               className="loading loading-spinner loading-xs text-primary"
               aria-hidden="true"
             />
-            Loading live listings…
+            Loading properties…
           </output>
         ) : null}
 
         {filtered.length === 0 ? (
-          <div className="rounded-box border border-dashed border-base-300 bg-base-200 px-6 py-14 text-center">
-            <Search
-              className="mx-auto mb-4 size-6 text-primary"
-              aria-hidden="true"
-            />
-            <h3 className="font-editorial text-3xl">
-              {listingsLoading || listingsError
-                ? "No matching sample properties"
-                : "No matching properties"}
-            </h3>
-            <p className="mt-2 text-sm text-base-content/70">
-              Try a broader location or adjust your price and property filters.
-            </p>
-            {active && (
-              <button
-                type="button"
-                className="btn btn-primary mt-5"
-                onClick={() => applyFilters(emptyDiscoveryFilters)}
-              >
-                View all properties
-              </button>
-            )}
-          </div>
+          !listingsLoading &&
+          !listingsError && (
+            <div className="rounded-box border border-dashed border-base-300 bg-base-200 px-6 py-14 text-center">
+              <Search
+                className="mx-auto mb-4 size-6 text-primary"
+                aria-hidden="true"
+              />
+              <h3 className="font-editorial text-3xl">
+                {hasPublishedListings
+                  ? "No matching properties"
+                  : "No properties listed yet"}
+              </h3>
+              <p className="mt-2 text-sm text-base-content/70">
+                {hasPublishedListings
+                  ? "Try a broader location or adjust your price and property filters."
+                  : "New listings will appear here when they’re published."}
+              </p>
+              {active && hasPublishedListings && (
+                <button
+                  type="button"
+                  className="btn btn-primary mt-5"
+                  onClick={() => applyFilters(emptyDiscoveryFilters)}
+                >
+                  View all properties
+                </button>
+              )}
+            </div>
+          )
         ) : view === "map" ? (
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.65fr)]">
             <div
@@ -665,6 +678,16 @@ export function DiscoveryPage() {
                       </Link>
                     </div>
                   </div>
+                  {canManageListings && (
+                    <div className="col-span-2 border-t border-base-300 pt-2">
+                      <ListingManagementActions
+                        listing={listing}
+                        small
+                        onDrafted={() => handleListingHidden(listing.id)}
+                        onRemoved={() => handleListingHidden(listing.id)}
+                      />
+                    </div>
+                  )}
                 </article>
               ))}
             </div>
@@ -685,6 +708,17 @@ export function DiscoveryPage() {
                 listing={listing}
                 isFavorite={favorites.includes(listing.id)}
                 onToggleFavorite={toggleFavorite}
+                showPhotoControls
+                managementActions={
+                  canManageListings && (
+                    <ListingManagementActions
+                      listing={listing}
+                      small
+                      onDrafted={() => handleListingHidden(listing.id)}
+                      onRemoved={() => handleListingHidden(listing.id)}
+                    />
+                  )
+                }
               />
             ))}
           </div>

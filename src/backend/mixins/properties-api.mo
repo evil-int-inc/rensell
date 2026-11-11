@@ -28,6 +28,26 @@ mixin (
     PropertiesLib.save(properties, property);
   };
 
+  public shared ({ caller }) func updateProperty(property : Properties.PropertyRecord) : async () {
+    RolesLib.requireAdmin(accessControlState, caller);
+    PropertiesLib.update(properties, property);
+  };
+
+  public shared ({ caller }) func publishProperty(id : Text) : async () {
+    RolesLib.requireAdmin(accessControlState, caller);
+    PropertiesLib.setDraft(properties, id, false);
+  };
+
+  public shared ({ caller }) func makePropertyDraft(id : Text) : async () {
+    RolesLib.requireAdmin(accessControlState, caller);
+    PropertiesLib.setDraft(properties, id, true);
+  };
+
+  public shared ({ caller }) func deleteProperty(id : Text) : async () {
+    RolesLib.requireAdmin(accessControlState, caller);
+    properties.remove(id);
+  };
+
   public query func myHomeListingTransform(input : { context : Blob; response : IC.HttpRequestResult }) : async IC.HttpRequestResult {
     let { status; body } = input.response;
     { status; headers = []; body = if (status == 200) body else "" };
