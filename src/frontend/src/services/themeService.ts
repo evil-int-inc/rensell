@@ -29,6 +29,14 @@ export const themeService = {
     document
       .querySelector('meta[property="og:title"]')
       ?.setAttribute("content", document.title);
+    const themeColor = club
+      ? "#101010"
+      : theme === "market-dark"
+        ? brand.themeDark
+        : brand.themeLight;
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", themeColor);
     const manifest = document.getElementById("app-manifest");
     const manifestHref = club ? "/site.webmanifest" : brand.manifest;
     if (manifest && manifest.getAttribute("href") !== manifestHref) {

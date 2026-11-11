@@ -249,7 +249,7 @@ export function PropertyMap({
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-85 saturate-50 [[data-theme=market-dark]_&]:opacity-60 [[data-theme=market-dark]_&]:invert"
+          className="pointer-events-none absolute inset-0 opacity-85 grayscale [[data-theme=market-dark]_&]:opacity-60 [[data-theme=market-dark]_&]:invert"
         >
           {tiles
             .filter(({ url }) => !failedTiles.has(url))

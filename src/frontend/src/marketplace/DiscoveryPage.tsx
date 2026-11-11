@@ -108,28 +108,20 @@ function DiscoveryHero({
           src="/assets/properties/hero.webp"
           alt=""
           fetchPriority="high"
-          className="absolute inset-0 -z-20 size-full object-cover object-[58%_52%]"
+          className="absolute inset-0 -z-20 size-full object-cover object-[58%_52%] contrast-110 grayscale"
         />
-        <div className="absolute inset-0 -z-10 bg-linear-to-r from-neutral/95 via-neutral/60 to-neutral/10" />
+        <div className="absolute inset-0 -z-10 bg-linear-to-r from-neutral/95 via-neutral/80 via-65% to-neutral/65 sm:via-60% sm:to-neutral/25 lg:via-54% lg:to-neutral/10" />
         <div className="flex max-w-3xl flex-col justify-center px-6 pt-9 pb-12 sm:px-11 sm:pb-20 lg:px-16">
-          <p className="mb-5 flex items-center gap-3 text-[.68rem] font-semibold tracking-[.23em] uppercase">
-            <span
-              className="h-px w-7 bg-current opacity-65"
-              aria-hidden="true"
-            />
-            The real estate edit
-          </p>
           <h1
             id="discovery-title"
-            className="font-editorial text-[clamp(2.5rem,12vw,3.5rem)] leading-[.93] tracking-[-.045em] sm:text-[clamp(3.5rem,6.1vw,6.15rem)]"
+            className="font-editorial text-[clamp(2.5rem,12vw,3.5rem)] leading-[.94] font-semibold tracking-[-.06em] sm:text-[clamp(3.5rem,6.1vw,6.15rem)]"
           >
             Find your next
             <br />
-            <em className="font-normal">chapter.</em>
+            <span className="font-normal">chapter.</span>
           </h1>
-          <p className="mt-5 max-w-sm text-sm leading-relaxed text-neutral-content/85 sm:mt-6 sm:text-base">
-            Discover distinctive homes and investment opportunities in Tbilisi,
-            Georgia.
+          <p className="mt-5 max-w-sm text-sm leading-relaxed text-neutral-content/90 sm:mt-6 sm:text-base">
+            Explore homes and investment properties in Tbilisi, Georgia.
           </p>
         </div>
       </div>

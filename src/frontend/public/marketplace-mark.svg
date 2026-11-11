@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#174b3b"/>
-  <path d="M17 43V27l15-10 15 10v16H17Zm15 0V30l15-3M23 32l4-2" fill="none" stroke="#fbfaf6" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <title>Tbilisale</title>
+  <rect width="64" height="64" rx="14" fill="#121212"/>
+  <path fill="#f8f8f8" transform="translate(8 18.5) scale(.75)" d="M0 27 14 18.4V36H0ZM18 10.1 34.6 0v36h-7.2V7.3l-6.2 3.9V36H18Zm21.4-.6 16.3 9v12.6L64 36H48.9V24.6l-6.5-3.7V36h-3Z"/>
 </svg>

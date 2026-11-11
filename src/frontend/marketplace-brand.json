@@ -1,8 +1,11 @@
 {
-  "name": "RenSell",
+  "name": "Tbilisale",
   "description": "Explore a curated collection of homes, spaces, and land in Tbilisi, Georgia.",
   "icon": "/marketplace-mark.svg",
+  "logo": "/marketplace-logo.svg",
+  "logoInverse": "/marketplace-logo-inverse.svg",
   "manifest": "/marketplace.webmanifest",
-  "mark": "M6 23V12l10-6.5L26 12v11H6Zm10 0V14l10-2m-16 3.5 2.6-1.5",
+  "themeLight": "#fafafa",
+  "themeDark": "#161616",
   "socialImage": "/assets/properties/hero.webp"
 }

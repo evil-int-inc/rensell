@@ -1,6 +1,6 @@
 {
-  "name": "RenSell",
-  "short_name": "RenSell",
+  "name": "Tbilisale",
+  "short_name": "Tbilisale",
   "start_url": "/",
   "scope": "/",
   "icons": [
@@ -21,7 +21,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#174b3b",
-  "background_color": "#fbfaf6",
+  "theme_color": "#fafafa",
+  "background_color": "#fafafa",
   "display": "standalone"
 }

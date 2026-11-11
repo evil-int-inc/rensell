@@ -102,7 +102,7 @@ export function useMyHomeImport() {
       );
     if (photoUrls.length > maxPhotos)
       warnings.push(
-        `RenSell can hold up to ${maxPhotos} photos per listing. You can replace the imported photos before saving.`,
+        `You can save up to ${maxPhotos} photos per listing and replace the imported photos before saving.`,
       );
     return { fields, source, warnings, images };
   };

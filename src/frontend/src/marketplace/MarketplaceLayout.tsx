@@ -28,27 +28,33 @@ function Brand({
       search={{}}
       onClick={onNavigate}
       aria-label={`${brand.name} home`}
-      className="inline-flex w-fit shrink-0 items-center gap-2 text-base-content sm:gap-2.5"
+      className="inline-flex w-fit min-w-0 max-w-full items-center"
     >
-      <span className="grid size-8 place-items-center rounded-xl bg-primary text-primary-content sm:size-9">
-        <svg
-          viewBox="0 0 32 32"
-          width="24"
-          height="24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d={brand.mark} />
-        </svg>
-      </span>
-      {!iconOnly && (
-        <span className="font-editorial text-[1.4rem] leading-none tracking-[-0.06em] sm:text-[1.65rem]">
-          {brand.name}
-        </span>
+      {iconOnly ? (
+        <img
+          src={brand.icon}
+          alt=""
+          width="36"
+          height="36"
+          className="size-9"
+        />
+      ) : (
+        <>
+          <img
+            src={brand.logo}
+            alt=""
+            width="486"
+            height="60"
+            className="block h-auto w-32 max-w-full sm:w-40 [[data-theme=market-dark]_&]:hidden"
+          />
+          <img
+            src={brand.logoInverse}
+            alt=""
+            width="486"
+            height="60"
+            className="hidden h-auto w-32 max-w-full sm:w-40 [[data-theme=market-dark]_&]:block"
+          />
+        </>
       )}
     </Link>
   );
@@ -105,14 +111,7 @@ function MarketplaceHeader({
           >
             <Menu size={21} aria-hidden="true" />
           </button>
-          <Link
-            to="/"
-            search={{}}
-            aria-label={`${brand.name} home`}
-            className="truncate font-editorial text-[1.4rem] leading-none tracking-[-0.06em] sm:text-[1.65rem]"
-          >
-            {brand.name}
-          </Link>
+          <Brand />
         </div>
         <div className="flex shrink-0 items-center gap-1 sm:gap-2.5">
           <button
