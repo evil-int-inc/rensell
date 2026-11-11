@@ -29,17 +29,10 @@ export const themeService = {
     document
       .querySelector('meta[property="og:title"]')
       ?.setAttribute("content", document.title);
-    document
-      .getElementById("app-icon")
-      ?.setAttribute("href", club ? "/favicon.ico" : brand.icon);
-    const manifest = document.getElementById("club-manifest");
-    const touchIcon = document.getElementById("club-touch-icon");
-    if (club) {
-      manifest?.setAttribute("href", "/site.webmanifest");
-      touchIcon?.setAttribute("href", "/apple-touch-icon.png");
-    } else {
-      manifest?.removeAttribute("href");
-      touchIcon?.removeAttribute("href");
+    const manifest = document.getElementById("app-manifest");
+    const manifestHref = club ? "/site.webmanifest" : brand.manifest;
+    if (manifest && manifest.getAttribute("href") !== manifestHref) {
+      manifest.setAttribute("href", manifestHref);
     }
   },
   initialize() {
