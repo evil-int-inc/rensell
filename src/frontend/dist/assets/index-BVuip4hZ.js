@@ -28055,6 +28055,7 @@ Service({
   "createTournament": Func([TournamentInput], [Tournament], []),
   "createUser": Func([UserId, UserInput], [User$1], []),
   "deletePlayer": Func([Nat], [DeletePlayerResult], []),
+  "deleteProperty": Func([Text], [], []),
   "deleteTournament": Func([Nat], [DeleteTournamentResult], []),
   "execute": Func([Text], [Result], ["query"]),
   "getApiDoc": Func([], [Text], ["query"]),
@@ -28088,6 +28089,7 @@ Service({
   ),
   "listUsers": Func([], [Vec(User$1)], ["query"]),
   "listUsersWithRoles": Func([], [Vec(UserRoleView)], ["query"]),
+  "makePropertyDraft": Func([Text], [], []),
   "myHomeListingTransform": Func(
     [
       Record({
@@ -28098,6 +28100,7 @@ Service({
     [HttpRequestResult],
     ["query"]
   ),
+  "publishProperty": Func([Text], [], []),
   "readMyHomeListing": Func([Text], [Text], []),
   "revokeAdminRole": Func([UserId], [UserRoleView], []),
   "saveCallerProfile": Func([ProfileInput], [User$1], []),
@@ -28118,6 +28121,7 @@ Service({
   "unlinkPlayerFromUser": Func([Nat], [GlobalPlayerView], []),
   "unlinkTelegram": Func([], [User$1], []),
   "updatePlayer": Func([Nat, PlayerInput], [GlobalPlayerView], []),
+  "updateProperty": Func([PropertyRecord], [], []),
   "updateTournament": Func([Nat, TournamentInput], [Tournament], []),
   "updateUser": Func([UserId, UserInput], [User$1], [])
 });
@@ -28475,6 +28479,7 @@ const idlFactory = ({ IDL: IDL2 }) => {
     "createTournament": IDL2.Func([TournamentInput2], [Tournament2], []),
     "createUser": IDL2.Func([UserId2, UserInput2], [User2], []),
     "deletePlayer": IDL2.Func([IDL2.Nat], [DeletePlayerResult2], []),
+    "deleteProperty": IDL2.Func([IDL2.Text], [], []),
     "deleteTournament": IDL2.Func([IDL2.Nat], [DeleteTournamentResult2], []),
     "execute": IDL2.Func([IDL2.Text], [Result2], ["query"]),
     "getApiDoc": IDL2.Func([], [IDL2.Text], ["query"]),
@@ -28508,6 +28513,7 @@ const idlFactory = ({ IDL: IDL2 }) => {
     ),
     "listUsers": IDL2.Func([], [IDL2.Vec(User2)], ["query"]),
     "listUsersWithRoles": IDL2.Func([], [IDL2.Vec(UserRoleView2)], ["query"]),
+    "makePropertyDraft": IDL2.Func([IDL2.Text], [], []),
     "myHomeListingTransform": IDL2.Func(
       [
         IDL2.Record({
@@ -28518,6 +28524,7 @@ const idlFactory = ({ IDL: IDL2 }) => {
       [HttpRequestResult2],
       ["query"]
     ),
+    "publishProperty": IDL2.Func([IDL2.Text], [], []),
     "readMyHomeListing": IDL2.Func([IDL2.Text], [IDL2.Text], []),
     "revokeAdminRole": IDL2.Func([UserId2], [UserRoleView2], []),
     "saveCallerProfile": IDL2.Func([ProfileInput2], [User2], []),
@@ -28538,6 +28545,7 @@ const idlFactory = ({ IDL: IDL2 }) => {
     "unlinkPlayerFromUser": IDL2.Func([IDL2.Nat], [GlobalPlayerView2], []),
     "unlinkTelegram": IDL2.Func([], [User2], []),
     "updatePlayer": IDL2.Func([IDL2.Nat, PlayerInput2], [GlobalPlayerView2], []),
+    "updateProperty": IDL2.Func([PropertyRecord2], [], []),
     "updateTournament": IDL2.Func([IDL2.Nat, TournamentInput2], [Tournament2], []),
     "updateUser": IDL2.Func([UserId2, UserInput2], [User2], [])
   });
@@ -33539,6 +33547,20 @@ class Backend {
       return from_candid_DeletePlayerResult_n74(this._uploadFile, this._downloadFile, result);
     }
   }
+  async deleteProperty(arg0) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.deleteProperty(arg0);
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.deleteProperty(arg0);
+      return result;
+    }
+  }
   async deleteTournament(arg0) {
     if (this.processError) {
       try {
@@ -33833,6 +33855,20 @@ class Backend {
       return from_candid_vec_n103(this._uploadFile, this._downloadFile, result);
     }
   }
+  async makePropertyDraft(arg0) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.makePropertyDraft(arg0);
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.makePropertyDraft(arg0);
+      return result;
+    }
+  }
   async myHomeListingTransform(arg0) {
     if (this.processError) {
       try {
@@ -33844,6 +33880,20 @@ class Backend {
       }
     } else {
       const result = await this.actor.myHomeListingTransform(arg0);
+      return result;
+    }
+  }
+  async publishProperty(arg0) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.publishProperty(arg0);
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.publishProperty(arg0);
       return result;
     }
   }
@@ -33999,6 +34049,20 @@ class Backend {
     } else {
       const result = await this.actor.updatePlayer(arg0, arg1);
       return from_candid_GlobalPlayerView_n58(this._uploadFile, this._downloadFile, result);
+    }
+  }
+  async updateProperty(arg0) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.updateProperty(arg0);
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.updateProperty(arg0);
+      return result;
     }
   }
   async updateTournament(arg0, arg1) {
@@ -37323,11 +37387,22 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$1a = [
+const __iconNode$1b = [
   ["path", { d: "m7 7 10 10", key: "1fmybs" }],
   ["path", { d: "M17 7v10H7", key: "6fjiku" }]
 ];
-const ArrowDownRight = createLucideIcon("arrow-down-right", __iconNode$1a);
+const ArrowDownRight = createLucideIcon("arrow-down-right", __iconNode$1b);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$1a = [
+  ["path", { d: "M12 5v14", key: "s699le" }],
+  ["path", { d: "m19 12-7 7-7-7", key: "1idqje" }]
+];
+const ArrowDown = createLucideIcon("arrow-down", __iconNode$1a);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37335,10 +37410,10 @@ const ArrowDownRight = createLucideIcon("arrow-down-right", __iconNode$1a);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$19 = [
-  ["path", { d: "M12 5v14", key: "s699le" }],
-  ["path", { d: "m19 12-7 7-7-7", key: "1idqje" }]
+  ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
+  ["path", { d: "M19 12H5", key: "x3x0zl" }]
 ];
-const ArrowDown = createLucideIcon("arrow-down", __iconNode$19);
+const ArrowLeft = createLucideIcon("arrow-left", __iconNode$19);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37346,10 +37421,10 @@ const ArrowDown = createLucideIcon("arrow-down", __iconNode$19);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$18 = [
-  ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
-  ["path", { d: "M19 12H5", key: "x3x0zl" }]
+  ["path", { d: "M5 12h14", key: "1ays0h" }],
+  ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
-const ArrowLeft = createLucideIcon("arrow-left", __iconNode$18);
+const ArrowRight = createLucideIcon("arrow-right", __iconNode$18);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37357,10 +37432,10 @@ const ArrowLeft = createLucideIcon("arrow-left", __iconNode$18);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$17 = [
-  ["path", { d: "M5 12h14", key: "1ays0h" }],
-  ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
+  ["path", { d: "M7 7h10v10", key: "1tivn9" }],
+  ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowRight = createLucideIcon("arrow-right", __iconNode$17);
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$17);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37368,10 +37443,10 @@ const ArrowRight = createLucideIcon("arrow-right", __iconNode$17);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$16 = [
-  ["path", { d: "M7 7h10v10", key: "1tivn9" }],
-  ["path", { d: "M7 17 17 7", key: "1vkiza" }]
+  ["path", { d: "m5 12 7-7 7 7", key: "hav0vg" }],
+  ["path", { d: "M12 19V5", key: "x0mq9r" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$16);
+const ArrowUp = createLucideIcon("arrow-up", __iconNode$16);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37379,17 +37454,6 @@ const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$16);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$15 = [
-  ["path", { d: "m5 12 7-7 7 7", key: "hav0vg" }],
-  ["path", { d: "M12 19V5", key: "x0mq9r" }]
-];
-const ArrowUp = createLucideIcon("arrow-up", __iconNode$15);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$14 = [
   ["path", { d: "M10 4 8 6", key: "1rru8s" }],
   ["path", { d: "M17 19v2", key: "ts1sot" }],
   ["path", { d: "M2 12h20", key: "9i4pu4" }],
@@ -37402,7 +37466,20 @@ const __iconNode$14 = [
     }
   ]
 ];
-const Bath = createLucideIcon("bath", __iconNode$14);
+const Bath = createLucideIcon("bath", __iconNode$15);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$14 = [
+  ["path", { d: "M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8", key: "1k78r4" }],
+  ["path", { d: "M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4", key: "fb3tl2" }],
+  ["path", { d: "M12 4v6", key: "1dcgq2" }],
+  ["path", { d: "M2 18h20", key: "ajqnye" }]
+];
+const BedDouble = createLucideIcon("bed-double", __iconNode$14);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37410,12 +37487,9 @@ const Bath = createLucideIcon("bath", __iconNode$14);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$13 = [
-  ["path", { d: "M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8", key: "1k78r4" }],
-  ["path", { d: "M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4", key: "fb3tl2" }],
-  ["path", { d: "M12 4v6", key: "1dcgq2" }],
-  ["path", { d: "M2 18h20", key: "ajqnye" }]
+  ["path", { d: "m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z", key: "1fy3hk" }]
 ];
-const BedDouble = createLucideIcon("bed-double", __iconNode$13);
+const Bookmark = createLucideIcon("bookmark", __iconNode$13);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37423,16 +37497,6 @@ const BedDouble = createLucideIcon("bed-double", __iconNode$13);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$12 = [
-  ["path", { d: "m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z", key: "1fy3hk" }]
-];
-const Bookmark = createLucideIcon("bookmark", __iconNode$12);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$11 = [
   ["path", { d: "M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z", key: "1b4qmf" }],
   ["path", { d: "M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2", key: "i71pzd" }],
   ["path", { d: "M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2", key: "10jefs" }],
@@ -37441,14 +37505,14 @@ const __iconNode$11 = [
   ["path", { d: "M10 14h4", key: "kelpxr" }],
   ["path", { d: "M10 18h4", key: "1ulq68" }]
 ];
-const Building2 = createLucideIcon("building-2", __iconNode$11);
+const Building2 = createLucideIcon("building-2", __iconNode$12);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$10 = [
+const __iconNode$11 = [
   ["path", { d: "M8 2v4", key: "1cmpym" }],
   ["path", { d: "M16 2v4", key: "4m81vk" }],
   ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
@@ -37460,14 +37524,14 @@ const __iconNode$10 = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M16 18h.01", key: "kzsmim" }]
 ];
-const CalendarDays = createLucideIcon("calendar-days", __iconNode$10);
+const CalendarDays = createLucideIcon("calendar-days", __iconNode$11);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$$ = [
+const __iconNode$10 = [
   [
     "path",
     {
@@ -37477,39 +37541,51 @@ const __iconNode$$ = [
   ],
   ["circle", { cx: "12", cy: "13", r: "3", key: "1vg3eu" }]
 ];
-const Camera = createLucideIcon("camera", __iconNode$$);
+const Camera = createLucideIcon("camera", __iconNode$10);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$_ = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-const Check = createLucideIcon("check", __iconNode$_);
+const __iconNode$$ = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+const Check = createLucideIcon("check", __iconNode$$);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$Z = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$Z);
+const __iconNode$_ = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$_);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$Y = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
-const ChevronLeft = createLucideIcon("chevron-left", __iconNode$Y);
+const __iconNode$Z = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
+const ChevronLeft = createLucideIcon("chevron-left", __iconNode$Z);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$X = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$X);
+const __iconNode$Y = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$Y);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$X = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
+  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+];
+const CircleAlert = createLucideIcon("circle-alert", __iconNode$X);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37518,10 +37594,9 @@ const ChevronRight = createLucideIcon("chevron-right", __iconNode$X);
  */
 const __iconNode$W = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
-  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const CircleAlert = createLucideIcon("circle-alert", __iconNode$W);
+const CircleCheck = createLucideIcon("circle-check", __iconNode$W);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37530,9 +37605,9 @@ const CircleAlert = createLucideIcon("circle-alert", __iconNode$W);
  */
 const __iconNode$V = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
+  ["polyline", { points: "12 6 12 12 16.5 12", key: "1aq6pp" }]
 ];
-const CircleCheck = createLucideIcon("circle-check", __iconNode$V);
+const Clock3 = createLucideIcon("clock-3", __iconNode$V);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37540,17 +37615,6 @@ const CircleCheck = createLucideIcon("circle-check", __iconNode$V);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$U = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["polyline", { points: "12 6 12 12 16.5 12", key: "1aq6pp" }]
-];
-const Clock3 = createLucideIcon("clock-3", __iconNode$U);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$T = [
   [
     "path",
     {
@@ -37560,7 +37624,18 @@ const __iconNode$T = [
   ],
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
 ];
-const Compass = createLucideIcon("compass", __iconNode$T);
+const Compass = createLucideIcon("compass", __iconNode$U);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$T = [
+  ["rect", { width: "14", height: "14", x: "8", y: "8", rx: "2", ry: "2", key: "17jyea" }],
+  ["path", { d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2", key: "zix9uf" }]
+];
+const Copy = createLucideIcon("copy", __iconNode$T);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37568,17 +37643,6 @@ const Compass = createLucideIcon("compass", __iconNode$T);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$S = [
-  ["rect", { width: "14", height: "14", x: "8", y: "8", rx: "2", ry: "2", key: "17jyea" }],
-  ["path", { d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2", key: "zix9uf" }]
-];
-const Copy = createLucideIcon("copy", __iconNode$S);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$R = [
   ["path", { d: "M21.54 15H17a2 2 0 0 0-2 2v4.54", key: "1djwo0" }],
   [
     "path",
@@ -37590,7 +37654,21 @@ const __iconNode$R = [
   ["path", { d: "M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05", key: "14pb5j" }],
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
 ];
-const Earth = createLucideIcon("earth", __iconNode$R);
+const Earth = createLucideIcon("earth", __iconNode$S);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$R = [
+  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
+  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }],
+  ["path", { d: "M10 9H8", key: "b1mrlr" }],
+  ["path", { d: "M16 13H8", key: "t4e002" }],
+  ["path", { d: "M16 17H8", key: "z1uh3a" }]
+];
+const FileText = createLucideIcon("file-text", __iconNode$R);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -46686,13 +46764,21 @@ function Sidebar({ onNavigate }) {
     }
   );
 }
-const name = "RenSell";
+const name = "Tbilisale";
 const icon = "/marketplace-mark.svg";
-const mark = "M6 23V12l10-6.5L26 12v11H6Zm10 0V14l10-2m-16 3.5 2.6-1.5";
+const logo = "/marketplace-logo.svg";
+const logoInverse = "/marketplace-logo-inverse.svg";
+const manifest = "/marketplace.webmanifest";
+const themeLight = "#fafafa";
+const themeDark = "#161616";
 const brand = {
   name,
   icon,
-  mark
+  logo,
+  logoInverse,
+  manifest,
+  themeLight,
+  themeDark
 };
 const themeKey = "property-marketplace:theme";
 const themeService = {
@@ -46716,15 +46802,12 @@ const themeService = {
     const club = theme === "black";
     document.title = club ? "ChillPong" : brand.name;
     (_a2 = document.querySelector('meta[property="og:title"]')) == null ? void 0 : _a2.setAttribute("content", document.title);
-    (_b2 = document.getElementById("app-icon")) == null ? void 0 : _b2.setAttribute("href", club ? "/favicon.ico" : brand.icon);
-    const manifest = document.getElementById("club-manifest");
-    const touchIcon = document.getElementById("club-touch-icon");
-    if (club) {
-      manifest == null ? void 0 : manifest.setAttribute("href", "/site.webmanifest");
-      touchIcon == null ? void 0 : touchIcon.setAttribute("href", "/apple-touch-icon.png");
-    } else {
-      manifest == null ? void 0 : manifest.removeAttribute("href");
-      touchIcon == null ? void 0 : touchIcon.removeAttribute("href");
+    const themeColor = club ? "#101010" : theme === "market-dark" ? brand.themeDark : brand.themeLight;
+    (_b2 = document.querySelector('meta[name="theme-color"]')) == null ? void 0 : _b2.setAttribute("content", themeColor);
+    const manifest2 = document.getElementById("app-manifest");
+    const manifestHref = club ? "/site.webmanifest" : brand.manifest;
+    if (manifest2 && manifest2.getAttribute("href") !== manifestHref) {
+      manifest2.setAttribute("href", manifestHref);
     }
   },
   initialize() {
@@ -46831,170 +46914,6 @@ function formatArea(areaM2) {
 function formatLocation(listing) {
   return [listing.neighborhood, listing.city].filter(Boolean).join(", ");
 }
-const portfolio = {
-  city: "Tbilisi",
-  demo: true,
-  status: "available",
-  seller: { name: "Sample listing", role: "Demo portfolio" }
-};
-const sampleListings = [
-  {
-    ...portfolio,
-    id: "vake-villa",
-    title: "The Vake Residence",
-    description: "A contemporary hillside residence organized around an open terrace and pool. Floor-to-ceiling glazing brings afternoon light into the living spaces, while the upper level offers four bedrooms and a quieter outlook over the neighborhood. A covered terrace extends the dining area outdoors.",
-    type: "Villa",
-    price: 845e3,
-    neighborhood: "Vake",
-    address: "Vake Park area",
-    areaM2: 320,
-    livingAreaM2: 268,
-    bedrooms: 4,
-    bathrooms: 3,
-    rooms: 7,
-    totalFloors: 2,
-    builtYear: 2022,
-    buildingType: "Detached residence",
-    condition: "Move-in ready",
-    coordinates: { latitude: 41.7124, longitude: 44.7546 },
-    images: ["/assets/properties/vake-villa.webp"],
-    imageDescriptions: [
-      "A glass and concrete villa beside a pool, with a wooded hillside beyond"
-    ],
-    featured: true,
-    listedAt: "2026-10-30",
-    amenities: [
-      "Pool",
-      "Garden",
-      "Terrace",
-      "Covered parking",
-      "Underfloor heating"
-    ]
-  },
-  {
-    ...portfolio,
-    id: "vera-apartment",
-    title: "A Quiet Corner in Vera",
-    description: "Tall windows, warm oak and a restrained palette give this two-bedroom apartment an easy sense of calm. The main living space opens to a balcony overlooking the neighborhood. A separate study makes room for working from home.",
-    type: "Apartment",
-    price: 285e3,
-    neighborhood: "Vera",
-    address: "Vera Park area",
-    areaM2: 118,
-    livingAreaM2: 106,
-    bedrooms: 2,
-    bathrooms: 2,
-    rooms: 4,
-    floor: 4,
-    totalFloors: 6,
-    builtYear: 2015,
-    buildingType: "Apartment building",
-    condition: "Renovated",
-    coordinates: { latitude: 41.7093, longitude: 44.7824 },
-    images: ["/assets/properties/vera-apartment.webp"],
-    imageDescriptions: [
-      "A living room with a linen sofa, oak dining table and tall windows"
-    ],
-    featured: true,
-    listedAt: "2026-11-02",
-    amenities: ["Balcony", "Elevator", "Study", "Built-in storage"]
-  },
-  {
-    ...portfolio,
-    id: "mtatsminda-house",
-    title: "The Hillside House",
-    description: "A hillside home with stonework, terracotta and sheltered outdoor spaces. Three bedrooms occupy the upper floor, and the main living area opens to a south-facing terrace with views toward the old city.",
-    type: "House",
-    price: 465e3,
-    neighborhood: "Mtatsminda",
-    address: "Mtatsminda lower slopes",
-    areaM2: 214,
-    livingAreaM2: 182,
-    bedrooms: 3,
-    bathrooms: 2,
-    rooms: 5,
-    totalFloors: 2,
-    builtYear: 2019,
-    buildingType: "Detached house",
-    condition: "Move-in ready",
-    coordinates: { latitude: 41.6965, longitude: 44.7882 },
-    images: ["/assets/properties/mtatsminda-house.webp"],
-    imageDescriptions: [
-      "A stone and terracotta house with carved balcony posts and a wooded hill behind it"
-    ],
-    featured: true,
-    listedAt: "2026-10-26",
-    amenities: ["Terrace", "Courtyard", "Fireplace", "City views"]
-  },
-  {
-    ...portfolio,
-    id: "saburtalo-apartment",
-    title: "A Light-Filled Apartment",
-    description: "An efficient one-bedroom layout with an open kitchen and a sunny living room. The full-width balcony is accessible from both the bedroom and the living space.",
-    type: "Apartment",
-    price: 172e3,
-    neighborhood: "Saburtalo",
-    address: "Delisi area",
-    areaM2: 76,
-    livingAreaM2: 68,
-    bedrooms: 1,
-    bathrooms: 1,
-    rooms: 2,
-    floor: 6,
-    totalFloors: 10,
-    builtYear: 2023,
-    buildingType: "Apartment building",
-    condition: "Move-in ready",
-    coordinates: { latitude: 41.7251, longitude: 44.7519 },
-    images: ["/assets/properties/saburtalo-apartment.webp"],
-    imageDescriptions: [
-      "An apartment living room opening onto a balcony overlooking the city"
-    ],
-    listedAt: "2026-11-06",
-    amenities: ["Balcony", "Elevator", "Covered parking"]
-  },
-  {
-    ...portfolio,
-    id: "chugureti-loft",
-    title: "A Studio Behind the Avenue",
-    description: "An adaptable street-level commercial space with an open floor plan, tall windows and exposed brick. The layout leaves room for a showroom, studio or small office, with storage and a kitchenette at the back.",
-    type: "Commercial",
-    price: 235e3,
-    neighborhood: "Chugureti",
-    address: "Marjanishvili area",
-    areaM2: 142,
-    bathrooms: 1,
-    rooms: 2,
-    floor: 0,
-    buildingType: "Mixed-use building",
-    condition: "Renovated",
-    coordinates: { latitude: 41.7087, longitude: 44.8011 },
-    images: ["/assets/properties/chugureti-loft.webp"],
-    imageDescriptions: [
-      "An open loft with exposed brick, timber beams and arched windows"
-    ],
-    listedAt: "2026-10-19",
-    amenities: ["Street entrance", "High ceilings", "Kitchenette", "Storage"]
-  },
-  {
-    ...portfolio,
-    id: "krtsanisi-land",
-    title: "A Plot Above the Valley",
-    description: "A gently sloping parcel on the edge of Krtsanisi with an open outlook over the valley. The plot has road access along its upper edge and mature vegetation around part of the perimeter.",
-    type: "Land",
-    price: 198e3,
-    neighborhood: "Krtsanisi",
-    address: "Krtsanisi hillside",
-    areaM2: 820,
-    coordinates: { latitude: 41.6719, longitude: 44.8195 },
-    images: ["/assets/properties/krtsanisi-land.webp"],
-    imageDescriptions: [
-      "A grassy plot overlooking a valley with houses and distant hills"
-    ],
-    listedAt: "2026-10-22",
-    amenities: ["Road access", "Valley views"]
-  }
-];
 const sourceLimit = 5 * 1024 * 1024;
 const myHomeHosts = /* @__PURE__ */ new Set(["myhome.ge", "www.myhome.ge"]);
 const photoHosts = /* @__PURE__ */ new Set([
@@ -47589,19 +47508,23 @@ function decodeListing({
       (photo) => typeof photo === "string" && /^data:image\/(?:jpeg|webp|png);base64,/.test(photo)
     ) || !Array.isArray(listing.amenities) || !listing.amenities.every((amenity) => typeof amenity === "string") || listing.seller.email !== void 0 && typeof listing.seller.email !== "string" || listing.seller.phone !== void 0 && typeof listing.seller.phone !== "string")
       return null;
-    const status = isDraft ? "draft" : listing.status;
+    const status = isDraft ? "draft" : listing.status === "draft" ? "available" : listing.status;
     if (!isDraft && status !== "available" && status !== "pending" && status !== "sold")
       return null;
     const priceHistory = Array.isArray(listing.priceHistory) ? listing.priceHistory.filter(
       (entry) => entry && isPositiveNumber(entry.price) && isDate(entry.date)
     ) : void 0;
+    const descriptions = listing.imageDescriptions;
+    const imageDescriptions = Array.isArray(descriptions) ? listing.images.map(
+      (_2, index2) => typeof descriptions[index2] === "string" ? descriptions[index2] : ""
+    ) : void 0;
     return {
       ...listing,
       id,
       status,
+      imageDescriptions,
       priceHistory,
-      source: decodeSource(listing.source),
-      demo: false
+      source: decodeSource(listing.source)
     };
   } catch {
     return null;
@@ -47637,7 +47560,6 @@ const storageKey = "property-marketplace:v2";
 const previousStorageKey = "property-marketplace:v1";
 const emptySavedItems = { favorites: [], savedSearches: [] };
 const listingsKey = ["marketplace", "listings"];
-const sampleIds = new Set(sampleListings.map(({ id }) => id));
 const MarketplaceContext = reactExports.createContext(null);
 function readSavedItems() {
   try {
@@ -47706,17 +47628,33 @@ function MarketplaceProvider({ children }) {
       setStorageError("Your changes could not be saved in this browser.");
     }
   }
-  const liveListings = (publicQuery.data ?? []).filter(
-    (listing) => listing.status !== "draft"
-  );
+  async function refreshListings() {
+    await Promise.all([
+      queryClient2.invalidateQueries({ queryKey: listingsKey }),
+      queryClient2.invalidateQueries({ queryKey: managedKey })
+    ]);
+  }
+  async function hideListing(id, keepDraft) {
+    await Promise.all([
+      queryClient2.cancelQueries({ queryKey: listingsKey }),
+      queryClient2.cancelQueries({ queryKey: managedKey })
+    ]);
+    const withoutListing = (listings) => listings == null ? void 0 : listings.filter((listing) => listing.id !== id);
+    queryClient2.setQueryData(listingsKey, withoutListing);
+    queryClient2.setQueryData(
+      managedKey,
+      keepDraft ? (listings) => listings == null ? void 0 : listings.map(
+        (listing) => listing.id === id ? { ...listing, status: "draft" } : listing
+      ) : withoutListing
+    );
+    void refreshListings();
+  }
   const value = {
     ...savedItems,
-    listings: [
-      ...liveListings,
-      ...sampleListings.filter(
-        (sample) => !liveListings.some(({ id }) => id === sample.id)
-      )
-    ],
+    canManageListings: isAdmin,
+    listings: (publicQuery.data ?? []).filter(
+      ({ status }) => status !== "draft"
+    ),
     listingsLoading: !publicQuery.data && (isFetching || publicQuery.isLoading),
     listingsError: !actor && !isFetching || publicQuery.isError,
     ownedListings: isAdmin ? managedQuery.data ?? [] : [],
@@ -47753,16 +47691,37 @@ function MarketplaceProvider({ children }) {
         )
       }));
     },
-    async saveListing(listing) {
+    async saveListing(listing, editing) {
       if (!actor || isFetching || !isAdmin)
         throw new Error("Only admins can save listings.");
-      if (sampleIds.has(listing.id))
-        throw new Error("Sample listings cannot be edited.");
-      await actor.saveProperty(encodeListing(listing));
-      await Promise.all([
-        queryClient2.invalidateQueries({ queryKey: listingsKey }),
-        queryClient2.invalidateQueries({ queryKey: managedKey })
-      ]);
+      const record = encodeListing(listing);
+      if (editing) await actor.updateProperty(record);
+      else await actor.saveProperty(record);
+      await refreshListings();
+    },
+    async publishListing(id) {
+      if (!actor || isFetching || !isAdmin)
+        throw new Error("Only admins can publish listings.");
+      await actor.publishProperty(id);
+      await refreshListings();
+    },
+    async makeListingDraft(id) {
+      if (!actor || isFetching || !isAdmin)
+        throw new Error("Only admins can make listings drafts.");
+      await actor.makePropertyDraft(id);
+      await hideListing(id, true);
+    },
+    async deleteListing(id) {
+      if (!actor || isFetching || !isAdmin)
+        throw new Error("Only admins can remove listings.");
+      await actor.deleteProperty(id);
+      await hideListing(id, false);
+      if (readSavedItems().favorites.includes(id)) {
+        saveFromBrowse((previous) => ({
+          ...previous,
+          favorites: previous.favorites.filter((favorite) => favorite !== id)
+        }));
+      }
     }
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsx(MarketplaceContext.Provider, { value, children });
@@ -47772,42 +47731,355 @@ function useMarketplace() {
   if (!marketplace) throw new Error("MarketplaceProvider is required.");
   return marketplace;
 }
+const confirmation = {
+  draft: {
+    title: "Make this ad a draft?",
+    description: "The ad will disappear from public listings and Saved. You can publish it again from Manage properties.",
+    confirm: "Make draft",
+    pending: "Making draft…",
+    error: "Couldn’t move the ad to drafts. Try again.",
+    button: "btn-primary"
+  },
+  remove: {
+    title: "Remove this ad?",
+    description: "This permanently deletes the ad and its photos. It will disappear from public listings, Saved, and Manage properties.",
+    confirm: "Remove permanently",
+    pending: "Removing…",
+    error: "Couldn’t remove the ad. Try again.",
+    button: "btn-error"
+  }
+};
+function ListingManagementActions({
+  listing,
+  small,
+  onEdit,
+  onDrafted,
+  onRemoved
+}) {
+  const { canManageListings, makeListingDraft, deleteListing } = useMarketplace();
+  const [action, setAction] = reactExports.useState(null);
+  const [isWorking, setIsWorking] = reactExports.useState(false);
+  const [failed, setFailed] = reactExports.useState(false);
+  const dialog = reactExports.useRef(null);
+  const cancelButton = reactExports.useRef(null);
+  const dialogId = reactExports.useId();
+  reactExports.useEffect(() => {
+    var _a2;
+    if (!action || !canManageListings) return;
+    const element = dialog.current;
+    if (!element) return;
+    element.showModal();
+    (_a2 = cancelButton.current) == null ? void 0 : _a2.focus();
+    return () => {
+      if (element.open) element.close();
+    };
+  }, [action, canManageListings]);
+  if (!canManageListings) return null;
+  function open(nextAction) {
+    setFailed(false);
+    setAction(nextAction);
+  }
+  function close() {
+    var _a2;
+    (_a2 = dialog.current) == null ? void 0 : _a2.close();
+    setAction(null);
+  }
+  async function confirm() {
+    if (!action || isWorking) return;
+    setIsWorking(true);
+    setFailed(false);
+    try {
+      if (action === "remove") await deleteListing(listing.id);
+      else await makeListingDraft(listing.id);
+      close();
+      if (action === "remove") onRemoved == null ? void 0 : onRemoved();
+      else onDrafted == null ? void 0 : onDrafted();
+    } catch {
+      setFailed(true);
+    } finally {
+      setIsWorking(false);
+    }
+  }
+  const copy = action && confirmation[action];
+  const buttonClass = small ? "btn btn-sm" : "btn";
+  const editClass = `${buttonClass} btn-outline border-base-300`;
+  const editLabel = `Edit ${listing.title}`;
+  const editContent = /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Pencil, { className: "size-4", "aria-hidden": "true" }),
+    " Edit"
+  ] });
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center gap-2", children: [
+    onEdit ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "button",
+      {
+        type: "button",
+        className: editClass,
+        "aria-label": editLabel,
+        onClick: onEdit,
+        children: editContent
+      }
+    ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Link,
+      {
+        to: "/properties/$listingId/edit",
+        params: { listingId: listing.id },
+        className: editClass,
+        "aria-label": editLabel,
+        children: editContent
+      }
+    ),
+    listing.status !== "draft" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "button",
+      {
+        type: "button",
+        className: `${buttonClass} btn-outline border-base-300`,
+        "aria-label": `Make draft: ${listing.title}`,
+        onClick: () => open("draft"),
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { className: "size-4", "aria-hidden": "true" }),
+          " Make draft"
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "button",
+      {
+        type: "button",
+        className: `${buttonClass} btn-outline btn-error`,
+        "aria-label": `Remove ${listing.title}`,
+        onClick: () => open("remove"),
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { className: "size-4", "aria-hidden": "true" }),
+          " Remove"
+        ]
+      }
+    ),
+    copy && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "dialog",
+      {
+        ref: dialog,
+        className: "modal",
+        "aria-labelledby": `${dialogId}-title`,
+        "aria-describedby": `${dialogId}-description`,
+        "aria-busy": isWorking,
+        onCancel: (event) => {
+          event.preventDefault();
+          if (!isWorking) close();
+        },
+        onKeyDown: (event) => {
+          if (event.key !== "Escape") return;
+          event.preventDefault();
+          if (!isWorking) close();
+        },
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "modal-box max-w-md border border-base-300 bg-base-100 p-5 sm:p-7", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "h2",
+            {
+              id: `${dialogId}-title`,
+              className: "font-editorial text-3xl leading-tight tracking-tight",
+              children: copy.title
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 font-semibold break-words", children: listing.title }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "p",
+            {
+              id: `${dialogId}-description`,
+              className: "mt-2 text-sm leading-relaxed text-base-content/75",
+              children: copy.description
+            }
+          ),
+          failed && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "mt-4 text-sm text-error", children: copy.error }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 flex flex-wrap justify-end gap-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                ref: cancelButton,
+                type: "button",
+                className: "btn btn-ghost",
+                disabled: isWorking,
+                onClick: close,
+                children: "Cancel"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                type: "button",
+                className: `btn ${copy.button}`,
+                disabled: isWorking,
+                onClick: confirm,
+                children: isWorking ? copy.pending : copy.confirm
+              }
+            )
+          ] })
+        ] })
+      }
+    )
+  ] });
+}
+function PropertyPhotoDialog({
+  images,
+  imageDescriptions,
+  title,
+  activeIndex,
+  onStep,
+  dialogRef
+}) {
+  if (!images.length) return null;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "dialog",
+    {
+      className: "modal",
+      "aria-label": `${title} photo gallery`,
+      ref: dialogRef,
+      onKeyDown: (event) => {
+        if (images.length < 2) return;
+        if (event.key === "ArrowLeft") onStep(-1);
+        if (event.key === "ArrowRight") onStep(1);
+      },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "modal-box max-w-5xl bg-base-100 p-3 sm:p-5", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 flex items-center justify-between gap-4", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "truncate px-1 text-sm font-semibold", children: title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("form", { method: "dialog", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                type: "submit",
+                className: "btn btn-ghost btn-square btn-sm",
+                "aria-label": "Close gallery",
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "size-5", "aria-hidden": "true" })
+              }
+            ) })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative grid h-[min(65vh,45rem)] place-items-center overflow-hidden rounded-box bg-base-200", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "img",
+              {
+                className: "h-full min-h-0 w-full object-contain",
+                src: images[activeIndex] ?? images[0],
+                alt: (imageDescriptions == null ? void 0 : imageDescriptions[activeIndex]) || title
+              }
+            ),
+            images.length > 1 && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  className: "absolute inset-y-0 left-0 w-1/2 cursor-pointer focus-visible:-outline-offset-4",
+                  "aria-label": "Previous photo",
+                  onClick: () => onStep(-1)
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  className: "absolute inset-y-0 right-0 w-1/2 cursor-pointer focus-visible:-outline-offset-4",
+                  "aria-label": "Next photo",
+                  onClick: () => onStep(1)
+                }
+              )
+            ] })
+          ] }),
+          images.length > 1 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex items-center justify-between", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                type: "button",
+                className: "btn btn-ghost btn-sm",
+                onClick: () => onStep(-1),
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowLeft, { className: "size-4", "aria-hidden": "true" }),
+                  "Previous"
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "p",
+              {
+                className: "text-sm tabular-nums text-base-content/65",
+                "aria-live": "polite",
+                children: [
+                  activeIndex + 1,
+                  " of ",
+                  images.length
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                type: "button",
+                className: "btn btn-ghost btn-sm",
+                onClick: () => onStep(1),
+                children: [
+                  "Next",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4", "aria-hidden": "true" })
+                ]
+              }
+            )
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("form", { method: "dialog", className: "modal-backdrop", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", tabIndex: -1, children: "Close gallery" }) })
+      ]
+    }
+  );
+}
+const imageAspect = "aspect-[1.53]";
+const photoButtonClass = "btn btn-circle pointer-events-auto absolute size-11 border-neutral-content/25 bg-neutral/75 p-0 text-neutral-content shadow-sm hover:border-neutral-content/40 hover:bg-neutral/90 focus-visible:outline-neutral-content";
 function PropertyCard({
   listing,
   isFavorite,
-  onToggleFavorite
+  onToggleFavorite,
+  managementActions,
+  showPhotoControls = false
 }) {
   var _a2;
+  const photoDialog = reactExports.useRef(null);
+  const [photoIndex, setPhotoIndex] = reactExports.useState(0);
+  const photoCount = listing.images.length;
+  const activeIndex = photoCount > 0 ? photoIndex % photoCount : 0;
+  const activePhoto = listing.images[activeIndex];
+  function stepPhoto(offset) {
+    if (photoCount < 2) return;
+    setPhotoIndex((index2) => (index2 + offset + photoCount) % photoCount);
+  }
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "card group relative h-full overflow-hidden rounded-box border border-base-300 bg-base-100 shadow-sm transition-shadow hover:shadow-md", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       Link,
       {
         to: "/properties/$listingId",
         params: { listingId: listing.id },
-        className: "flex h-full flex-col rounded-box focus-visible:-outline-offset-3",
+        className: "flex grow flex-col rounded-box focus-visible:-outline-offset-3",
         children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative isolate grid aspect-[1.53] place-items-center overflow-hidden bg-base-200", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(House, { "aria-hidden": "true", className: "size-10 text-base-content/35" }),
-            listing.images[0] && /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "img",
-              {
-                src: listing.images[0],
-                alt: ((_a2 = listing.imageDescriptions) == null ? void 0 : _a2[0]) ?? "",
-                loading: "lazy",
-                decoding: "async",
-                onError: (event) => {
-                  event.currentTarget.hidden = true;
-                },
-                className: "absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105"
-              },
-              listing.images[0]
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge absolute top-3.5 left-3.5 h-7 rounded-full border-base-100/50 bg-base-100/95 px-3 text-[11px] font-semibold text-base-content shadow-sm", children: listing.type })
-          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: `relative isolate grid ${imageAspect} place-items-center overflow-hidden bg-base-200`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(House, { "aria-hidden": "true", className: "size-10 text-base-content/35" }),
+                activePhoto && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "img",
+                  {
+                    src: activePhoto,
+                    alt: ((_a2 = listing.imageDescriptions) == null ? void 0 : _a2[activeIndex]) ?? "",
+                    loading: "lazy",
+                    decoding: "async",
+                    onError: (event) => {
+                      event.currentTarget.hidden = true;
+                    },
+                    className: "absolute inset-0 size-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105"
+                  },
+                  activePhoto
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge absolute top-3.5 left-3.5 h-7 rounded-full border-base-100/50 bg-base-100/95 px-3 text-[11px] font-semibold text-base-content shadow-sm", children: listing.type })
+              ]
+            }
+          ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex grow flex-col px-4.5 pt-4.5 sm:px-5 sm:pt-5", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between gap-2", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xl font-bold tracking-tight", children: formatPrice(listing.price) }),
-              listing.demo && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-sm border-base-300 bg-base-200 text-base-content/70", children: "Sample" }),
               listing.status === "pending" && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-soft badge-warning", children: "Pending" }),
               listing.status === "sold" && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-soft badge-neutral", children: "Sold" })
             ] }),
@@ -47836,6 +48108,68 @@ function PropertyCard({
         ]
       }
     ),
+    showPhotoControls && photoCount > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: `pointer-events-none absolute inset-x-0 top-0 z-10 ${imageAspect}`,
+          children: [
+            photoCount > 1 && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  className: `${photoButtonClass} top-1/2 left-2 -translate-y-1/2`,
+                  "aria-label": "Previous photo",
+                  onClick: () => stepPhoto(-1),
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronLeft, { className: "size-5", "aria-hidden": "true" })
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  className: `${photoButtonClass} top-1/2 right-2 -translate-y-1/2`,
+                  "aria-label": "Next photo",
+                  onClick: () => stepPhoto(1),
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { className: "size-5", "aria-hidden": "true" })
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("output", { className: "absolute bottom-3 left-3 rounded-full border border-neutral-content/25 bg-neutral/75 px-2.5 py-1 text-xs font-semibold text-neutral-content tabular-nums shadow-sm", children: [
+              activeIndex + 1,
+              " / ",
+              photoCount
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                type: "button",
+                className: `${photoButtonClass} right-2 bottom-2`,
+                "aria-label": "Expand photos",
+                "aria-haspopup": "dialog",
+                onClick: () => {
+                  var _a3;
+                  return (_a3 = photoDialog.current) == null ? void 0 : _a3.showModal();
+                },
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(Maximize2, { className: "size-4", "aria-hidden": "true" })
+              }
+            )
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        PropertyPhotoDialog,
+        {
+          dialogRef: photoDialog,
+          title: listing.title,
+          images: listing.images,
+          imageDescriptions: listing.imageDescriptions,
+          activeIndex,
+          onStep: stepPhoto
+        }
+      )
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       "button",
       {
@@ -47852,7 +48186,8 @@ function PropertyCard({
           }
         )
       }
-    )
+    ),
+    managementActions && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "border-t border-base-300 px-4.5 py-3 sm:px-5", children: managementActions })
   ] });
 }
 const tileSize = 256;
@@ -48042,7 +48377,7 @@ function PropertyMap({
                 "div",
                 {
                   "aria-hidden": "true",
-                  className: "pointer-events-none absolute inset-0 opacity-85 saturate-50 [[data-theme=market-dark]_&]:opacity-60 [[data-theme=market-dark]_&]:invert",
+                  className: "pointer-events-none absolute inset-0 opacity-85 grayscale [[data-theme=market-dark]_&]:opacity-60 [[data-theme=market-dark]_&]:invert",
                   children: tiles.filter(({ url }) => !failedTiles.has(url)).map(({ key, url, left, top }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
                     "img",
                     {
@@ -48263,34 +48598,24 @@ function DiscoveryHero({
           src: "/assets/properties/hero.webp",
           alt: "",
           fetchPriority: "high",
-          className: "absolute inset-0 -z-20 size-full object-cover object-[58%_52%]"
+          className: "absolute inset-0 -z-20 size-full object-cover object-[58%_52%] contrast-110 grayscale"
         }
       ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 -z-10 bg-linear-to-r from-neutral/95 via-neutral/60 to-neutral/10" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 -z-10 bg-linear-to-r from-neutral/95 via-neutral/80 via-65% to-neutral/65 sm:via-60% sm:to-neutral/25 lg:via-54% lg:to-neutral/10" }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex max-w-3xl flex-col justify-center px-6 pt-9 pb-12 sm:px-11 sm:pb-20 lg:px-16", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mb-5 flex items-center gap-3 text-[.68rem] font-semibold tracking-[.23em] uppercase", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "span",
-            {
-              className: "h-px w-7 bg-current opacity-65",
-              "aria-hidden": "true"
-            }
-          ),
-          "The real estate edit"
-        ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "h1",
           {
             id: "discovery-title",
-            className: "font-editorial text-[clamp(2.5rem,12vw,3.5rem)] leading-[.93] tracking-[-.045em] sm:text-[clamp(3.5rem,6.1vw,6.15rem)]",
+            className: "font-editorial text-[clamp(2.5rem,12vw,3.5rem)] leading-[.94] font-semibold tracking-[-.06em] sm:text-[clamp(3.5rem,6.1vw,6.15rem)]",
             children: [
               "Find your next",
               /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("em", { className: "font-normal", children: "chapter." })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-normal", children: "chapter." })
             ]
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-sm text-sm leading-relaxed text-neutral-content/85 sm:mt-6 sm:text-base", children: "Discover distinctive homes and investment opportunities in Tbilisi, Georgia." })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-sm text-sm leading-relaxed text-neutral-content/90 sm:mt-6 sm:text-base", children: "Explore homes and investment properties in Tbilisi, Georgia." })
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -48549,6 +48874,7 @@ function DiscoveryPage() {
     listings,
     listingsLoading,
     listingsError,
+    canManageListings,
     retryListings,
     favorites,
     toggleFavorite,
@@ -48584,8 +48910,14 @@ function DiscoveryPage() {
     filters.maxArea,
     filters.bedrooms
   ].filter(Boolean).length;
+  const hasPublishedListings = listings.length > 0;
   function applyFilters(next) {
     void navigate({ search: next, resetScroll: false });
+  }
+  function handleListingHidden(id) {
+    var _a2;
+    setSelectedId((current) => current === id ? void 0 : current);
+    (_a2 = resultsRef.current) == null ? void 0 : _a2.focus({ preventScroll: true });
   }
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "market-container pb-16 sm:pb-22", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -48693,16 +49025,12 @@ function DiscoveryPage() {
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center justify-between gap-2 py-3.5 sm:py-4", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center gap-x-3 gap-y-1", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "p",
                 {
                   "aria-live": "polite",
                   className: "text-sm font-medium text-base-content/65",
-                  children: [
-                    filtered.length,
-                    " ",
-                    filtered.length === 1 ? "property" : "properties"
-                  ]
+                  children: !listingsLoading && !listingsError || hasPublishedListings ? `${filtered.length} ${filtered.length === 1 ? "property" : "properties"}` : ""
                 }
               ),
               active && /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -48767,7 +49095,7 @@ function DiscoveryPage() {
                       "aria-hidden": "true"
                     }
                   ),
-                  "Live listings are unavailable. You can still browse sample properties."
+                  "Properties couldn’t be loaded."
                 ] }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "button",
@@ -48788,9 +49116,9 @@ function DiscoveryPage() {
                 "aria-hidden": "true"
               }
             ),
-            "Loading live listings…"
+            "Loading properties…"
           ] }) : null,
-          filtered.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-box border border-dashed border-base-300 bg-base-200 px-6 py-14 text-center", children: [
+          filtered.length === 0 ? !listingsLoading && !listingsError && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-box border border-dashed border-base-300 bg-base-200 px-6 py-14 text-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               Search,
               {
@@ -48798,9 +49126,9 @@ function DiscoveryPage() {
                 "aria-hidden": "true"
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-editorial text-3xl", children: listingsLoading || listingsError ? "No matching sample properties" : "No matching properties" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/70", children: "Try a broader location or adjust your price and property filters." }),
-            active && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-editorial text-3xl", children: hasPublishedListings ? "No matching properties" : "No properties listed yet" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/70", children: hasPublishedListings ? "Try a broader location or adjust your price and property filters." : "New listings will appear here when they’re published." }),
+            active && hasPublishedListings && /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
               {
                 type: "button",
@@ -48863,7 +49191,16 @@ function DiscoveryPage() {
                             }
                           )
                         ] })
-                      ] })
+                      ] }),
+                      canManageListings && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "col-span-2 border-t border-base-300 pt-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        ListingManagementActions,
+                        {
+                          listing,
+                          small: true,
+                          onDrafted: () => handleListingHidden(listing.id),
+                          onRemoved: () => handleListingHidden(listing.id)
+                        }
+                      ) })
                     ]
                   },
                   listing.id
@@ -48884,7 +49221,17 @@ function DiscoveryPage() {
             {
               listing,
               isFavorite: favorites.includes(listing.id),
-              onToggleFavorite: toggleFavorite
+              onToggleFavorite: toggleFavorite,
+              showPhotoControls: true,
+              managementActions: canManageListings && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ListingManagementActions,
+                {
+                  listing,
+                  small: true,
+                  onDrafted: () => handleListingHidden(listing.id),
+                  onRemoved: () => handleListingHidden(listing.id)
+                }
+              )
             },
             listing.id
           )) })
@@ -48985,32 +49332,45 @@ function Brand({
   iconOnly = false,
   onNavigate
 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
     Link,
     {
       to: "/",
       search: {},
       onClick: onNavigate,
       "aria-label": `${brand.name} home`,
-      className: "inline-flex w-fit shrink-0 items-center gap-2 text-base-content sm:gap-2.5",
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "grid size-8 place-items-center rounded-xl bg-primary text-primary-content sm:size-9", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "svg",
+      className: "inline-flex w-fit min-w-0 max-w-full items-center",
+      children: iconOnly ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "img",
+        {
+          src: brand.icon,
+          alt: "",
+          width: "36",
+          height: "36",
+          className: "size-9"
+        }
+      ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "img",
           {
-            viewBox: "0 0 32 32",
-            width: "24",
-            height: "24",
-            fill: "none",
-            stroke: "currentColor",
-            strokeWidth: "1.45",
-            strokeLinecap: "round",
-            strokeLinejoin: "round",
-            "aria-hidden": "true",
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: brand.mark })
+            src: brand.logo,
+            alt: "",
+            width: "486",
+            height: "60",
+            className: "block h-auto w-32 max-w-full sm:w-40 [[data-theme=market-dark]_&]:hidden"
           }
-        ) }),
-        !iconOnly && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-editorial text-[1.4rem] leading-none tracking-[-0.06em] sm:text-[1.65rem]", children: brand.name })
-      ]
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "img",
+          {
+            src: brand.logoInverse,
+            alt: "",
+            width: "486",
+            height: "60",
+            className: "hidden h-auto w-32 max-w-full sm:w-40 [[data-theme=market-dark]_&]:block"
+          }
+        )
+      ] })
     }
   );
 }
@@ -49053,16 +49413,7 @@ function MarketplaceHeader({
           children: /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 21, "aria-hidden": "true" })
         }
       ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        Link,
-        {
-          to: "/",
-          search: {},
-          "aria-label": `${brand.name} home`,
-          className: "truncate font-editorial text-[1.4rem] leading-none tracking-[-0.06em] sm:text-[1.65rem]",
-          children: brand.name
-        }
-      )
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Brand, {})
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex shrink-0 items-center gap-1 sm:gap-2.5", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -49359,7 +49710,7 @@ function PropertyGallery({
                       {
                         className: "h-full w-full object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-105",
                         src: images[0],
-                        alt: (imageDescriptions == null ? void 0 : imageDescriptions[0]) ?? title,
+                        alt: (imageDescriptions == null ? void 0 : imageDescriptions[0]) || title,
                         fetchPriority: "high"
                       }
                     )
@@ -49407,82 +49758,54 @@ function PropertyGallery({
         ]
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "dialog",
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      PropertyPhotoDialog,
       {
-        className: "modal",
-        "aria-label": `${title} photo gallery`,
-        ref: gallery,
-        onKeyDown: (event) => {
-          if (images.length < 2) return;
-          if (event.key === "ArrowLeft") stepGallery(-1);
-          if (event.key === "ArrowRight") stepGallery(1);
-        },
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "modal-box max-w-5xl bg-base-100 p-3 sm:p-5", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 flex items-center justify-between gap-4", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "truncate px-1 text-sm font-semibold", children: title }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("form", { method: "dialog", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  type: "submit",
-                  className: "btn btn-ghost btn-square btn-sm",
-                  "aria-label": "Close gallery",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "size-5", "aria-hidden": "true" })
-                }
-              ) })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid h-[min(65vh,45rem)] place-items-center overflow-hidden rounded-box bg-base-200", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "img",
-              {
-                className: "h-full min-h-0 w-full object-contain",
-                src: images[activeIndex] ?? images[0],
-                alt: (imageDescriptions == null ? void 0 : imageDescriptions[activeIndex]) ?? title
-              }
-            ) }),
-            images.length > 1 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex items-center justify-between", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                "button",
-                {
-                  type: "button",
-                  className: "btn btn-ghost btn-sm",
-                  onClick: () => stepGallery(-1),
-                  children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowLeft, { className: "size-4", "aria-hidden": "true" }),
-                    "Previous"
-                  ]
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                "p",
-                {
-                  className: "text-sm tabular-nums text-base-content/65",
-                  "aria-live": "polite",
-                  children: [
-                    activeIndex + 1,
-                    " of ",
-                    images.length
-                  ]
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                "button",
-                {
-                  type: "button",
-                  className: "btn btn-ghost btn-sm",
-                  onClick: () => stepGallery(1),
-                  children: [
-                    "Next",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4", "aria-hidden": "true" })
-                  ]
-                }
-              )
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("form", { method: "dialog", className: "modal-backdrop", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", tabIndex: -1, children: "Close gallery" }) })
-        ]
+        images,
+        imageDescriptions,
+        title,
+        activeIndex,
+        onStep: stepGallery,
+        dialogRef: gallery
       }
     )
+  ] });
+}
+function PublishListingButton({
+  id,
+  title,
+  small,
+  onPublished
+}) {
+  const { publishListing } = useMarketplace();
+  const [isPublishing, setIsPublishing] = reactExports.useState(false);
+  const [publishFailed, setPublishFailed] = reactExports.useState(false);
+  async function publish() {
+    setIsPublishing(true);
+    setPublishFailed(false);
+    try {
+      await publishListing(id);
+      onPublished == null ? void 0 : onPublished();
+    } catch {
+      setPublishFailed(true);
+    } finally {
+      setIsPublishing(false);
+    }
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-end gap-1", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "button",
+      {
+        type: "button",
+        className: small ? "btn btn-primary btn-sm" : "btn btn-primary",
+        "aria-label": `Publish ${title}`,
+        "aria-busy": isPublishing,
+        disabled: isPublishing,
+        onClick: publish,
+        children: isPublishing ? "Publishing…" : "Publish"
+      }
+    ),
+    publishFailed && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "max-w-44 text-right text-sm text-error", children: "Couldn’t publish this listing. Try again." })
   ] });
 }
 const listingStatusLabels = {
@@ -49544,7 +49867,7 @@ function updateImportedField(field, value) {
   const text2 = value == null ? field.defaultValue : String(value);
   field.value = field.maxLength >= 0 ? text2.slice(0, field.maxLength) : text2;
 }
-function readListingForm(data, images, id, existing) {
+function readListingForm(data, photos, id, existing) {
   const text2 = (field) => String(data.get(field) ?? "").trim();
   const number2 = (field) => {
     const value = text2(field);
@@ -49586,6 +49909,9 @@ function readListingForm(data, images, id, existing) {
   }
   const now2 = (/* @__PURE__ */ new Date()).toISOString();
   const priceHistory = (existing == null ? void 0 : existing.priceHistory) ?? (existing ? [{ price: existing.price, date: existing.listedAt }] : []);
+  const imageDescriptions = photos.map(
+    ({ description: description22 }) => (description22 == null ? void 0 : description22.trim()) ?? ""
+  );
   return {
     ...existing,
     id,
@@ -49607,13 +49933,9 @@ function readListingForm(data, images, id, existing) {
     condition: text2("condition") || void 0,
     buildingType: text2("buildingType") || void 0,
     coordinates: latitude != null && longitude != null ? { latitude, longitude } : void 0,
-    images,
-    imageDescriptions: (existing == null ? void 0 : existing.imageDescriptions) ? images.map(
-      (image) => {
-        var _a2;
-        return ((_a2 = existing.imageDescriptions) == null ? void 0 : _a2[existing.images.indexOf(image)]) ?? "";
-      }
-    ) : void 0,
+    images: photos.map(({ source }) => source),
+    imageDescriptions: imageDescriptions.some(Boolean) ? imageDescriptions : void 0,
+    featured: data.has("featured"),
     status: text2("status"),
     listedAt: (existing == null ? void 0 : existing.listedAt) ?? now2,
     amenities: [
@@ -49693,10 +50015,7 @@ function DetailSection({
     }
   );
 }
-function SellerContact({
-  listing,
-  isSample
-}) {
+function SellerContact({ listing }) {
   var _a2;
   const { seller } = listing;
   const email = seller.email ? `mailto:${encodeURIComponent(seller.email).replace("%40", "@")}` : void 0;
@@ -49710,7 +50029,7 @@ function SellerContact({
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm text-base-content/65", children: seller.role })
       ] })
     ] }),
-    isSample ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 rounded-field bg-base-200 px-4 py-3 text-sm leading-relaxed text-base-content/70", children: "This sample listing illustrates the marketplace. Seller contact is unavailable." }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 grid gap-2.5", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 grid gap-2.5", children: [
       email && /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "a",
         {
@@ -49756,6 +50075,7 @@ I would like to arrange a viewing of ${listing.title}. My preferred times are:
 }
 function PropertyDetailPage({ listingId }) {
   var _a2, _b2;
+  const navigate = useNavigate();
   const {
     listings,
     listingsLoading,
@@ -49771,6 +50091,7 @@ function PropertyDetailPage({ listingId }) {
   const [shareState, setShareState] = reactExports.useState(
     "idle"
   );
+  const titleHeading = reactExports.useRef(null);
   const listing = ownedListings.find((item) => item.id === listingId) ?? listings.find((item) => item.id === listingId);
   if (!listing) {
     if (listingsLoading || ownedListingsLoading) {
@@ -49814,7 +50135,6 @@ function PropertyDetailPage({ listingId }) {
       ] })
     ] });
   }
-  const isSample = listing.demo === true;
   const isDraft = listing.status === "draft";
   const isFavorite = favorites.includes(listing.id);
   const pricePerArea = listing.areaM2 ? formatPrice(Math.round(listing.price / listing.areaM2)) : void 0;
@@ -49881,10 +50201,17 @@ function PropertyDetailPage({ listingId }) {
               className: `badge ${listing.status === "available" ? "badge-soft badge-success" : "badge-outline"}`,
               children: listingStatusLabels[listing.status]
             }
-          ),
-          isSample && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-outline border-base-300 text-base-content/70", children: "Sample listing" })
+          )
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "max-w-[17ch] font-editorial text-[clamp(2.5rem,5.4vw,4.6rem)] leading-[0.98] tracking-[-0.045em] break-words", children: listing.title }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "h1",
+          {
+            ref: titleHeading,
+            tabIndex: -1,
+            className: "max-w-[17ch] font-editorial text-[clamp(2.5rem,5.4vw,4.6rem)] leading-[0.98] tracking-[-0.045em] break-words focus:outline-none",
+            children: listing.title
+          }
+        ),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-4 flex items-start gap-2 text-sm text-base-content/70 sm:text-base", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             MapPin,
@@ -49896,36 +50223,51 @@ function PropertyDetailPage({ listingId }) {
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: address })
         ] })
       ] }),
-      !isDraft && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center gap-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-w-0 flex-wrap items-center gap-2", children: [
+        isDraft ? /* @__PURE__ */ jsxRuntimeExports.jsx(PublishListingButton, { id: listing.id, title: listing.title }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              type: "button",
+              className: "btn btn-outline border-base-300",
+              onClick: shareListing,
+              children: [
+                shareState === "copied" ? /* @__PURE__ */ jsxRuntimeExports.jsx(Check, { className: "size-4", "aria-hidden": "true" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Share2, { className: "size-4", "aria-hidden": "true" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-live": "polite", children: shareState === "copied" ? "Link copied" : "Share" })
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              type: "button",
+              className: `btn btn-outline ${isFavorite ? "border-primary text-primary" : "border-base-300"}`,
+              "aria-pressed": isFavorite,
+              onClick: () => toggleFavorite(listing.id),
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  Heart,
+                  {
+                    className: `size-4 ${isFavorite ? "fill-current" : ""}`,
+                    "aria-hidden": "true"
+                  }
+                ),
+                isFavorite ? "Saved" : "Save property"
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ListingManagementActions,
           {
-            type: "button",
-            className: "btn btn-outline border-base-300",
-            onClick: shareListing,
-            children: [
-              shareState === "copied" ? /* @__PURE__ */ jsxRuntimeExports.jsx(Check, { className: "size-4", "aria-hidden": "true" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Share2, { className: "size-4", "aria-hidden": "true" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-live": "polite", children: shareState === "copied" ? "Link copied" : "Share" })
-            ]
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            type: "button",
-            className: `btn btn-outline ${isFavorite ? "border-primary text-primary" : "border-base-300"}`,
-            "aria-pressed": isFavorite,
-            onClick: () => toggleFavorite(listing.id),
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Heart,
-                {
-                  className: `size-4 ${isFavorite ? "fill-current" : ""}`,
-                  "aria-hidden": "true"
-                }
-              ),
-              isFavorite ? "Saved" : "Save property"
-            ]
+            listing,
+            onDrafted: () => {
+              var _a3;
+              return (_a3 = titleHeading.current) == null ? void 0 : _a3.focus();
+            },
+            onRemoved: () => {
+              void navigate({ to: isDraft ? "/sell" : "/", replace: true });
+            }
           }
         )
       ] }),
@@ -50006,7 +50348,7 @@ function PropertyDetailPage({ listingId }) {
             amenity
           )) }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs(DetailSection, { id: "location", title: "Explore the location", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-4 text-sm text-base-content/70", children: isSample ? `Neighborhood preview · ${listing.neighborhood}, ${listing.city}` : address }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-4 text-sm text-base-content/70", children: address }),
             listing.coordinates && /* @__PURE__ */ jsxRuntimeExports.jsx(
               PropertyMap,
               {
@@ -50077,7 +50419,7 @@ function PropertyDetailPage({ listingId }) {
           className: "order-2 grid gap-4 lg:sticky lg:top-28",
           "aria-label": "Seller information",
           children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(SellerContact, { listing, isSample }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(SellerContact, { listing }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between gap-3 rounded-box border border-base-300 px-5 py-4 text-xs text-base-content/70", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
                 "Listed",
@@ -50101,200 +50443,6 @@ function PropertyDetailPage({ listingId }) {
         }
       )
     ] })
-  ] });
-}
-function SavedPage() {
-  const { listings, favorites, savedSearches, toggleFavorite, removeSearch } = useMarketplace();
-  const [comparison, setComparison] = reactExports.useState([]);
-  const saved = listings.filter((listing) => favorites.includes(listing.id));
-  const compared = saved.filter((listing) => comparison.includes(listing.id));
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "market-container space-y-12 py-10 md:py-16", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-3 text-xs font-bold tracking-widest text-primary uppercase", children: "Your shortlist" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-5xl tracking-tight sm:text-6xl", children: "Saved properties" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-xl text-base-content/75", children: "Revisit the places that caught your eye and compare up to three properties side by side." })
-    ] }),
-    saved.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "section",
-      {
-        "aria-label": "Saved properties",
-        className: "grid gap-5 sm:grid-cols-2 lg:grid-cols-3",
-        children: saved.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            PropertyCard,
-            {
-              listing,
-              isFavorite: true,
-              onToggleFavorite: (id) => {
-                toggleFavorite(id);
-                setComparison(
-                  (current) => current.filter((item) => item !== id)
-                );
-              }
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "label min-h-10 cursor-pointer px-2 text-sm text-base-content/75", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "input",
-              {
-                type: "checkbox",
-                className: "checkbox checkbox-primary checkbox-sm",
-                checked: comparison.includes(listing.id),
-                disabled: compared.length >= 3 && !comparison.includes(listing.id),
-                onChange: (event) => {
-                  const checked = event.target.checked;
-                  setComparison(
-                    (current) => checked ? [...current, listing.id] : current.filter((id) => id !== listing.id)
-                  );
-                }
-              }
-            ),
-            "Compare ",
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sr-only", children: listing.title })
-          ] })
-        ] }, listing.id))
-      }
-    ) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-box border border-base-300 bg-base-200 px-6 py-12 text-center", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        Heart,
-        {
-          "aria-hidden": "true",
-          className: "mx-auto mb-4 size-7 text-primary"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-editorial text-3xl", children: "Your shortlist starts here" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/75", children: "Select the heart on any property to save it here." }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "btn btn-primary mt-5", children: "Explore properties" })
-    ] }),
-    compared.length >= 2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-4", "aria-labelledby": "comparison-title", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "h2",
-        {
-          id: "comparison-title",
-          className: "font-editorial text-3xl tracking-tight",
-          children: "Compare properties"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto rounded-box border border-base-300", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "table min-w-max", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { className: "bg-base-200 text-base-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "col", children: "Property" }),
-          compared.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "col", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-            Link,
-            {
-              to: "/properties/$listingId",
-              params: { listingId: listing.id },
-              className: "link link-hover text-primary",
-              children: listing.title
-            }
-          ) }, listing.id))
-        ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: [
-          {
-            label: "Price",
-            format: (listing) => formatPrice(listing.price)
-          },
-          {
-            label: "Price per m²",
-            format: (listing) => formatPrice(listing.price / listing.areaM2)
-          },
-          { label: "Location", format: formatLocation },
-          {
-            label: "Property type",
-            format: (listing) => listing.type
-          },
-          {
-            label: "Area",
-            format: (listing) => formatArea(listing.areaM2)
-          },
-          {
-            label: "Bedrooms",
-            format: (listing) => listing.bedrooms ?? "—"
-          },
-          {
-            label: "Bathrooms",
-            format: (listing) => listing.bathrooms ?? "—"
-          }
-        ].map(({ label: label2, format }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "row", children: label2 }),
-          compared.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: format(listing) }, listing.id))
-        ] }, label2)) })
-      ] }) })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "section",
-      {
-        "aria-labelledby": "saved-search-title",
-        className: "space-y-4 border-t border-base-300 pt-8",
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "h2",
-            {
-              id: "saved-search-title",
-              className: "font-editorial text-3xl tracking-tight",
-              children: "Saved searches"
-            }
-          ),
-          savedSearches.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "divide-y divide-base-300 rounded-box border border-base-300", children: savedSearches.map(({ id, ...filters }) => {
-            const description2 = [
-              filters.location,
-              filters.propertyType,
-              filters.minPrice && `From ${formatPrice(Number(filters.minPrice))}`,
-              filters.maxPrice && `Up to ${formatPrice(Number(filters.maxPrice))}`,
-              filters.bedrooms && `${filters.bedrooms}+ bedrooms`,
-              filters.minArea && `From ${formatArea(Number(filters.minArea))}`,
-              filters.maxArea && `Up to ${formatArea(Number(filters.maxArea))}`
-            ].filter(Boolean).join(" · ") || "All properties";
-            return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "li",
-              {
-                className: "flex items-center justify-between gap-2 p-3 sm:p-4",
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                    Link,
-                    {
-                      to: "/",
-                      search: filters,
-                      hash: "properties",
-                      className: "group flex min-w-0 items-center gap-2 text-sm font-semibold text-primary sm:gap-3",
-                      children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx(
-                          Bookmark,
-                          {
-                            size: 17,
-                            className: "shrink-0",
-                            "aria-hidden": "true"
-                          }
-                        ),
-                        description2,
-                        /* @__PURE__ */ jsxRuntimeExports.jsx(
-                          ArrowRight,
-                          {
-                            size: 15,
-                            className: "shrink-0 transition-transform group-hover:translate-x-1",
-                            "aria-hidden": "true"
-                          }
-                        )
-                      ]
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      type: "button",
-                      className: "btn btn-ghost btn-circle btn-sm shrink-0 hover:text-error",
-                      "aria-label": `Remove saved search: ${description2}`,
-                      onClick: () => removeSearch(id),
-                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 17, "aria-hidden": "true" })
-                    }
-                  )
-                ]
-              },
-              id
-            );
-          }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/75", children: "Save a search from Explore to return to the same filters later." })
-        ]
-      }
-    )
   ] });
 }
 function MyHomeImportPanel({
@@ -50507,6 +50655,7 @@ function MyHomeImportPanel({
     }
   );
 }
+const sellerRoles = ["Owner", "Real estate agent", "Property developer"];
 function Field({ label: label2, required, ...props }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex min-w-0 flex-col gap-2", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-sm font-semibold", children: [
@@ -50533,9 +50682,16 @@ function FormSection({
 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("fieldset", { className: "grid gap-4 rounded-box border border-base-300 bg-base-100 p-5 sm:grid-cols-2 sm:p-7", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "px-2 font-editorial text-2xl tracking-tight", children: title }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/70 sm:col-span-2", children: description2 }),
+    description2 && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/70 sm:col-span-2", children: description2 }),
     children
   ] });
+}
+function editableSource(source) {
+  var _a2;
+  return source && {
+    ...source,
+    facts: ((_a2 = source.facts) == null ? void 0 : _a2.map((fact, key) => ({ ...fact, key }))) ?? []
+  };
 }
 function ListingEditor({
   listing,
@@ -50549,11 +50705,15 @@ function ListingEditor({
   const editedFields = reactExports.useRef(/* @__PURE__ */ new Set());
   const previousImportFields = reactExports.useRef([]);
   const [listingId] = reactExports.useState(() => (listing == null ? void 0 : listing.id) ?? crypto.randomUUID());
-  const [source, setSource] = reactExports.useState(
-    listing == null ? void 0 : listing.source
-  );
+  const [source, setSource] = reactExports.useState(() => editableSource(listing == null ? void 0 : listing.source));
   const [photos, setPhotos] = reactExports.useState(
-    () => (listing == null ? void 0 : listing.images.map((source2) => ({ source: source2 }))) ?? []
+    () => (listing == null ? void 0 : listing.images.map((source2, index2) => {
+      var _a3;
+      return {
+        source: source2,
+        description: (_a3 = listing.imageDescriptions) == null ? void 0 : _a3[index2]
+      };
+    })) ?? []
   );
   const [isImporting, setIsImporting] = reactExports.useState(false);
   const [isPreparing, setIsPreparing] = reactExports.useState(false);
@@ -50561,6 +50721,7 @@ function ListingEditor({
   const [photoError, setPhotoError] = reactExports.useState("");
   const [saveError, setSaveError] = reactExports.useState("");
   const title = listing ? "Edit property" : "Create a property listing";
+  const sellerRole = (listing == null ? void 0 : listing.seller.role) || "Owner";
   reactExports.useEffect(() => {
     var _a3;
     (_a3 = heading.current) == null ? void 0 : _a3.focus();
@@ -50601,9 +50762,14 @@ function ListingEditor({
       ...uploaded,
       ...added.map((source2) => ({ source: source2, imported: true }))
     ]);
-    setSource({ provider: "myhome", ...imported.source });
+    setSource(editableSource({ provider: "myhome", ...imported.source }));
     setSaveError("");
     return { sourceUrl: imported.source.url, warnings };
+  }
+  function updateSourceFacts(update) {
+    setSource(
+      (current) => current ? { ...current, facts: update(current.facts) } : current
+    );
   }
   async function addPhotos(files) {
     setPhotoError("");
@@ -50633,12 +50799,24 @@ function ListingEditor({
     try {
       const nextListing = readListingForm(
         new FormData(event.currentTarget),
-        photos.map(({ source: source2 }) => source2),
+        photos,
         listingId,
         listing
       );
+      const facts = source == null ? void 0 : source.facts.map(({ label: label2, value }) => ({
+        label: label2.trim(),
+        value: value.trim()
+      })).filter(({ label: label2, value }) => label2 && value);
       setIsSaving(true);
-      await onSave({ ...nextListing, source });
+      await onSave({
+        ...nextListing,
+        source: source && {
+          provider: source.provider,
+          id: source.id,
+          url: source.url,
+          ...(facts == null ? void 0 : facts.length) ? { facts } : {}
+        }
+      });
     } catch (error) {
       setSaveError(
         error instanceof Error ? error.message : "This listing couldn’t be saved."
@@ -50781,6 +50959,18 @@ function ListingEditor({
                           children: Object.entries(listingStatusLabels).map(([value, label2]) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value, children: label2 }, value))
                         }
                       )
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-2.5 self-end rounded-field border border-base-300 px-3 py-2.5 text-sm font-semibold", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "input",
+                        {
+                          type: "checkbox",
+                          name: "featured",
+                          defaultChecked: listing == null ? void 0 : listing.featured,
+                          className: "checkbox checkbox-primary checkbox-sm"
+                        }
+                      ),
+                      "Featured listing"
                     ] })
                   ]
                 }
@@ -50866,35 +51056,55 @@ function ListingEditor({
                   title: "Photos",
                   description: `Add up to ${maxPhotos} photos. The first photo is used as the cover image.`,
                   children: [
-                    photos.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "grid grid-cols-2 gap-3 sm:col-span-2 sm:grid-cols-3 lg:grid-cols-5", children: photos.map(({ source: source2 }, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    photos.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "grid grid-cols-2 gap-3 sm:col-span-2 sm:grid-cols-3 lg:grid-cols-5", children: photos.map(({ source: source2, description: description2 }, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
                       "li",
                       {
-                        className: "relative aspect-4/3 overflow-hidden rounded-box bg-base-200",
+                        className: "grid min-w-0 content-start gap-2",
                         children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative aspect-4/3 overflow-hidden rounded-box bg-base-200", children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx(
+                              "img",
+                              {
+                                src: source2,
+                                alt: `Listing view ${index2 + 1}`,
+                                className: "h-full w-full object-cover"
+                              }
+                            ),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx(
+                              "button",
+                              {
+                                type: "button",
+                                className: "btn btn-square btn-sm absolute top-2 right-2 border-base-300 bg-base-100 text-base-content",
+                                "aria-label": `Remove photo ${index2 + 1}`,
+                                disabled: isPreparing || isImporting,
+                                onClick: () => setPhotos(
+                                  (current) => current.filter(
+                                    (_2, photoIndex) => photoIndex !== index2
+                                  )
+                                ),
+                                children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "size-4", "aria-hidden": "true" })
+                              }
+                            ),
+                            index2 === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-sm absolute bottom-2 left-2 bg-base-100 text-base-content", children: "Cover" })
+                          ] }),
                           /* @__PURE__ */ jsxRuntimeExports.jsx(
-                            "img",
+                            Field,
                             {
-                              src: source2,
-                              alt: `Listing view ${index2 + 1}`,
-                              className: "h-full w-full object-cover"
+                              label: `Photo ${index2 + 1} description`,
+                              placeholder: "Optional",
+                              maxLength: 180,
+                              value: description2 ?? "",
+                              disabled: isImporting,
+                              onChange: (event) => {
+                                const description22 = event.currentTarget.value;
+                                setPhotos(
+                                  (current) => current.map(
+                                    (photo, photoIndex) => photoIndex === index2 ? { ...photo, description: description22 } : photo
+                                  )
+                                );
+                              }
                             }
-                          ),
-                          /* @__PURE__ */ jsxRuntimeExports.jsx(
-                            "button",
-                            {
-                              type: "button",
-                              className: "btn btn-square btn-sm absolute top-2 right-2 border-base-300 bg-base-100 text-base-content",
-                              "aria-label": `Remove photo ${index2 + 1}`,
-                              disabled: isPreparing || isImporting,
-                              onClick: () => setPhotos(
-                                (current) => current.filter(
-                                  (_2, photoIndex) => photoIndex !== index2
-                                )
-                              ),
-                              children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "size-4", "aria-hidden": "true" })
-                            }
-                          ),
-                          index2 === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-sm absolute bottom-2 left-2 bg-base-100 text-base-content", children: "Cover" })
+                          )
                         ]
                       },
                       `${index2}-${source2}`
@@ -50924,6 +51134,84 @@ function ListingEditor({
                     ] }),
                     isPreparing && /* @__PURE__ */ jsxRuntimeExports.jsx("output", { className: "text-sm text-base-content/70 sm:col-span-2", children: "Preparing your photos…" }),
                     photoError && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "text-sm text-error sm:col-span-2", children: photoError })
+                  ]
+                }
+              ),
+              source && (listing || source.facts.length > 0) && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                FormSection,
+                {
+                  title: "MyHome source",
+                  description: source.facts.length ? "Edit or remove imported facts shown on this listing." : void 0,
+                  children: [
+                    listing && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "a",
+                      {
+                        href: source.url,
+                        target: "_blank",
+                        rel: "noreferrer",
+                        className: "link link-primary w-fit text-sm font-semibold sm:col-span-2",
+                        children: [
+                          "Original MyHome ad ",
+                          source.id
+                        ]
+                      }
+                    ),
+                    source.facts.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "grid gap-3 sm:col-span-2", children: source.facts.map((fact, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "li",
+                      {
+                        className: "grid grid-cols-[minmax(0,1fr)_auto] items-end gap-2 rounded-field border border-base-300 p-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto]",
+                        children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "col-span-2 sm:col-span-1", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            Field,
+                            {
+                              label: `Imported fact ${index2 + 1} label`,
+                              value: fact.label,
+                              disabled: isImporting,
+                              maxLength: 100,
+                              onChange: (event) => {
+                                const label2 = event.currentTarget.value;
+                                updateSourceFacts(
+                                  (facts) => facts.map(
+                                    (item) => item.key === fact.key ? { ...item, label: label2 } : item
+                                  )
+                                );
+                              }
+                            }
+                          ) }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            Field,
+                            {
+                              label: `Imported fact ${index2 + 1} value`,
+                              value: fact.value,
+                              disabled: isImporting,
+                              maxLength: 500,
+                              onChange: (event) => {
+                                const value = event.currentTarget.value;
+                                updateSourceFacts(
+                                  (facts) => facts.map(
+                                    (item) => item.key === fact.key ? { ...item, value } : item
+                                  )
+                                );
+                              }
+                            }
+                          ),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            "button",
+                            {
+                              type: "button",
+                              className: "btn btn-square btn-ghost",
+                              "aria-label": `Remove imported fact ${index2 + 1}`,
+                              disabled: isImporting,
+                              onClick: () => updateSourceFacts(
+                                (facts) => facts.filter((item) => item.key !== fact.key)
+                              ),
+                              children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "size-4", "aria-hidden": "true" })
+                            }
+                          )
+                        ]
+                      },
+                      fact.key
+                    )) })
                   ]
                 }
               ),
@@ -51081,11 +51369,10 @@ function ListingEditor({
                         {
                           className: "select w-full border-base-300",
                           name: "sellerRole",
-                          defaultValue: (listing == null ? void 0 : listing.seller.role) ?? "Owner",
+                          defaultValue: sellerRole,
                           children: [
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: "Owner" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: "Real estate agent" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: "Property developer" })
+                            sellerRoles.map((role) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: role }, role)),
+                            !sellerRoles.includes(sellerRole) && /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: sellerRole })
                           ]
                         }
                       )
@@ -51222,10 +51509,277 @@ function useMyHomeImport() {
       );
     if (photoUrls.length > maxPhotos)
       warnings.push(
-        `RenSell can hold up to ${maxPhotos} photos per listing. You can replace the imported photos before saving.`
+        `You can save up to ${maxPhotos} photos per listing and replace the imported photos before saving.`
       );
     return { fields, source, warnings, images };
   };
+}
+function PropertyEditPage({ listingId }) {
+  const navigate = useNavigate();
+  const importMyHome = useMyHomeImport();
+  const {
+    ownedListings,
+    ownedListingsLoading,
+    ownedListingsError,
+    retryOwnedListings,
+    saveListing
+  } = useMarketplace();
+  const listing = ownedListings.find(({ id }) => id === listingId);
+  function returnToProperty() {
+    return navigate({
+      to: "/properties/$listingId",
+      params: { listingId },
+      replace: true
+    });
+  }
+  if (!listing) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "market-container py-12 sm:py-16", children: ownedListingsLoading ? /* @__PURE__ */ jsxRuntimeExports.jsxs("output", { className: "flex items-center gap-3 text-base-content/70", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "span",
+        {
+          className: "loading loading-spinner loading-sm text-primary",
+          "aria-hidden": "true"
+        }
+      ),
+      "Loading property…"
+    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-4xl tracking-tight", children: ownedListingsError ? "Property couldn’t be loaded" : "Property unavailable" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-5 flex flex-wrap items-center gap-3", children: [
+        ownedListingsError && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            type: "button",
+            className: "btn btn-primary",
+            onClick: retryOwnedListings,
+            children: "Try again"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/sell", className: "btn btn-outline border-base-300", children: "Manage properties" })
+      ] })
+    ] }) });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "market-container pt-6 pb-20 sm:pt-9", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Link,
+      {
+        to: "/properties/$listingId",
+        params: { listingId },
+        replace: true,
+        className: "inline-flex items-center gap-2 text-sm font-semibold text-base-content/70 hover:text-primary",
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowLeft, { className: "size-4", "aria-hidden": "true" }),
+          " Back to property"
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-5 font-editorial text-4xl tracking-tight break-words sm:text-5xl", children: listing.title }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ListingEditor,
+      {
+        listing,
+        importMyHome,
+        onCancel: () => void returnToProperty(),
+        onSave: async (updated) => {
+          await saveListing(updated, true);
+          await returnToProperty();
+        }
+      }
+    )
+  ] });
+}
+function SavedPage() {
+  const { listings, favorites, savedSearches, toggleFavorite, removeSearch } = useMarketplace();
+  const [comparison, setComparison] = reactExports.useState([]);
+  const saved = listings.filter((listing) => favorites.includes(listing.id));
+  const compared = saved.filter((listing) => comparison.includes(listing.id));
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "market-container space-y-12 py-10 md:py-16", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-3 text-xs font-bold tracking-widest text-primary uppercase", children: "Your shortlist" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-5xl tracking-tight sm:text-6xl", children: "Saved properties" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-xl text-base-content/75", children: "Revisit the places that caught your eye and compare up to three properties side by side." })
+    ] }),
+    saved.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "section",
+      {
+        "aria-label": "Saved properties",
+        className: "grid gap-5 sm:grid-cols-2 lg:grid-cols-3",
+        children: saved.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            PropertyCard,
+            {
+              listing,
+              isFavorite: true,
+              onToggleFavorite: (id) => {
+                toggleFavorite(id);
+                setComparison(
+                  (current) => current.filter((item) => item !== id)
+                );
+              }
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "label min-h-10 cursor-pointer px-2 text-sm text-base-content/75", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "checkbox",
+                className: "checkbox checkbox-primary checkbox-sm",
+                checked: comparison.includes(listing.id),
+                disabled: compared.length >= 3 && !comparison.includes(listing.id),
+                onChange: (event) => {
+                  const checked = event.target.checked;
+                  setComparison(
+                    (current) => checked ? [...current, listing.id] : current.filter((id) => id !== listing.id)
+                  );
+                }
+              }
+            ),
+            "Compare ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sr-only", children: listing.title })
+          ] })
+        ] }, listing.id))
+      }
+    ) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-box border border-base-300 bg-base-200 px-6 py-12 text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Heart,
+        {
+          "aria-hidden": "true",
+          className: "mx-auto mb-4 size-7 text-primary"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-editorial text-3xl", children: "Your shortlist starts here" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/75", children: "Select the heart on any property to save it here." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "btn btn-primary mt-5", children: "Explore properties" })
+    ] }),
+    compared.length >= 2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-4", "aria-labelledby": "comparison-title", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "h2",
+        {
+          id: "comparison-title",
+          className: "font-editorial text-3xl tracking-tight",
+          children: "Compare properties"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto rounded-box border border-base-300", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "table min-w-max", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { className: "bg-base-200 text-base-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "col", children: "Property" }),
+          compared.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "col", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Link,
+            {
+              to: "/properties/$listingId",
+              params: { listingId: listing.id },
+              className: "link link-hover text-primary",
+              children: listing.title
+            }
+          ) }, listing.id))
+        ] }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: [
+          {
+            label: "Price",
+            format: (listing) => formatPrice(listing.price)
+          },
+          {
+            label: "Price per m²",
+            format: (listing) => formatPrice(listing.price / listing.areaM2)
+          },
+          { label: "Location", format: formatLocation },
+          {
+            label: "Property type",
+            format: (listing) => listing.type
+          },
+          {
+            label: "Area",
+            format: (listing) => formatArea(listing.areaM2)
+          },
+          {
+            label: "Bedrooms",
+            format: (listing) => listing.bedrooms ?? "—"
+          },
+          {
+            label: "Bathrooms",
+            format: (listing) => listing.bathrooms ?? "—"
+          }
+        ].map(({ label: label2, format }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "row", children: label2 }),
+          compared.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: format(listing) }, listing.id))
+        ] }, label2)) })
+      ] }) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "section",
+      {
+        "aria-labelledby": "saved-search-title",
+        className: "space-y-4 border-t border-base-300 pt-8",
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "h2",
+            {
+              id: "saved-search-title",
+              className: "font-editorial text-3xl tracking-tight",
+              children: "Saved searches"
+            }
+          ),
+          savedSearches.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "divide-y divide-base-300 rounded-box border border-base-300", children: savedSearches.map(({ id, ...filters }) => {
+            const description2 = [
+              filters.location,
+              filters.propertyType,
+              filters.minPrice && `From ${formatPrice(Number(filters.minPrice))}`,
+              filters.maxPrice && `Up to ${formatPrice(Number(filters.maxPrice))}`,
+              filters.bedrooms && `${filters.bedrooms}+ bedrooms`,
+              filters.minArea && `From ${formatArea(Number(filters.minArea))}`,
+              filters.maxArea && `Up to ${formatArea(Number(filters.maxArea))}`
+            ].filter(Boolean).join(" · ") || "All properties";
+            return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "li",
+              {
+                className: "flex items-center justify-between gap-2 p-3 sm:p-4",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    Link,
+                    {
+                      to: "/",
+                      search: filters,
+                      hash: "properties",
+                      className: "group flex min-w-0 items-center gap-2 text-sm font-semibold text-primary sm:gap-3",
+                      children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx(
+                          Bookmark,
+                          {
+                            size: 17,
+                            className: "shrink-0",
+                            "aria-hidden": "true"
+                          }
+                        ),
+                        description2,
+                        /* @__PURE__ */ jsxRuntimeExports.jsx(
+                          ArrowRight,
+                          {
+                            size: 15,
+                            className: "shrink-0 transition-transform group-hover:translate-x-1",
+                            "aria-hidden": "true"
+                          }
+                        )
+                      ]
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      type: "button",
+                      className: "btn btn-ghost btn-circle btn-sm shrink-0 hover:text-error",
+                      "aria-label": `Remove saved search: ${description2}`,
+                      onClick: () => removeSearch(id),
+                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 17, "aria-hidden": "true" })
+                    }
+                  )
+                ]
+              },
+              id
+            );
+          }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/75", children: "Save a search from Explore to return to the same filters later." })
+        ]
+      }
+    )
+  ] });
 }
 function SellerPage() {
   const importMyHome = useMyHomeImport();
@@ -51245,7 +51799,7 @@ function SellerPage() {
     (_a2 = pageHeading.current) == null ? void 0 : _a2.focus();
   }
   async function onSave(listing) {
-    await saveListing(listing);
+    await saveListing(listing, editor !== "new");
     setNotice(
       listing.status === "draft" ? "Draft saved. Only admins can preview it." : "Listing saved to the marketplace."
     );
@@ -51410,17 +51964,31 @@ function SellerPage() {
                         ]
                       }
                     ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                      "button",
+                    listing.status === "draft" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      PublishListingButton,
                       {
-                        type: "button",
-                        className: "btn btn-outline btn-sm border-base-300",
-                        "aria-label": `Edit ${listing.title}`,
-                        onClick: () => editListing(listing),
-                        children: [
-                          /* @__PURE__ */ jsxRuntimeExports.jsx(Pencil, { className: "size-3.5", "aria-hidden": "true" }),
-                          " Edit"
-                        ]
+                        id: listing.id,
+                        title: listing.title,
+                        small: true,
+                        onPublished: () => setNotice("Listing published to the marketplace.")
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      ListingManagementActions,
+                      {
+                        listing,
+                        small: true,
+                        onEdit: () => editListing(listing),
+                        onDrafted: () => {
+                          var _a2;
+                          setNotice("Listing moved to drafts.");
+                          (_a2 = pageHeading.current) == null ? void 0 : _a2.focus();
+                        },
+                        onRemoved: () => {
+                          var _a2;
+                          setNotice("Listing removed.");
+                          (_a2 = pageHeading.current) == null ? void 0 : _a2.focus();
+                        }
                       }
                     )
                   ] })
@@ -60294,6 +60862,15 @@ function PropertyRoute() {
   const { listingId } = propertyRoute.useParams();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(PropertyDetailPage, { listingId }, listingId);
 }
+const propertyEditRoute = createRoute({
+  getParentRoute: () => marketplaceRoute,
+  path: "/properties/$listingId/edit",
+  component: PropertyEditRoute
+});
+function PropertyEditRoute() {
+  const { listingId } = propertyEditRoute.useParams();
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(RequireAdmin, { promptOnMount: false, children: /* @__PURE__ */ jsxRuntimeExports.jsx(PropertyEditPage, { listingId }, listingId) });
+}
 const savedRoute = createRoute({
   getParentRoute: () => marketplaceRoute,
   path: "/saved",
@@ -60377,6 +60954,7 @@ const routeTree = rootRoute.addChildren([
   marketplaceRoute.addChildren([
     indexRoute,
     propertyRoute,
+    propertyEditRoute,
     savedRoute,
     sellerRoute,
     adminRoute,

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 60">
+  <title>Tbilisale</title>
+  <path fill="#f8f8f8" transform="translate(1 6) scale(1.333333)" d="M0 27 14 18.4V36H0ZM18 10.1 34.6 0v36h-7.2V7.3l-6.2 3.9V36H18Zm21.4-.6 16.3 9v12.6L64 36H48.9V24.6l-6.5-3.7V36h-3Z"/>
+  <g fill="#f8f8f8" fill-rule="evenodd" transform="translate(103 10)">
+    <path d="M0 0h35v4.2H19.7V40h-4.4V4.2H0Z"/>
+    <path transform="translate(50)" d="M0 0h17.6c9.6 0 15.3 4.1 15.3 10.8 0 4-2.1 7.2-5.8 8.8 5.1 1.5 8 4.9 8 9.6 0 6.8-5.7 10.8-15.9 10.8H0Zm4.4 4.1v13.8h13.2c6.9 0 10.8-2.6 10.8-7s-3.8-6.8-10.8-6.8Zm0 17.8v14H19c7.5 0 11.6-2.4 11.6-7.1 0-4.6-4.1-6.9-11.6-6.9Z"/>
+    <path transform="translate(104)" d="M0 0h4.4v40H0Z"/>
+    <path transform="translate(129)" d="M0 0h4.4v35.8H29V40H0Z"/>
+    <path transform="translate(176)" d="M0 0h4.4v40H0Z"/>
+    <path transform="translate(198)" d="M0 34.3l5-7c4.8 3.7 10 5.5 15.4 5.5 5 0 7.8-1.5 7.8-4.1 0-2.6-2.2-3.6-9.2-5.2C7 20.9 2.1 17.8 2.1 11.4 2.1 4.3 8.4-.7 18.9-.7c6.8 0 13 1.9 17.7 5.5L32 12c-4-2.9-8.7-4.5-13.2-4.5-4.3 0-6.8 1.4-6.8 3.7 0 2.4 2.2 3.6 9.8 5.3 10.8 2.5 16.3 5.5 16.3 12 0 7.6-6.8 12.2-17.8 12.2C12.5 40.7 5.2 38.4 0 34.3Z"/>
+    <path transform="translate(247)" d="M16.7 0h10.5l17 40H33.5l-3.2-8.1H13.1L9.8 40H0Zm-.4 24.1H27l-5.4-13.5Z"/>
+    <path transform="translate(302)" d="M0 0h9.7v31.1H33V40H0Z"/>
+    <path transform="translate(348)" d="M0 0h33v8.5H9.7v7.3H30v8.2H9.7v7.5h23.8V40H0Z"/>
+  </g>
+</svg>
