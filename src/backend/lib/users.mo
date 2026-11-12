@@ -10,13 +10,15 @@ import Common "../types/common";
 import Users "../types/users";
 
 module {
+  let maxDisplayNameLength = 80;
+
   public func canonicalUsername(username : Text) : Text {
     username.trim(#predicate(Char.isWhitespace)).toLower();
   };
 
   func normalizeInputWithExistingUsername(input : Users.UserInput, existingUsername : ?Text) : Users.UserInput {
     let displayName = input.displayName.trim(#predicate(Char.isWhitespace));
-    if (displayName.size() > 80) {
+    if (displayName.size() > maxDisplayNameLength) {
       Runtime.trap("Display name must be at most 80 characters");
     };
     let unchangedLegacyUsername = switch (existingUsername) {
@@ -119,15 +121,16 @@ module {
 
   // Called only after Telegram identity verification. Telegram permits a
   // 32-character handle, while manually entered app handles remain 3–30.
-  public func setVerifiedTelegramUsername(
+  public func setVerifiedTelegramProfile(
     users : Map.Map<Common.UserId, Users.User>,
     usernames : Map.Map<Text, Common.UserId>,
     id : Common.UserId,
-    telegramUsername : ?Text,
+    telegramUsername : Text,
+    telegramName : ?Text,
     avatarUrl : ?Text,
     role : ?Users.Role,
   ) : Users.User {
-    let username = canonicalUsername(telegramUsername ?? "");
+    let username = canonicalUsername(telegramUsername);
     if (username != "") {
       if (username.size() < 5 or username.size() > 32) { Runtime.trap("Telegram username must be between 5 and 32 characters") };
       for (character in username.toIter()) {
@@ -143,7 +146,9 @@ module {
     };
     if (existing.username != "") { usernames.remove(existing.username) };
     if (username != "") { usernames.add(username, id) };
-    let updated = { existing with username; avatarUrl };
+    let name = (telegramName ?? "").trim(#predicate(Char.isWhitespace));
+    let displayName = if (name.size() > 0 and name.size() <= maxDisplayNameLength) { name } else { existing.displayName };
+    let updated = { existing with displayName; username; avatarUrl };
     users.add(id, updated);
     updated;
   };

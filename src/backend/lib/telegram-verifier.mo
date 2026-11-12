@@ -20,7 +20,12 @@ module {
   let clockSkewSeconds : Int = 60;
 
   public type Outcome<T> = { #ok : T; #err : Text };
-  public type Claims = { subject : Text; username : Text; avatarUrl : ?Text };
+  public type Claims = {
+    subject : Text;
+    username : Text;
+    displayName : ?Text;
+    avatarUrl : ?Text;
+  };
   public type Token = {
     kid : Text;
     message : Blob;
@@ -180,7 +185,17 @@ module {
     };
     let ?username = textField(payload, "preferred_username") else return #err("Set a Telegram username before linking.");
     if (not validUsername(username)) { return #err("Set a valid Telegram username before linking.") };
-    #ok({ kid; message = Text.encodeUtf8(parts[0] # "." # parts[1]); signature; claims = { subject; username = username.toLower(); avatarUrl = picture(payload) } });
+    #ok({
+      kid;
+      message = Text.encodeUtf8(parts[0] # "." # parts[1]);
+      signature;
+      claims = {
+        subject;
+        username = username.toLower();
+        displayName = textField(payload, "name");
+        avatarUrl = picture(payload);
+      };
+    });
   };
 
   func fromBytes(bytes : Blob) : Nat {

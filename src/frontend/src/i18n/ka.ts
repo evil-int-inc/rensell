@@ -874,8 +874,8 @@ export const ka = {
     "მოთამაშე უკვე რეგისტრირებულია ამ ტურნირში",
   Telegram: "Telegram",
   "Link Telegram": "Telegram-ის დაკავშირება",
-  "Link Telegram to your existing member account. Linking replaces your current username with your Telegram username.":
-    "დააკავშირეთ Telegram თქვენს არსებულ ანგარიშთან. თქვენი მომხმარებლის სახელი ჩაანაცვლდება Telegram-ის მომხმარებლის სახელით.",
+  "Link Telegram to use your Telegram name, username and profile photo when available.":
+    "დააკავშირეთ Telegram, რომ პროფილში გადაიტანოთ Telegram-ის სახელი, მომხმარებლის სახელი და ფოტო, თუ ისინი ხელმისაწვდომია.",
   "Linked Telegram account": "დაკავშირებული Telegram-ის ანგარიში",
   "Sync Telegram profile": "Telegram-იდან პროფილის განახლება",
   "Telegram linking is not configured yet. Ask an admin to set the public Login Client ID.":
@@ -885,10 +885,8 @@ export const ka = {
     "Telegram-ის ჩატვირთვა ვერ მოხერხდა. შეამოწმეთ ინტერნეტკავშირი და სცადეთ ხელახლა.",
   "Couldn't prepare Telegram linking. Try again.":
     "Telegram-ის დაკავშირებისთვის მომზადება ვერ მოხერხდა. სცადეთ ხელახლა.",
-  "Telegram linked. Your username now matches Telegram.":
-    "Telegram დაკავშირებულია. თქვენი მომხმარებლის სახელი ახლა Telegram-ის სახელს ემთხვევა.",
-  "Telegram unlinked. Your username is unchanged.":
-    "Telegram-ის კავშირი გაუქმებულია. თქვენი მომხმარებლის სახელი უცვლელია.",
+  "Telegram profile synced.": "პროფილი Telegram-იდან განახლდა.",
+  "Telegram unlinked.": "Telegram-ის კავშირი გაუქმებულია.",
   "The Telegram link request expired. Refresh it and try again.":
     "Telegram-ის დაკავშირების მოთხოვნას ვადა გაუვიდა. განაახლეთ ის და სცადეთ ხელახლა.",
   "Telegram didn't finish linking. Allow popups or retry in your browser.":

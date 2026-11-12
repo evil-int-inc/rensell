@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n";
 import { Link } from "@tanstack/react-router";
 import {
   Building2,
@@ -45,6 +46,7 @@ export function MarketplaceSidebar({
   favoriteCount: number;
   onNavigate?: () => void;
 }) {
+  const { t } = useI18n();
   const visibleSections = sections.filter(
     ({ label }) =>
       label === "Browse" || (label === "Workspace" ? showAdmin : showProfile),
@@ -52,7 +54,7 @@ export function MarketplaceSidebar({
   return (
     <nav
       id={id}
-      aria-label="Sidebar navigation"
+      aria-label={t("Sidebar navigation")}
       className={`min-h-0 flex-1 overflow-y-auto py-3 ${collapsed ? "px-0.5 sm:px-2" : "px-3"}`}
     >
       {visibleSections.map(({ label, items }) => (
@@ -67,7 +69,7 @@ export function MarketplaceSidebar({
                 : "mb-2 px-3 text-[.68rem] font-bold tracking-[.16em] text-base-content/60 uppercase"
             }
           >
-            {label}
+            {t(label)}
           </p>
           <ul className="space-y-1">
             {items.map(({ label, to, Icon }) => (
@@ -75,7 +77,7 @@ export function MarketplaceSidebar({
                 <Link
                   to={to}
                   activeOptions={{ exact: true, includeSearch: false }}
-                  title={collapsed ? label : undefined}
+                  title={collapsed ? t(label) : undefined}
                   onClick={onNavigate}
                   className={`flex min-h-11 items-center gap-3 rounded-field text-sm font-semibold whitespace-nowrap text-base-content/75 transition-colors hover:bg-base-200 hover:text-primary focus-visible:-outline-offset-2 [&.active]:bg-primary/10 [&.active]:text-primary ${collapsed ? "justify-center" : "px-3"}`}
                 >
@@ -86,7 +88,7 @@ export function MarketplaceSidebar({
                     className="shrink-0"
                   />
                   <span className={collapsed ? "sr-only" : undefined}>
-                    {label}
+                    {t(label)}
                   </span>
                   {!collapsed && label === "Saved" && favoriteCount > 0 && (
                     <span className="badge badge-sm ms-auto" aria-hidden="true">

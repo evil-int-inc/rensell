@@ -46,6 +46,9 @@ vi.mock("@caffeineai/object-storage", () => ({
 // Generated components use `data-ocid` as their test id attribute.
 configure({ testIdAttribute: "data-ocid" });
 
+// Feature tests use English selectors. The language startup suite clears this preference.
+localStorage.setItem("chillpong.language", "en");
+
 // jsdom exposes <dialog> but does not implement its native open/close methods.
 // Keep the open attribute in sync so accessible-role queries match the browser.
 Object.defineProperties(HTMLDialogElement.prototype, {

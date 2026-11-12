@@ -872,8 +872,8 @@ export const ru = {
     "Игрок уже зарегистрирован в этом турнире",
   Telegram: "Telegram",
   "Link Telegram": "Связать Telegram",
-  "Link Telegram to your existing member account. Linking replaces your current username with your Telegram username.":
-    "Свяжите Telegram со своим аккаунтом. Ваш текущий никнейм будет заменён никнеймом из Telegram.",
+  "Link Telegram to use your Telegram name, username and profile photo when available.":
+    "Подключите Telegram, чтобы перенести в профиль имя, никнейм и фото из Telegram, если они доступны.",
   "Linked Telegram account": "Связанный аккаунт Telegram",
   "Sync Telegram profile": "Обновить профиль из Telegram",
   "Telegram linking is not configured yet. Ask an admin to set the public Login Client ID.":
@@ -883,10 +883,8 @@ export const ru = {
     "Не удалось загрузить Telegram. Проверьте подключение и попробуйте снова.",
   "Couldn't prepare Telegram linking. Try again.":
     "Не удалось подготовить связь с Telegram. Попробуйте снова.",
-  "Telegram linked. Your username now matches Telegram.":
-    "Telegram связан. Ваш никнейм теперь совпадает с никнеймом в Telegram.",
-  "Telegram unlinked. Your username is unchanged.":
-    "Связь с Telegram удалена. Ваш никнейм сохранён.",
+  "Telegram profile synced.": "Профиль обновлён из Telegram.",
+  "Telegram unlinked.": "Связь с Telegram удалена.",
   "The Telegram link request expired. Refresh it and try again.":
     "Запрос на связь с Telegram истёк. Обновите его и попробуйте снова.",
   "Telegram didn't finish linking. Allow popups or retry in your browser.":

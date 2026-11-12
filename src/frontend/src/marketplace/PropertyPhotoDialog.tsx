@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import type { Ref } from "react";
 
@@ -16,12 +17,13 @@ export function PropertyPhotoDialog({
   onStep: (offset: number) => void;
   dialogRef: Ref<HTMLDialogElement>;
 }) {
+  const { t } = useI18n();
   if (!images.length) return null;
 
   return (
     <dialog
       className="modal"
-      aria-label={`${title} photo gallery`}
+      aria-label={t("{title} photo gallery", { title })}
       ref={dialogRef}
       onKeyDown={(event) => {
         if (images.length < 2) return;
@@ -36,7 +38,7 @@ export function PropertyPhotoDialog({
             <button
               type="submit"
               className="btn btn-ghost btn-square btn-sm"
-              aria-label="Close gallery"
+              aria-label={t("Close gallery")}
             >
               <X className="size-5" aria-hidden="true" />
             </button>
@@ -53,13 +55,13 @@ export function PropertyPhotoDialog({
               <button
                 type="button"
                 className="absolute inset-y-0 left-0 w-1/2 cursor-pointer focus-visible:-outline-offset-4"
-                aria-label="Previous photo"
+                aria-label={t("Previous photo")}
                 onClick={() => onStep(-1)}
               />
               <button
                 type="button"
                 className="absolute inset-y-0 right-0 w-1/2 cursor-pointer focus-visible:-outline-offset-4"
-                aria-label="Next photo"
+                aria-label={t("Next photo")}
                 onClick={() => onStep(1)}
               />
             </>
@@ -73,20 +75,23 @@ export function PropertyPhotoDialog({
               onClick={() => onStep(-1)}
             >
               <ArrowLeft className="size-4" aria-hidden="true" />
-              Previous
+              {t("Previous")}
             </button>
             <p
               className="text-sm tabular-nums text-base-content/65"
               aria-live="polite"
             >
-              {activeIndex + 1} of {images.length}
+              {t("{current} of {total}", {
+                current: activeIndex + 1,
+                total: images.length,
+              })}
             </p>
             <button
               type="button"
               className="btn btn-ghost btn-sm"
               onClick={() => onStep(1)}
             >
-              Next
+              {t("Next")}
               <ArrowRight className="size-4" aria-hidden="true" />
             </button>
           </div>
@@ -94,7 +99,7 @@ export function PropertyPhotoDialog({
       </div>
       <form method="dialog" className="modal-backdrop" aria-hidden="true">
         <button type="submit" tabIndex={-1}>
-          Close gallery
+          {t("Close gallery")}
         </button>
       </form>
     </dialog>

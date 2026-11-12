@@ -121,7 +121,7 @@ describe.skipIf(!previousWasm || !previousDeclarations)(
 			);
 			expect(await current.getMyRole()).toEqual([{ admin: null }]);
 			expect(await current.getTelegramLinkConfig()).toEqual({
-				clientId: ["8851986381"],
+				clientId: ["9165452815"],
 			});
 			const afterFirst = (await current.getTournamentState(first.id))[0]!;
 			const afterSecond = (await current.getTournamentState(second.id))[0]!;

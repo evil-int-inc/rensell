@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n";
 import { Link } from "@tanstack/react-router";
 import { FileText, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
@@ -39,6 +40,7 @@ export function ListingManagementActions({
   onDrafted?: () => void;
   onRemoved?: () => void;
 }) {
+  const { t } = useI18n();
   const { canManageListings, makeListingDraft, deleteListing } =
     useMarketplace();
   const [action, setAction] = useState<Action | null>(null);
@@ -91,10 +93,10 @@ export function ListingManagementActions({
   const copy = action && confirmation[action];
   const buttonClass = small ? "btn btn-sm" : "btn";
   const editClass = `${buttonClass} btn-outline border-base-300`;
-  const editLabel = `Edit ${listing.title}`;
+  const editLabel = t("Edit {title}", { title: listing.title });
   const editContent = (
     <>
-      <Pencil className="size-4" aria-hidden="true" /> Edit
+      <Pencil className="size-4" aria-hidden="true" /> {t("Edit")}
     </>
   );
 
@@ -123,19 +125,19 @@ export function ListingManagementActions({
         <button
           type="button"
           className={`${buttonClass} btn-outline border-base-300`}
-          aria-label={`Make draft: ${listing.title}`}
+          aria-label={t("Make draft: {title}", { title: listing.title })}
           onClick={() => open("draft")}
         >
-          <FileText className="size-4" aria-hidden="true" /> Make draft
+          <FileText className="size-4" aria-hidden="true" /> {t("Make draft")}
         </button>
       )}
       <button
         type="button"
         className={`${buttonClass} btn-outline btn-error`}
-        aria-label={`Remove ${listing.title}`}
+        aria-label={t("Remove {title}", { title: listing.title })}
         onClick={() => open("remove")}
       >
-        <Trash2 className="size-4" aria-hidden="true" /> Remove
+        <Trash2 className="size-4" aria-hidden="true" /> {t("Remove")}
       </button>
 
       {copy && (
@@ -160,18 +162,18 @@ export function ListingManagementActions({
               id={`${dialogId}-title`}
               className="font-editorial text-3xl leading-tight tracking-tight"
             >
-              {copy.title}
+              {t(copy.title)}
             </h2>
             <p className="mt-3 font-semibold break-words">{listing.title}</p>
             <p
               id={`${dialogId}-description`}
               className="mt-2 text-sm leading-relaxed text-base-content/75"
             >
-              {copy.description}
+              {t(copy.description)}
             </p>
             {failed && (
               <p role="alert" className="mt-4 text-sm text-error">
-                {copy.error}
+                {t(copy.error)}
               </p>
             )}
             <div className="mt-6 flex flex-wrap justify-end gap-2">
@@ -182,7 +184,7 @@ export function ListingManagementActions({
                 disabled={isWorking}
                 onClick={close}
               >
-                Cancel
+                {t("Cancel")}
               </button>
               <button
                 type="button"
@@ -190,7 +192,7 @@ export function ListingManagementActions({
                 disabled={isWorking}
                 onClick={confirm}
               >
-                {isWorking ? copy.pending : copy.confirm}
+                {t(isWorking ? copy.pending : copy.confirm)}
               </button>
             </div>
           </div>

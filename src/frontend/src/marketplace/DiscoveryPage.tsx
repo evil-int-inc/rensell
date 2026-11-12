@@ -1,3 +1,5 @@
+import { useI18n } from "@/i18n";
+import { formatBrowseCount } from "@/i18n/marketplace-browse";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import {
   ArrowDown,
@@ -95,6 +97,8 @@ function DiscoveryHero({
   locations: string[];
   onSearch: (filters: DiscoveryFilters) => void;
 }) {
+  const { t } = useI18n();
+
   function search(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const fields = Object.fromEntries(new FormData(event.currentTarget));
@@ -116,12 +120,12 @@ function DiscoveryHero({
             id="discovery-title"
             className="font-editorial text-[clamp(2.5rem,12vw,3.5rem)] leading-[.94] font-semibold tracking-[-.06em] sm:text-[clamp(3.5rem,6.1vw,6.15rem)]"
           >
-            Find your next
+            {t("Find your next")}
             <br />
-            <span className="font-normal">chapter.</span>
+            <span className="font-normal">{t("chapter.")}</span>
           </h1>
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-neutral-content/90 sm:mt-6 sm:text-base">
-            Explore homes and investment properties in Tbilisi, Georgia.
+            {t("Explore homes and investment properties in Tbilisi, Georgia.")}
           </p>
         </div>
       </div>
@@ -129,7 +133,7 @@ function DiscoveryHero({
       <form
         key={JSON.stringify(filters)}
         onSubmit={search}
-        aria-label="Search properties"
+        aria-label={t("Search properties")}
         className="relative mx-auto -mt-5 grid max-w-5xl grid-cols-1 gap-1.5 rounded-box border border-base-300 bg-base-100 p-2.5 shadow-lg shadow-neutral/10 min-[370px]:grid-cols-2 sm:w-[calc(100%_-_4rem)] md:-mt-10 md:grid-cols-[minmax(0,1.28fr)_minmax(0,1fr)_minmax(0,1fr)_auto] md:items-center md:gap-0 md:p-3 md:ps-1"
       >
         <label className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-x-2 rounded-field px-3 py-2 focus-within:bg-base-200 min-[370px]:col-span-2 md:col-span-1 md:gap-x-3 md:rounded-none md:border-e md:border-base-300 md:px-4">
@@ -138,12 +142,12 @@ function DiscoveryHero({
             aria-hidden="true"
           />
           <span className="text-[.68rem] font-bold tracking-[.08em] uppercase">
-            Location
+            {t("Location")}
           </span>
           <input
             name="location"
             className="input input-ghost h-6 w-full border-0 p-0 text-sm shadow-none"
-            placeholder="City or neighborhood"
+            placeholder={t("City or neighborhood")}
             autoComplete="off"
             defaultValue={filters.location}
             list="marketplace-locations"
@@ -156,22 +160,24 @@ function DiscoveryHero({
         </label>
         <label className="grid min-w-0 gap-y-0.5 rounded-field px-3 py-2 focus-within:bg-base-200 md:rounded-none md:border-e md:border-base-300 md:px-4">
           <span className="text-[.68rem] font-bold tracking-[.08em] uppercase">
-            Property type
+            {t("Property type")}
           </span>
           <select
             name="propertyType"
             defaultValue={filters.propertyType}
             className="select select-ghost h-6 w-full border-0 py-0 ps-0 text-sm shadow-none"
           >
-            <option value="">Any type</option>
+            <option value="">{t("Any type")}</option>
             {propertyTypes.map((type) => (
-              <option key={type}>{type}</option>
+              <option key={type} value={type}>
+                {t(type)}
+              </option>
             ))}
           </select>
         </label>
         <label className="grid min-w-0 gap-y-0.5 rounded-field px-3 py-2 focus-within:bg-base-200 md:rounded-none md:px-4">
           <span className="text-[.68rem] font-bold tracking-[.08em] uppercase">
-            Max price
+            {t("Max price")}
           </span>
           <select
             name="maxPrice"
@@ -179,17 +185,19 @@ function DiscoveryHero({
             className="select select-ghost h-6 w-full border-0 py-0 ps-0 text-sm shadow-none"
           >
             <option value="">
-              {filters.minPrice ? "No maximum" : "Any price"}
+              {t(filters.minPrice ? "No maximum" : "Any price")}
             </option>
             {filters.maxPrice &&
               !priceOptions.includes(Number(filters.maxPrice)) && (
                 <option value={filters.maxPrice}>
-                  Up to {formatPrice(Number(filters.maxPrice))}
+                  {t("Up to {value}", {
+                    value: formatPrice(Number(filters.maxPrice)),
+                  })}
                 </option>
               )}
             {priceOptions.map((price) => (
               <option key={price} value={price}>
-                Up to {formatPrice(price)}
+                {t("Up to {value}", { value: formatPrice(price) })}
               </option>
             ))}
           </select>
@@ -199,7 +207,7 @@ function DiscoveryHero({
           className="btn btn-primary min-h-11 gap-2.5 px-5 min-[370px]:col-span-2 md:col-span-1 md:min-h-[3.25rem] md:px-6"
         >
           <Search className="size-4" aria-hidden="true" />
-          Search properties
+          {t("Search properties")}
         </button>
       </form>
     </section>
@@ -215,6 +223,8 @@ function AdvancedFilters({
   dialogRef: React.RefObject<HTMLDialogElement | null>;
   onApply: (filters: DiscoveryFilters) => void;
 }) {
+  const { locale, t } = useI18n();
+  const numberFormat = new Intl.NumberFormat(locale);
   const [error, setError] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -247,7 +257,7 @@ function AdvancedFilters({
         <button
           type="button"
           className="btn btn-ghost btn-square btn-sm absolute end-4 top-4"
-          aria-label="Close filters"
+          aria-label={t("Close filters")}
           onClick={() => dialogRef.current?.close()}
         >
           <X className="size-5" aria-hidden="true" />
@@ -256,7 +266,7 @@ function AdvancedFilters({
           id="discovery-filter-title"
           className="font-editorial text-3xl tracking-tight"
         >
-          Refine your search
+          {t("Refine your search")}
         </h2>
         <form
           key={JSON.stringify(filters)}
@@ -265,34 +275,38 @@ function AdvancedFilters({
           className="mt-6 space-y-5"
         >
           <fieldset className="grid grid-cols-2 gap-3">
-            <legend className="mb-2 text-sm font-semibold">Price in USD</legend>
+            <legend className="mb-2 text-sm font-semibold">
+              {t("Price in USD")}
+            </legend>
             <label className="grid gap-1.5 text-xs text-base-content/65">
-              Minimum price
+              {t("Minimum price")}
               <input
                 className="input w-full text-base-content"
                 name="minPrice"
                 type="number"
                 min="0"
                 defaultValue={filters.minPrice}
-                placeholder="Any minimum"
+                placeholder={t("Any minimum")}
               />
             </label>
             <label className="grid gap-1.5 text-xs text-base-content/65">
-              Maximum price
+              {t("Maximum price")}
               <input
                 className="input w-full text-base-content"
                 name="maxPrice"
                 type="number"
                 min="0"
                 defaultValue={filters.maxPrice}
-                placeholder="Any maximum"
+                placeholder={t("Any maximum")}
               />
             </label>
           </fieldset>
           <fieldset className="grid grid-cols-2 gap-3">
-            <legend className="mb-2 text-sm font-semibold">Area in m²</legend>
+            <legend className="mb-2 text-sm font-semibold">
+              {t("Area in m²")}
+            </legend>
             <label className="grid gap-1.5 text-xs text-base-content/65">
-              Minimum area
+              {t("Minimum area")}
               <input
                 className="input w-full text-base-content"
                 name="minArea"
@@ -300,11 +314,11 @@ function AdvancedFilters({
                 min="0"
                 step="any"
                 defaultValue={filters.minArea}
-                placeholder="Any minimum"
+                placeholder={t("Any minimum")}
               />
             </label>
             <label className="grid gap-1.5 text-xs text-base-content/65">
-              Maximum area
+              {t("Maximum area")}
               <input
                 className="input w-full text-base-content"
                 name="maxArea"
@@ -312,28 +326,30 @@ function AdvancedFilters({
                 min="0"
                 step="any"
                 defaultValue={filters.maxArea}
-                placeholder="Any maximum"
+                placeholder={t("Any maximum")}
               />
             </label>
           </fieldset>
           <label className="grid gap-2 text-sm font-semibold">
-            Bedrooms
+            {t("Bedrooms")}
             <select
               name="bedrooms"
               defaultValue={filters.bedrooms}
               className="select w-full font-normal"
             >
-              <option value="">Any number</option>
+              <option value="">{t("Any number")}</option>
               {[1, 2, 3, 4, 5, 6].map((number) => (
                 <option key={number} value={number}>
-                  {number}+ bedrooms
+                  {t("{count}+ bedrooms", {
+                    count: numberFormat.format(number),
+                  })}
                 </option>
               ))}
             </select>
           </label>
           {error && (
             <p role="alert" className="text-sm text-error">
-              {error}
+              {t(error)}
             </p>
           )}
           <div className="flex items-center justify-end gap-3 pt-1">
@@ -342,17 +358,17 @@ function AdvancedFilters({
               className="btn btn-ghost"
               onClick={() => dialogRef.current?.close()}
             >
-              Cancel
+              {t("Cancel")}
             </button>
             <button type="submit" className="btn btn-primary">
-              Apply filters
+              {t("Apply filters")}
             </button>
           </div>
         </form>
       </div>
       <form method="dialog" className="modal-backdrop" aria-hidden="true">
         <button type="submit" tabIndex={-1}>
-          Close
+          {t("Close")}
         </button>
       </form>
     </dialog>
@@ -360,6 +376,8 @@ function AdvancedFilters({
 }
 
 export function DiscoveryPage() {
+  const { language, locale, t } = useI18n();
+  const numberFormat = new Intl.NumberFormat(locale);
   const {
     listings,
     listingsLoading,
@@ -388,7 +406,7 @@ export function DiscoveryPage() {
     ),
   )
     .filter(Boolean)
-    .sort();
+    .sort((first, second) => first.localeCompare(second, locale));
   const active = Object.values(filters).some(Boolean);
   const saved = savedSearches.some((search) =>
     (Object.keys(emptyDiscoveryFilters) as (keyof DiscoveryFilters)[]).every(
@@ -435,24 +453,24 @@ export function DiscoveryPage() {
           <div>
             <p className="mb-2 flex items-center gap-2.5 text-[.67rem] font-bold tracking-[.21em] text-primary uppercase">
               <span className="h-px w-5 bg-current" aria-hidden="true" />
-              The collection
+              {t("The collection")}
             </p>
             <h2
               id="property-results-title"
               className="font-editorial text-4xl leading-[1.02] tracking-[-.04em] sm:text-5xl"
             >
-              Explore properties
+              {t("Explore properties")}
             </h2>
           </div>
           <fieldset className="join rounded-field border border-base-300 bg-base-100 p-1">
-            <legend className="sr-only">Property display</legend>
+            <legend className="sr-only">{t("Property display")}</legend>
             <button
               type="button"
               className={`btn join-item btn-sm gap-2 ${view === "grid" ? "btn-primary" : "btn-ghost"}`}
               aria-pressed={view === "grid"}
               onClick={() => setView("grid")}
             >
-              <Grid2X2 className="size-4" aria-hidden="true" /> Grid
+              <Grid2X2 className="size-4" aria-hidden="true" /> {t("Grid")}
             </button>
             <button
               type="button"
@@ -460,14 +478,14 @@ export function DiscoveryPage() {
               aria-pressed={view === "map"}
               onClick={() => setView("map")}
             >
-              <MapIcon className="size-4" aria-hidden="true" /> Map
+              <MapIcon className="size-4" aria-hidden="true" /> {t("Map")}
             </button>
           </fieldset>
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-b border-base-300 pb-4">
           <fieldset className="flex flex-wrap gap-1.5">
-            <legend className="sr-only">Property categories</legend>
+            <legend className="sr-only">{t("Property categories")}</legend>
             {categories.map(({ value, label, Icon }) => (
               <button
                 key={value}
@@ -478,7 +496,7 @@ export function DiscoveryPage() {
                   applyFilters({ ...filters, propertyType: value })
                 }
               >
-                <Icon className="size-4" aria-hidden="true" /> {label}
+                <Icon className="size-4" aria-hidden="true" /> {t(label)}
               </button>
             ))}
           </fieldset>
@@ -487,10 +505,11 @@ export function DiscoveryPage() {
             className="btn btn-sm btn-ghost min-h-9 gap-2 border border-base-300 px-3"
             onClick={() => dialogRef.current?.showModal()}
           >
-            <SlidersHorizontal className="size-4" aria-hidden="true" /> Filters
+            <SlidersHorizontal className="size-4" aria-hidden="true" />{" "}
+            {t("Filters")}
             {advancedCount > 0 && (
               <span className="badge badge-primary badge-xs">
-                {advancedCount}
+                {numberFormat.format(advancedCount)}
               </span>
             )}
           </button>
@@ -503,7 +522,12 @@ export function DiscoveryPage() {
               className="text-sm font-medium text-base-content/65"
             >
               {(!listingsLoading && !listingsError) || hasPublishedListings
-                ? `${filtered.length} ${filtered.length === 1 ? "property" : "properties"}`
+                ? formatBrowseCount(
+                    filtered.length,
+                    "property",
+                    language,
+                    locale,
+                  )
                 : ""}
             </p>
             {active && (
@@ -512,7 +536,7 @@ export function DiscoveryPage() {
                 className="btn btn-ghost btn-xs gap-1.5 px-2"
                 onClick={() => applyFilters(emptyDiscoveryFilters)}
               >
-                <X className="size-3" aria-hidden="true" /> Clear filters
+                <X className="size-3" aria-hidden="true" /> {t("Clear filters")}
               </button>
             )}
           </div>
@@ -529,7 +553,7 @@ export function DiscoveryPage() {
                 ) : (
                   <Bookmark className="size-4" aria-hidden="true" />
                 )}
-                {saved ? "Search saved" : "Save search"}
+                {t(saved ? "Search saved" : "Save search")}
               </button>
             )}
             <label className="flex items-center gap-1.5">
@@ -537,7 +561,7 @@ export function DiscoveryPage() {
                 className="size-3.5 text-base-content/65"
                 aria-hidden="true"
               />
-              <span className="sr-only">Sort properties</span>
+              <span className="sr-only">{t("Sort properties")}</span>
               <select
                 className="select select-ghost select-sm w-auto min-w-0 ps-1 pe-6 font-medium"
                 value={sortOrder}
@@ -547,7 +571,7 @@ export function DiscoveryPage() {
               >
                 {Object.entries(sortOptions).map(([value, label]) => (
                   <option key={value} value={value}>
-                    {label}
+                    {t(label)}
                   </option>
                 ))}
               </select>
@@ -565,14 +589,14 @@ export function DiscoveryPage() {
                 className="mt-0.5 size-4 shrink-0 text-warning"
                 aria-hidden="true"
               />
-              Properties couldn’t be loaded.
+              {t("Properties couldn’t be loaded.")}
             </p>
             <button
               type="button"
               className="btn btn-ghost btn-sm"
               onClick={() => void retryListings()}
             >
-              Retry
+              {t("Retry")}
             </button>
           </div>
         ) : listingsLoading ? (
@@ -581,7 +605,7 @@ export function DiscoveryPage() {
               className="loading loading-spinner loading-xs text-primary"
               aria-hidden="true"
             />
-            Loading properties…
+            {t("Loading properties…")}
           </output>
         ) : null}
 
@@ -594,14 +618,18 @@ export function DiscoveryPage() {
                 aria-hidden="true"
               />
               <h3 className="font-editorial text-3xl">
-                {hasPublishedListings
-                  ? "No matching properties"
-                  : "No properties listed yet"}
+                {t(
+                  hasPublishedListings
+                    ? "No matching properties"
+                    : "No properties listed yet",
+                )}
               </h3>
               <p className="mt-2 text-sm text-base-content/70">
-                {hasPublishedListings
-                  ? "Try a broader location or adjust your price and property filters."
-                  : "New listings will appear here when they’re published."}
+                {t(
+                  hasPublishedListings
+                    ? "Try a broader location or adjust your price and property filters."
+                    : "New listings will appear here when they’re published.",
+                )}
               </p>
               {active && hasPublishedListings && (
                 <button
@@ -609,7 +637,7 @@ export function DiscoveryPage() {
                   className="btn btn-primary mt-5"
                   onClick={() => applyFilters(emptyDiscoveryFilters)}
                 >
-                  View all properties
+                  {t("View all properties")}
                 </button>
               )}
             </div>
@@ -618,7 +646,7 @@ export function DiscoveryPage() {
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.65fr)]">
             <div
               className="order-2 grid content-start gap-3 overflow-auto rounded-box lg:order-1 lg:max-h-[34rem]"
-              aria-label="Properties on the map"
+              aria-label={t("Properties on the map")}
             >
               {filtered.map((listing) => (
                 <article
@@ -630,7 +658,9 @@ export function DiscoveryPage() {
                     className="relative grid aspect-square place-items-center overflow-hidden rounded-field bg-base-200 text-primary"
                     onClick={() => setSelectedId(listing.id)}
                     disabled={!listing.coordinates}
-                    aria-label={`Locate ${listing.title} on the map`}
+                    aria-label={t("Locate {title} on the map", {
+                      title: listing.title,
+                    })}
                   >
                     {listing.images[0] ? (
                       <img
@@ -663,7 +693,7 @@ export function DiscoveryPage() {
                       <Link
                         to="/properties/$listingId"
                         params={{ listingId: listing.id }}
-                        aria-label={`View ${listing.title}`}
+                        aria-label={t("View {title}", { title: listing.title })}
                         className="btn btn-ghost btn-xs btn-square"
                       >
                         <ArrowRight className="size-4" aria-hidden="true" />

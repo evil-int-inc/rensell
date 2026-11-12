@@ -38,7 +38,7 @@ const member = Principal.fromUint8Array(new Uint8Array([4, 5, 6]));
 const other = Principal.fromUint8Array(new Uint8Array([7, 8, 9]));
 let profile: User | null;
 
-function renderPage() {
+function renderPage(marketplace = false) {
   const client = new QueryClient({
     defaultOptions: {
       queries: { retry: false, gcTime: 0 },
@@ -47,7 +47,7 @@ function renderPage() {
   });
   const page = render(
     <QueryClientProvider client={client}>
-      <ProfilePage />
+      <ProfilePage marketplace={marketplace} />
     </QueryClientProvider>,
   );
   return { ...page, client };
@@ -253,6 +253,39 @@ function telegramCallback() {
 }
 
 describe("verified Telegram profile linking", () => {
+  it("updates the name, username and avatar from Telegram on the marketplace profile", async () => {
+    const user = userEvent.setup();
+    enableTelegram();
+    const verifiedDetails = {
+      displayName: "ნინო მაისურაძე",
+      username: "nino_tbilisi",
+      avatarUrl: "https://t.me/i/userpic/320/nino.jpg",
+    };
+    state.actor.completeTelegramLink.mockImplementation(async () => {
+      profile = { ...profile!, ...verifiedDetails };
+      return { ...profile };
+    });
+    renderPage(true);
+
+    await user.click(await readyTelegramButton());
+    await act(async () =>
+      telegramCallback()({ id_token: "verified-signed-token" }),
+    );
+
+    expect(await screen.findByText("Telegram profile synced.")).toBeVisible();
+    expect(
+      screen.getByRole("textbox", { name: "Name / optional" }),
+    ).toHaveValue(verifiedDetails.displayName);
+    expect(
+      screen.getByRole("textbox", { name: "Username / optional" }),
+    ).toHaveValue(verifiedDetails.username);
+    expect(
+      screen.getByRole("img", {
+        name: `${verifiedDetails.displayName} avatar`,
+      }),
+    ).toHaveAttribute("src", verifiedDetails.avatarUrl);
+  });
+
   it("opens the SDK synchronously using the already-prefetched server nonce and public client ID", async () => {
     enableTelegram();
     renderPage();
@@ -311,11 +344,7 @@ describe("verified Telegram profile linking", () => {
       "opaque-signed-token-placeholder",
     );
     expect(state.actor.saveCallerProfile).not.toHaveBeenCalled();
-    expect(
-      await screen.findByText(
-        "Telegram linked. Your username now matches Telegram.",
-      ),
-    ).toBeVisible();
+    expect(await screen.findByText("Telegram profile synced.")).toBeVisible();
     expect(username).toHaveValue("verified_telegram");
     expect(name).toHaveValue("Unsaved club name");
     expect(screen.queryByRole("alert")).toBeNull();
@@ -357,11 +386,7 @@ describe("verified Telegram profile linking", () => {
       page.client.getQueryData<User>(["profile", member.toString()])?.username,
     ).toBe("previous-handle");
     expect(profile?.username).toBe("previous-handle");
-    expect(
-      screen.queryByText(
-        "Telegram linked. Your username now matches Telegram.",
-      ),
-    ).toBeNull();
+    expect(screen.queryByText("Telegram profile synced.")).toBeNull();
   });
 
   it("explains legacy Telegram login without changing the profile or linking unsigned account fields", async () => {
@@ -549,9 +574,7 @@ describe("verified Telegram profile linking", () => {
       await screen.findByRole("button", { name: "Unlink Telegram" }),
     );
     expect(state.actor.unlinkTelegram).toHaveBeenCalledExactlyOnceWith();
-    expect(
-      await screen.findByText("Telegram unlinked. Your username is unchanged."),
-    ).toBeVisible();
+    expect(await screen.findByText("Telegram unlinked.")).toBeVisible();
     expect(
       screen.getByRole("textbox", { name: "Username / optional" }),
     ).toHaveValue("existing_telegram");

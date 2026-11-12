@@ -6,7 +6,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, Send } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export function TelegramSettings({ actor }: { actor: Backend }) {
+export function TelegramSettings({
+  actor,
+  botUsername,
+}: { actor: Backend; botUsername?: string }) {
   const { t } = useI18n();
   const client = useQueryClient();
   const [clientId, setClientId] = useState("");
@@ -39,6 +42,26 @@ export function TelegramSettings({ actor }: { actor: Backend }) {
         <Send className="size-4 text-primary" aria-hidden="true" />
         {t("Telegram linking settings")}
       </h2>
+      {botUsername ? (
+        <p className="text-xs leading-relaxed text-base-content/70 [overflow-wrap:anywhere]">
+          {t(
+            "In BotFather, open {bot} → Login Widget → Allowed URLs and add {origin} and {profileUrl}.",
+            {
+              bot: `@${botUsername}`,
+              origin: window.location.origin,
+              profileUrl: new URL("/profile", window.location.origin).href,
+            },
+          )}{" "}
+          <a
+            href="https://t.me/BotFather"
+            className="link link-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("Open BotFather")}
+          </a>
+        </p>
+      ) : null}
       <p className="text-xs leading-relaxed text-base-content/55">
         {t(
           "Use the public Login Client ID from BotFather. Leave blank to disable linking. Bot tokens and client secrets are not needed here.",

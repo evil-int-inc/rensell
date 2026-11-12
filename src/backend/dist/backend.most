@@ -4,6 +4,11 @@ type AccessControlState__201339279 =
     var adminAssigned : Bool;
     userRoles : Map__230067015<Principal, UserRole__91647283>
   };
+type AnnouncementKind__615736490 = {#published; #updated};
+type Announcement__21445455 =
+  {data : ?Text; kind : AnnouncementKind__615736490; propertyId : Text};
+type Announcement__780248961 =
+  {data : ?Text; kind : {#published; #updated}; propertyId : Text};
 type CachedKeys__408913751 = {body : Text; expiresAt : Int};
 type Challenge__865311509 =
   {clientId : Text; createdAt : Int; expiresAt : Int; nonce : Text};
@@ -147,6 +152,15 @@ type NewActor__37944555 =
     usernames : Map__230067015<Text, UserId__717334016>;
     users : Map__230067015<UserId__717334016, NewUser__736721639>;
     videos : Map__230067015<Nat, Video__47199758>
+  };
+type NewActor__485903598 =
+  {
+    propertyAnnouncements :
+      {
+        events : Map__230067015<Nat, Announcement__780248961>;
+        var sequence : Nat
+      };
+    telegramConfig : TelegramConfigState__732167408
   };
 type NewActor__756050636 =
   {
@@ -381,6 +395,7 @@ type OldActor__281766694 =
     users : Map__230067015<UserId__359307712, User__877428867>
   };
 type OldActor__50898932 = {};
+type OldActor__588794075 = {telegramConfig : TelegramConfigState__732167408};
 type OldActor__724703710 =
   {users : Map__230067015<Principal, OldUser__599188639>};
 type OldActor__73935259 =
@@ -617,6 +632,7 @@ type TelegramCacheState__758443797 =
 type TelegramCachedKeys__1017184802 = {body : Text; expiresAt : Int};
 type TelegramChallenge__796257689 =
   {clientId : Text; createdAt : Int; expiresAt : Int; nonce : Text};
+type TelegramConfigState__732167408 = {var clientId : ?Text};
 type TelegramConfigState__881765373 = {var clientId : ?Text};
 type TelegramLink__119324554 =
   {linkedAt : Int; subject : Text; username : Text};
@@ -1105,7 +1121,8 @@ type Video__47199758 =
   "20261004_095123" : (old : OldActor__970163513) -> NewActor__1040413914;
   "20261012_000000" : (old : OldActor__281766694) -> NewActor__756050636;
   "20261016_090000" : (old : OldActor__724703710) -> NewActor__147081743;
-  "20261110_144914" : (_old : OldActor__50898932) -> NewActor__97019947
+  "20261110_144914" : (_old : OldActor__50898932) -> NewActor__97019947;
+  "20261112_221409" : (old : OldActor__588794075) -> NewActor__485903598
 }
 actor  {
   stable accessControlState :
@@ -1124,6 +1141,11 @@ actor  {
     {
       var root : Node__204828119<Text, PropertyRecord__762828039>;
       var size : Nat__227979830
+    };
+  stable propertyAnnouncements :
+    {
+      events : Map__230067015<Nat, Announcement__21445455>;
+      var sequence : Nat
     };
   stable telegramCache : {var keys : ?CachedKeys__408913751};
   stable telegramChallenges :

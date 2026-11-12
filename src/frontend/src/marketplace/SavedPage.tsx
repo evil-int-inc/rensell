@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Bookmark, Heart, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -6,6 +7,8 @@ import { PropertyCard } from "./PropertyCard";
 import { formatArea, formatLocation, formatPrice } from "./catalog";
 
 export function SavedPage() {
+  const { locale, t } = useI18n();
+  const numberFormat = new Intl.NumberFormat(locale);
   const { listings, favorites, savedSearches, toggleFavorite, removeSearch } =
     useMarketplace();
   const [comparison, setComparison] = useState<string[]>([]);
@@ -16,20 +19,21 @@ export function SavedPage() {
     <div className="market-container space-y-12 py-10 md:py-16">
       <div>
         <p className="mb-3 text-xs font-bold tracking-widest text-primary uppercase">
-          Your shortlist
+          {t("Your shortlist")}
         </p>
         <h1 className="font-editorial text-5xl tracking-tight sm:text-6xl">
-          Saved properties
+          {t("Saved properties")}
         </h1>
         <p className="mt-4 max-w-xl text-base-content/75">
-          Revisit the places that caught your eye and compare up to three
-          properties side by side.
+          {t(
+            "Revisit the places that caught your eye and compare up to three properties side by side.",
+          )}
         </p>
       </div>
 
       {saved.length > 0 ? (
         <section
-          aria-label="Saved properties"
+          aria-label={t("Saved properties")}
           className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
         >
           {saved.map((listing) => (
@@ -48,6 +52,7 @@ export function SavedPage() {
                 <input
                   type="checkbox"
                   className="checkbox checkbox-primary checkbox-sm"
+                  aria-label={t("Compare {title}", { title: listing.title })}
                   checked={comparison.includes(listing.id)}
                   disabled={
                     compared.length >= 3 && !comparison.includes(listing.id)
@@ -61,7 +66,7 @@ export function SavedPage() {
                     );
                   }}
                 />
-                Compare <span className="sr-only">{listing.title}</span>
+                {t("Compare")}
               </label>
             </div>
           ))}
@@ -73,13 +78,13 @@ export function SavedPage() {
             className="mx-auto mb-4 size-7 text-primary"
           />
           <h2 className="font-editorial text-3xl">
-            Your shortlist starts here
+            {t("Your shortlist starts here")}
           </h2>
           <p className="mt-2 text-sm text-base-content/75">
-            Select the heart on any property to save it here.
+            {t("Select the heart on any property to save it here.")}
           </p>
           <Link to="/" className="btn btn-primary mt-5">
-            Explore properties
+            {t("Explore properties")}
           </Link>
         </div>
       )}
@@ -90,13 +95,13 @@ export function SavedPage() {
             id="comparison-title"
             className="font-editorial text-3xl tracking-tight"
           >
-            Compare properties
+            {t("Compare properties")}
           </h2>
           <div className="overflow-x-auto rounded-box border border-base-300">
             <table className="table min-w-max">
               <thead className="bg-base-200 text-base-content">
                 <tr>
-                  <th scope="col">Property</th>
+                  <th scope="col">{t("Property")}</th>
                   {compared.map((listing) => (
                     <th scope="col" key={listing.id}>
                       <Link
@@ -126,7 +131,7 @@ export function SavedPage() {
                   {
                     label: "Property type",
                     format: (listing: (typeof compared)[number]) =>
-                      listing.type,
+                      t(listing.type),
                   },
                   {
                     label: "Area",
@@ -136,16 +141,20 @@ export function SavedPage() {
                   {
                     label: "Bedrooms",
                     format: (listing: (typeof compared)[number]) =>
-                      listing.bedrooms ?? "—",
+                      listing.bedrooms == null
+                        ? "—"
+                        : numberFormat.format(listing.bedrooms),
                   },
                   {
                     label: "Bathrooms",
                     format: (listing: (typeof compared)[number]) =>
-                      listing.bathrooms ?? "—",
+                      listing.bathrooms == null
+                        ? "—"
+                        : numberFormat.format(listing.bathrooms),
                   },
                 ].map(({ label, format }) => (
                   <tr key={label}>
-                    <th scope="row">{label}</th>
+                    <th scope="row">{t(label)}</th>
                     {compared.map((listing) => (
                       <td key={listing.id}>{format(listing)}</td>
                     ))}
@@ -165,7 +174,7 @@ export function SavedPage() {
           id="saved-search-title"
           className="font-editorial text-3xl tracking-tight"
         >
-          Saved searches
+          {t("Saved searches")}
         </h2>
         {savedSearches.length > 0 ? (
           <ul className="divide-y divide-base-300 rounded-box border border-base-300">
@@ -173,19 +182,30 @@ export function SavedPage() {
               const description =
                 [
                   filters.location,
-                  filters.propertyType,
+                  t(filters.propertyType),
                   filters.minPrice &&
-                    `From ${formatPrice(Number(filters.minPrice))}`,
+                    t("From {value}", {
+                      value: formatPrice(Number(filters.minPrice)),
+                    }),
                   filters.maxPrice &&
-                    `Up to ${formatPrice(Number(filters.maxPrice))}`,
-                  filters.bedrooms && `${filters.bedrooms}+ bedrooms`,
+                    t("Up to {value}", {
+                      value: formatPrice(Number(filters.maxPrice)),
+                    }),
+                  filters.bedrooms &&
+                    t("{count}+ bedrooms", {
+                      count: numberFormat.format(Number(filters.bedrooms)),
+                    }),
                   filters.minArea &&
-                    `From ${formatArea(Number(filters.minArea))}`,
+                    t("From {value}", {
+                      value: formatArea(Number(filters.minArea)),
+                    }),
                   filters.maxArea &&
-                    `Up to ${formatArea(Number(filters.maxArea))}`,
+                    t("Up to {value}", {
+                      value: formatArea(Number(filters.maxArea)),
+                    }),
                 ]
                   .filter(Boolean)
-                  .join(" · ") || "All properties";
+                  .join(" · ") || t("All properties");
               return (
                 <li
                   key={id}
@@ -212,7 +232,9 @@ export function SavedPage() {
                   <button
                     type="button"
                     className="btn btn-ghost btn-circle btn-sm shrink-0 hover:text-error"
-                    aria-label={`Remove saved search: ${description}`}
+                    aria-label={t("Remove saved search: {description}", {
+                      description,
+                    })}
                     onClick={() => removeSearch(id)}
                   >
                     <Trash2 size={17} aria-hidden="true" />
@@ -223,7 +245,9 @@ export function SavedPage() {
           </ul>
         ) : (
           <p className="text-sm text-base-content/75">
-            Save a search from Explore to return to the same filters later.
+            {t(
+              "Save a search from Explore to return to the same filters later.",
+            )}
           </p>
         )}
       </section>

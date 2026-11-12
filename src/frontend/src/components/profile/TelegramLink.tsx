@@ -68,17 +68,14 @@ export function TelegramLink({
   const verify = useMutation({
     mutationFn: (token: string) => actor.completeTelegramLink(token),
     onSuccess: async (profile) => {
-      await saved(
-        profile,
-        "Telegram linked. Your username now matches Telegram.",
-      );
+      await saved(profile, "Telegram profile synced.");
       void challenge.refetch();
     },
   });
   const unlink = useMutation({
     mutationFn: () => actor.unlinkTelegram(),
     onSuccess: async (profile) => {
-      await saved(profile, "Telegram unlinked. Your username is unchanged.");
+      await saved(profile, "Telegram unlinked.");
       void challenge.refetch();
     },
   });
@@ -182,7 +179,7 @@ export function TelegramLink({
       </header>
       <p className="text-sm leading-relaxed text-base-content/60">
         {t(
-          "Link Telegram to your existing member account. Linking replaces your current username with your Telegram username.",
+          "Link Telegram to use your Telegram name, username and profile photo when available.",
         )}
       </p>
       {link.data ? (

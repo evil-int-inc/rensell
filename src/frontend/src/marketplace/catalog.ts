@@ -1,3 +1,5 @@
+import { getLanguage, getLocale, translate } from "@/i18n";
+
 export const propertyTypes = [
   "Apartment",
   "House",
@@ -55,19 +57,34 @@ export interface PropertyListing {
   };
 }
 
-const priceFormat = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
-});
-const areaFormat = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+const formats = new Map<
+  string,
+  { price: Intl.NumberFormat; area: Intl.NumberFormat }
+>();
+
+function numberFormats() {
+  const locale = getLanguage() === "en" ? "en-US" : getLocale();
+  let format = formats.get(locale);
+  if (!format) {
+    format = {
+      price: new Intl.NumberFormat(locale, {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0,
+      }),
+      area: new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }),
+    };
+    formats.set(locale, format);
+  }
+  return format;
+}
 
 export function formatPrice(price: number) {
-  return priceFormat.format(price);
+  return numberFormats().price.format(price);
 }
 
 export function formatArea(areaM2: number) {
-  return `${areaFormat.format(areaM2)} m²`;
+  return translate("{area} m²", { area: numberFormats().area.format(areaM2) });
 }
 
 export function formatLocation(

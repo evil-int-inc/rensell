@@ -299,6 +299,25 @@ export const UserRoleView = IDL.Record({
   'role' : IDL.Opt(Role),
   'avatarUrl' : IDL.Opt(IDL.Text),
 });
+export const QueryRequest = IDL.Record({
+  'url' : IDL.Text,
+  'method' : IDL.Text,
+  'body' : IDL.Vec(IDL.Nat8),
+  'headers' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
+  'certificate_version' : IDL.Opt(IDL.Nat16),
+});
+export const Response = IDL.Record({
+  'body' : IDL.Vec(IDL.Nat8),
+  'headers' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
+  'upgrade' : IDL.Opt(IDL.Bool),
+  'status_code' : IDL.Nat16,
+});
+export const Request = IDL.Record({
+  'url' : IDL.Text,
+  'method' : IDL.Text,
+  'body' : IDL.Vec(IDL.Nat8),
+  'headers' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
+});
 export const PropertyRecord = IDL.Record({
   'id' : IDL.Text,
   'data' : IDL.Text,
@@ -381,6 +400,8 @@ export const idlService = IDL.Service({
   'getUser' : IDL.Func([UserId], [IDL.Opt(User)], ['query']),
   'getUserByUsername' : IDL.Func([IDL.Text], [IDL.Opt(User)], ['query']),
   'grantAdminRole' : IDL.Func([UserId], [UserRoleView], []),
+  'http_request' : IDL.Func([QueryRequest], [Response], ['query']),
+  'http_request_update' : IDL.Func([Request], [Response], []),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'linkPlayerToUser' : IDL.Func([IDL.Nat, UserId], [GlobalPlayerView], []),
   'listManagedProperties' : IDL.Func(
@@ -727,6 +748,25 @@ export const idlFactory = ({ IDL }) => {
     'role' : IDL.Opt(Role),
     'avatarUrl' : IDL.Opt(IDL.Text),
   });
+  const QueryRequest = IDL.Record({
+    'url' : IDL.Text,
+    'method' : IDL.Text,
+    'body' : IDL.Vec(IDL.Nat8),
+    'headers' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
+    'certificate_version' : IDL.Opt(IDL.Nat16),
+  });
+  const Response = IDL.Record({
+    'body' : IDL.Vec(IDL.Nat8),
+    'headers' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
+    'upgrade' : IDL.Opt(IDL.Bool),
+    'status_code' : IDL.Nat16,
+  });
+  const Request = IDL.Record({
+    'url' : IDL.Text,
+    'method' : IDL.Text,
+    'body' : IDL.Vec(IDL.Nat8),
+    'headers' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
+  });
   const PropertyRecord = IDL.Record({
     'id' : IDL.Text,
     'data' : IDL.Text,
@@ -809,6 +849,8 @@ export const idlFactory = ({ IDL }) => {
     'getUser' : IDL.Func([UserId], [IDL.Opt(User)], ['query']),
     'getUserByUsername' : IDL.Func([IDL.Text], [IDL.Opt(User)], ['query']),
     'grantAdminRole' : IDL.Func([UserId], [UserRoleView], []),
+    'http_request' : IDL.Func([QueryRequest], [Response], ['query']),
+    'http_request_update' : IDL.Func([Request], [Response], []),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'linkPlayerToUser' : IDL.Func([IDL.Nat, UserId], [GlobalPlayerView], []),
     'listManagedProperties' : IDL.Func(

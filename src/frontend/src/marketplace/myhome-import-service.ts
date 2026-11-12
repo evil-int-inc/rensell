@@ -1,4 +1,5 @@
 import { createActor } from "@/backend";
+import type { LocalizedMessage } from "@/i18n";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { maxPhotos, prepareListingPhoto } from "./listing-editor-data";
 import { isMyHomePhotoUrl, parseMyHomeListing } from "./myhome-import";
@@ -84,10 +85,13 @@ export function useMyHomeImport() {
     }
     signal.throwIfAborted();
 
-    const { fields, source, photoUrls, warnings } = parseMyHomeListing(
-      sourceText,
-      url.trim(),
-    );
+    const {
+      fields,
+      source,
+      photoUrls,
+      warnings: sourceWarnings,
+    } = parseMyHomeListing(sourceText, url.trim());
+    const warnings: (string | LocalizedMessage)[] = [...sourceWarnings];
     const selected = photoUrls.slice(0, maxPhotos);
     const results = await Promise.allSettled(
       selected.map((photo) => copyPhoto(photo, signal)),
@@ -101,9 +105,11 @@ export function useMyHomeImport() {
         "Some unmarked photos could not be copied. You can upload them separately.",
       );
     if (photoUrls.length > maxPhotos)
-      warnings.push(
-        `You can save up to ${maxPhotos} photos per listing and replace the imported photos before saving.`,
-      );
+      warnings.push({
+        message:
+          "You can save up to {count} photos per listing and replace the imported photos before saving.",
+        params: { count: maxPhotos },
+      });
     return { fields, source, warnings, images };
   };
 }

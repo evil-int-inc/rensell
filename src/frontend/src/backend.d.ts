@@ -128,6 +128,25 @@ export interface PropertyRecord {
     data: string;
     isDraft: boolean;
 }
+export interface QueryRequest {
+    url: string;
+    method: string;
+    body: Uint8Array;
+    headers: Array<[string, string]>;
+    certificate_version?: number;
+}
+export interface Request {
+    url: string;
+    method: string;
+    body: Uint8Array;
+    headers: Array<[string, string]>;
+}
+export interface Response {
+    body: Uint8Array;
+    headers: Array<[string, string]>;
+    upgrade?: boolean;
+    status_code: number;
+}
 export interface Result {
     hasMore: boolean;
     rows: Array<Array<Cell>>;
@@ -447,6 +466,8 @@ export interface backendInterface {
     getUser(userId: UserId): Promise<User | null>;
     getUserByUsername(username: string): Promise<User | null>;
     grantAdminRole(target: UserId): Promise<UserRoleView>;
+    http_request(request: QueryRequest): Promise<Response>;
+    http_request_update(request: Request): Promise<Response>;
     isCallerAdmin(): Promise<boolean>;
     linkPlayerToUser(playerId: bigint, userId: UserId): Promise<GlobalPlayerView>;
     listManagedProperties(after: string | null): Promise<Array<PropertyRecord>>;

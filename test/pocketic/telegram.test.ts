@@ -27,7 +27,6 @@ const keyId = "telegram-test-key";
 const keys = JSON.stringify({
 	keys: [{ ...jwk, alg: "RS256", kid: keyId, use: "sig" }],
 });
-const clientId = "8851986381";
 const avatarUrl = "https://cdn.telegram.org/file/test-avatar.jpg?size=320";
 let pic: PocketIc;
 let actor: Actor<_SERVICE>;
@@ -190,7 +189,6 @@ beforeEach(async () => {
 	actor.setPrincipal(member);
 	await actor._initialize_access_control();
 	actor.setPrincipal(owner);
-	await actor.setTelegramLinkConfig([clientId]);
 });
 
 afterAll(async () => {
@@ -198,6 +196,13 @@ afterAll(async () => {
 });
 
 describe("verified Telegram profile linking", () => {
+	it("uses the production Login Client ID on a fresh install", async () => {
+		expect(await actor.getTelegramLinkConfig()).toEqual({
+			clientId: ["9165452815"],
+		});
+		expect((await actor.startTelegramLink()).clientId).toBe("9165452815");
+	});
+
 	it("accepts a Telegram RS256 token and replaces an existing username while preserving principal, name, role, and bio", async () => {
 		const request = await actor.startTelegramLink();
 		const saved = await completeWithKeys(token(request));
@@ -221,6 +226,27 @@ describe("verified Telegram profile linking", () => {
 			subject: "123456789",
 			username: "telegram_player",
 		});
+	});
+
+	it("syncs the signed Telegram name, username and avatar and ignores an overlong name on relink", async () => {
+		const displayName = "ნინო მაისურაძე";
+		const request = await actor.startTelegramLink();
+		const saved = await completeWithKeys(
+			token(request, { name: `  ${displayName}  ` }),
+		);
+		const expected = {
+			displayName,
+			username: "telegram_player",
+			avatarUrl: [avatarUrl],
+		};
+		expect(saved).toMatchObject(expected);
+		expect((await actor.getCallerProfile())[0]).toMatchObject(expected);
+
+		const next = await nextRequest();
+		const relinked = await actor.completeTelegramLink(
+			token(next, { name: "ა".repeat(81) }),
+		);
+		expect(relinked).toMatchObject(expected);
 	});
 
 	it.each([

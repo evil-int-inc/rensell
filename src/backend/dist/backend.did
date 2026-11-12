@@ -269,6 +269,37 @@ type Result =
    hasMore: bool;
    rows: vec vec Cell;
  };
+type Response =
+ record {
+   body: blob;
+   headers: vec record {
+                  text;
+                  text;
+                };
+   status_code: nat16;
+   upgrade: opt bool;
+ };
+type Request =
+ record {
+   body: blob;
+   headers: vec record {
+                  text;
+                  text;
+                };
+   method: text;
+   url: text;
+ };
+type QueryRequest =
+ record {
+   body: blob;
+   certificate_version: opt nat16;
+   headers: vec record {
+                  text;
+                  text;
+                };
+   method: text;
+   url: text;
+ };
 type PropertyRecord = 
  record {
    data: text;
@@ -411,6 +442,8 @@ service : {
   getUser: (userId: UserId) -> (opt User) query;
   getUserByUsername: (username: text) -> (opt User) query;
   grantAdminRole: (target: UserId) -> (UserRoleView);
+  http_request: (request: QueryRequest) -> (Response) query;
+  http_request_update: (request: Request) -> (Response);
   isCallerAdmin: () -> (bool) query;
   linkPlayerToUser: (playerId: nat, userId: UserId) -> (GlobalPlayerView);
   listManagedProperties: (after: opt text) -> (vec PropertyRecord) query;

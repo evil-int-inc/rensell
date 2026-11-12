@@ -1,11 +1,14 @@
 {
   "name": "Tbilisale",
   "description": "Explore a curated collection of homes, spaces, and land in Tbilisi, Georgia.",
+  "descriptionRu": "Подборка домов, коммерческих помещений и земельных участков в Тбилиси, Грузия.",
   "icon": "/marketplace-mark.svg",
   "logo": "/marketplace-logo.svg",
   "logoInverse": "/marketplace-logo-inverse.svg",
   "manifest": "/marketplace.webmanifest",
   "themeLight": "#fafafa",
   "themeDark": "#161616",
-  "socialImage": "/assets/properties/hero.webp"
+  "socialImage": "/assets/properties/hero.webp",
+  "socialImageAlt": "A contemporary hillside residence at dusk",
+  "socialImageAltRu": "Современный дом на склоне в сумерках"
 }

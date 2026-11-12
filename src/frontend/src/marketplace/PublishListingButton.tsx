@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n";
 import { useState } from "react";
 import { useMarketplace } from "./MarketplaceContext";
 
@@ -12,6 +13,7 @@ export function PublishListingButton({
   small?: boolean;
   onPublished?: () => void;
 }) {
+  const { t } = useI18n();
   const { publishListing } = useMarketplace();
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishFailed, setPublishFailed] = useState(false);
@@ -34,16 +36,16 @@ export function PublishListingButton({
       <button
         type="button"
         className={small ? "btn btn-primary btn-sm" : "btn btn-primary"}
-        aria-label={`Publish ${title}`}
+        aria-label={t("Publish {title}", { title })}
         aria-busy={isPublishing}
         disabled={isPublishing}
         onClick={publish}
       >
-        {isPublishing ? "Publishing…" : "Publish"}
+        {t(isPublishing ? "Publishing…" : "Publish")}
       </button>
       {publishFailed && (
         <p role="alert" className="max-w-44 text-right text-sm text-error">
-          Couldn’t publish this listing. Try again.
+          {t("Couldn’t publish this listing. Try again.")}
         </p>
       )}
     </div>

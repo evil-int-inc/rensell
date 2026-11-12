@@ -1,3 +1,4 @@
+import { type LocalizedMessage, translateError, useI18n } from "@/i18n";
 import { Camera, CircleAlert, MapPin, X } from "lucide-react";
 import {
   type FormEvent,
@@ -25,7 +26,10 @@ type FieldProps = InputHTMLAttributes<HTMLInputElement> & { label: string };
 type EditorPhoto = ListingPhoto & { imported?: boolean };
 type ListingSource = NonNullable<PropertyListing["source"]>;
 type EditorSourceFact = { key: number; label: string; value: string };
-type LoadedAd = Omit<MyHomeImport, "photoUrls"> & { images: string[] };
+type LoadedAd = Omit<MyHomeImport, "photoUrls" | "warnings"> & {
+  images: string[];
+  warnings: (string | LocalizedMessage)[];
+};
 type ImportMyHomeAd = (
   url: string,
   signal: AbortSignal,
@@ -95,6 +99,7 @@ export function ListingEditor({
   onSave: (listing: PropertyListing) => Promise<void>;
   onCancel: () => void;
 }) {
+  const { t } = useI18n();
   const heading = useRef<HTMLHeadingElement>(null);
   const form = useRef<HTMLFormElement>(null);
   const editedFields = useRef(new Set<string>());
@@ -111,7 +116,7 @@ export function ListingEditor({
   const [isImporting, setIsImporting] = useState(false);
   const [isPreparing, setIsPreparing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [photoError, setPhotoError] = useState("");
+  const [photoError, setPhotoError] = useState<string | LocalizedMessage>("");
   const [saveError, setSaveError] = useState("");
   const title = listing ? "Edit property" : "Create a property listing";
   const sellerRole = listing?.seller.role || "Owner";
@@ -150,9 +155,11 @@ export function ListingEditor({
     );
     const added = found.slice(0, maxPhotos - uploaded.length);
     if (added.length < found.length) {
-      warnings.push(
-        `Some source photos were skipped because the listing can hold up to ${maxPhotos} photos.`,
-      );
+      warnings.push({
+        message:
+          "Some source photos were skipped because the listing can hold up to {count} photos.",
+        params: { count: maxPhotos },
+      });
     }
     setPhotos([
       ...uploaded,
@@ -175,7 +182,10 @@ export function ListingEditor({
     setPhotoError("");
     if (!files.length || isImporting) return;
     if (files.length + photos.length > maxPhotos) {
-      setPhotoError(`You can add up to ${maxPhotos} photos per listing.`);
+      setPhotoError({
+        message: "You can add up to {count} photos per listing.",
+        params: { count: maxPhotos },
+      });
       return;
     }
     setIsPreparing(true);
@@ -246,10 +256,10 @@ export function ListingEditor({
             tabIndex={-1}
             className="font-editorial text-3xl tracking-tight focus:outline-none sm:text-4xl"
           >
-            {title}
+            {t(title)}
           </h2>
           <p className="mt-2 text-sm text-base-content/70">
-            Fields marked with an asterisk are required.
+            {t("Fields marked with an asterisk are required.")}
           </p>
         </div>
         <button
@@ -258,7 +268,7 @@ export function ListingEditor({
           onClick={onCancel}
           disabled={isSaving}
         >
-          <X className="size-4" aria-hidden="true" /> Close editor
+          <X className="size-4" aria-hidden="true" /> {t("Close editor")}
         </button>
       </div>
 
@@ -290,33 +300,37 @@ export function ListingEditor({
       >
         <fieldset disabled={isSaving} className="grid min-w-0 gap-6">
           <FormSection
-            title="Property essentials"
-            description="Give buyers a clear picture of what you’re offering."
+            title={t("Property essentials")}
+            description={t(
+              "Give buyers a clear picture of what you’re offering.",
+            )}
           >
             <div className="sm:col-span-2">
               <Field
-                label="Listing title"
+                label={t("Listing title")}
                 name="title"
                 defaultValue={listing?.title}
-                placeholder="A light-filled apartment in Vera"
+                placeholder={t("A light-filled apartment in Vera")}
                 required
                 maxLength={100}
               />
             </div>
             <label className="flex flex-col gap-2 text-sm font-semibold">
-              Property type{" "}
+              {t("Property type")}{" "}
               <select
                 className="select w-full border-base-300"
                 name="type"
                 defaultValue={listing?.type ?? "Apartment"}
               >
                 {propertyTypes.map((type) => (
-                  <option key={type}>{type}</option>
+                  <option key={type} value={type}>
+                    {t(type)}
+                  </option>
                 ))}
               </select>
             </label>
             <Field
-              label="Asking price (USD)"
+              label={t("Asking price (USD)")}
               name="price"
               type="number"
               min="1"
@@ -327,7 +341,7 @@ export function ListingEditor({
             />
             <label className="flex flex-col gap-2 text-sm font-semibold sm:col-span-2">
               <span>
-                Description
+                {t("Description")}
                 <span className="text-primary" aria-hidden="true">
                   {" "}
                   *
@@ -339,11 +353,13 @@ export function ListingEditor({
                 defaultValue={listing?.description}
                 maxLength={4000}
                 required
-                placeholder="Describe the layout, condition, and what makes this property special."
+                placeholder={t(
+                  "Describe the layout, condition, and what makes this property special.",
+                )}
               />
             </label>
             <label className="flex flex-col gap-2 text-sm font-semibold">
-              Availability{" "}
+              {t("Availability")}{" "}
               <select
                 className="select w-full border-base-300"
                 name="status"
@@ -351,7 +367,7 @@ export function ListingEditor({
               >
                 {Object.entries(listingStatusLabels).map(([value, label]) => (
                   <option value={value} key={value}>
-                    {label}
+                    {t(label)}
                   </option>
                 ))}
               </select>
@@ -363,23 +379,25 @@ export function ListingEditor({
                 defaultChecked={listing?.featured}
                 className="checkbox checkbox-primary checkbox-sm"
               />
-              Featured listing
+              {t("Featured listing")}
             </label>
           </FormSection>
 
           <FormSection
-            title="Location"
-            description="Add the street address. Use coordinates to place a pin on the map."
+            title={t("Location")}
+            description={t(
+              "Add the street address. Use coordinates to place a pin on the map.",
+            )}
           >
             <Field
-              label="City"
+              label={t("City")}
               name="city"
               defaultValue={listing?.city ?? "Tbilisi"}
               required
               maxLength={80}
             />
             <Field
-              label="Neighborhood"
+              label={t("Neighborhood")}
               name="neighborhood"
               defaultValue={listing?.neighborhood}
               required
@@ -387,7 +405,7 @@ export function ListingEditor({
             />
             <div className="sm:col-span-2">
               <Field
-                label="Street address"
+                label={t("Street address")}
                 name="address"
                 defaultValue={listing?.address}
                 required
@@ -395,7 +413,7 @@ export function ListingEditor({
               />
             </div>
             <Field
-              label="Latitude"
+              label={t("Latitude")}
               name="latitude"
               type="number"
               min="-85"
@@ -405,7 +423,7 @@ export function ListingEditor({
               placeholder="41.7151"
             />
             <Field
-              label="Longitude"
+              label={t("Longitude")}
               name="longitude"
               type="number"
               min="-180"
@@ -419,14 +437,18 @@ export function ListingEditor({
                 className="mt-px size-3.5 shrink-0 text-primary"
                 aria-hidden="true"
               />
-              Coordinates are optional. The address will still link to a map
-              search.
+              {t(
+                "Coordinates are optional. The address will still link to a map search.",
+              )}
             </p>
           </FormSection>
 
           <FormSection
-            title="Photos"
-            description={`Add up to ${maxPhotos} photos. The first photo is used as the cover image.`}
+            title={t("Photos")}
+            description={t(
+              "Add up to {count} photos. The first photo is used as the cover image.",
+              { count: maxPhotos },
+            )}
           >
             {photos.length > 0 && (
               <ul className="grid grid-cols-2 gap-3 sm:col-span-2 sm:grid-cols-3 lg:grid-cols-5">
@@ -438,13 +460,15 @@ export function ListingEditor({
                     <div className="relative aspect-4/3 overflow-hidden rounded-box bg-base-200">
                       <img
                         src={source}
-                        alt={`Listing view ${index + 1}`}
+                        alt={t("Listing view {number}", { number: index + 1 })}
                         className="h-full w-full object-cover"
                       />
                       <button
                         type="button"
                         className="btn btn-square btn-sm absolute top-2 right-2 border-base-300 bg-base-100 text-base-content"
-                        aria-label={`Remove photo ${index + 1}`}
+                        aria-label={t("Remove photo {number}", {
+                          number: index + 1,
+                        })}
                         disabled={isPreparing || isImporting}
                         onClick={() =>
                           setPhotos((current) =>
@@ -458,13 +482,15 @@ export function ListingEditor({
                       </button>
                       {index === 0 && (
                         <span className="badge badge-sm absolute bottom-2 left-2 bg-base-100 text-base-content">
-                          Cover
+                          {t("Cover")}
                         </span>
                       )}
                     </div>
                     <Field
-                      label={`Photo ${index + 1} description`}
-                      placeholder="Optional"
+                      label={t("Photo {number} description", {
+                        number: index + 1,
+                      })}
+                      placeholder={t("Optional")}
                       maxLength={180}
                       value={description ?? ""}
                       disabled={isImporting}
@@ -487,7 +513,7 @@ export function ListingEditor({
               <label className="flex flex-col items-start gap-2 rounded-box border border-dashed border-base-300 bg-base-200 p-4 text-sm font-semibold sm:col-span-2 sm:p-5">
                 <span className="flex items-center gap-2">
                   <Camera className="size-4 text-primary" aria-hidden="true" />{" "}
-                  Add property photos
+                  {t("Add property photos")}
                 </span>
                 <input
                   className="file-input file-input-sm w-full max-w-sm border-base-300 bg-base-100"
@@ -502,28 +528,30 @@ export function ListingEditor({
                   }}
                 />
                 <span className="text-xs font-normal text-base-content/65">
-                  JPG, PNG, or WebP. Up to 20 MB per original image.
+                  {t("JPG, PNG, or WebP. Up to 20 MB per original image.")}
                 </span>
               </label>
             )}
             {isPreparing && (
               <output className="text-sm text-base-content/70 sm:col-span-2">
-                Preparing your photos…
+                {t("Preparing your photos…")}
               </output>
             )}
             {photoError && (
               <p role="alert" className="text-sm text-error sm:col-span-2">
-                {photoError}
+                {typeof photoError === "string"
+                  ? translateError(photoError)
+                  : t(photoError)}
               </p>
             )}
           </FormSection>
 
           {source && (listing || source.facts.length > 0) && (
             <FormSection
-              title="MyHome source"
+              title={t("MyHome source")}
               description={
                 source.facts.length
-                  ? "Edit or remove imported facts shown on this listing."
+                  ? t("Edit or remove imported facts shown on this listing.")
                   : undefined
               }
             >
@@ -534,7 +562,7 @@ export function ListingEditor({
                   rel="noreferrer"
                   className="link link-primary w-fit text-sm font-semibold sm:col-span-2"
                 >
-                  Original MyHome ad {source.id}
+                  {t("Original MyHome ad {id}", { id: source.id })}
                 </a>
               )}
               {source.facts.length > 0 && (
@@ -546,7 +574,9 @@ export function ListingEditor({
                     >
                       <div className="col-span-2 sm:col-span-1">
                         <Field
-                          label={`Imported fact ${index + 1} label`}
+                          label={t("Imported fact {number} label", {
+                            number: index + 1,
+                          })}
                           value={fact.label}
                           disabled={isImporting}
                           maxLength={100}
@@ -563,7 +593,9 @@ export function ListingEditor({
                         />
                       </div>
                       <Field
-                        label={`Imported fact ${index + 1} value`}
+                        label={t("Imported fact {number} value", {
+                          number: index + 1,
+                        })}
                         value={fact.value}
                         disabled={isImporting}
                         maxLength={500}
@@ -579,7 +611,9 @@ export function ListingEditor({
                       <button
                         type="button"
                         className="btn btn-square btn-ghost"
-                        aria-label={`Remove imported fact ${index + 1}`}
+                        aria-label={t("Remove imported fact {number}", {
+                          number: index + 1,
+                        })}
                         disabled={isImporting}
                         onClick={() =>
                           updateSourceFacts((facts) =>
@@ -597,11 +631,13 @@ export function ListingEditor({
           )}
 
           <FormSection
-            title="Details and amenities"
-            description="Add any specifications that will help buyers compare properties."
+            title={t("Details and amenities")}
+            description={t(
+              "Add any specifications that will help buyers compare properties.",
+            )}
           >
             <Field
-              label="Total area (m²)"
+              label={t("Total area (m²)")}
               name="areaM2"
               type="number"
               min="0.01"
@@ -611,7 +647,7 @@ export function ListingEditor({
               required
             />
             <Field
-              label="Living area (m²)"
+              label={t("Living area (m²)")}
               name="livingAreaM2"
               type="number"
               min="0.01"
@@ -620,7 +656,7 @@ export function ListingEditor({
               defaultValue={listing?.livingAreaM2}
             />
             <Field
-              label="Bedrooms"
+              label={t("Bedrooms")}
               name="bedrooms"
               type="number"
               min="0"
@@ -628,7 +664,7 @@ export function ListingEditor({
               defaultValue={listing?.bedrooms}
             />
             <Field
-              label="Bathrooms"
+              label={t("Bathrooms")}
               name="bathrooms"
               type="number"
               min="0"
@@ -636,7 +672,7 @@ export function ListingEditor({
               defaultValue={listing?.bathrooms}
             />
             <Field
-              label="Rooms"
+              label={t("Rooms")}
               name="rooms"
               type="number"
               min="0"
@@ -644,7 +680,7 @@ export function ListingEditor({
               defaultValue={listing?.rooms}
             />
             <Field
-              label="Floor"
+              label={t("Floor")}
               name="floor"
               type="number"
               min="-10"
@@ -652,7 +688,7 @@ export function ListingEditor({
               defaultValue={listing?.floor}
             />
             <Field
-              label="Total floors"
+              label={t("Total floors")}
               name="totalFloors"
               type="number"
               min="1"
@@ -660,7 +696,7 @@ export function ListingEditor({
               defaultValue={listing?.totalFloors}
             />
             <Field
-              label="Construction year"
+              label={t("Construction year")}
               name="builtYear"
               type="number"
               min="1"
@@ -668,50 +704,54 @@ export function ListingEditor({
               defaultValue={listing?.builtYear}
             />
             <Field
-              label="Building type"
+              label={t("Building type")}
               name="buildingType"
               defaultValue={listing?.buildingType}
               maxLength={100}
-              placeholder="Detached residence"
+              placeholder={t("Detached residence")}
             />
             <Field
-              label="Condition"
+              label={t("Condition")}
               name="condition"
               defaultValue={listing?.condition}
               maxLength={100}
-              placeholder="Recently renovated"
+              placeholder={t("Recently renovated")}
             />
             <div className="sm:col-span-2">
               <Field
-                label="Amenities (separate with commas)"
+                label={t("Amenities (separate with commas)")}
                 name="amenities"
                 defaultValue={listing?.amenities.join(", ")}
                 maxLength={500}
-                placeholder="Parking, balcony, garden"
+                placeholder={t("Parking, balcony, garden")}
               />
             </div>
           </FormSection>
 
           <FormSection
-            title="Seller information"
-            description="Email and phone are optional and will be public when the listing is published."
+            title={t("Seller information")}
+            description={t(
+              "Email and phone are optional and will be public when the listing is published.",
+            )}
           >
             <Field
-              label="Seller or agency name"
+              label={t("Seller or agency name")}
               name="sellerName"
               defaultValue={listing?.seller.name}
               required
               maxLength={100}
             />
             <label className="flex flex-col gap-2 text-sm font-semibold">
-              Seller type{" "}
+              {t("Seller type")}{" "}
               <select
                 className="select w-full border-base-300"
                 name="sellerRole"
                 defaultValue={sellerRole}
               >
                 {sellerRoles.map((role) => (
-                  <option key={role}>{role}</option>
+                  <option key={role} value={role}>
+                    {t(role)}
+                  </option>
                 ))}
                 {!sellerRoles.includes(sellerRole) && (
                   <option>{sellerRole}</option>
@@ -719,14 +759,14 @@ export function ListingEditor({
               </select>
             </label>
             <Field
-              label="Email address"
+              label={t("Email address")}
               name="sellerEmail"
               type="email"
               defaultValue={listing?.seller.email}
               maxLength={254}
             />
             <Field
-              label="Phone number"
+              label={t("Phone number")}
               name="sellerPhone"
               type="tel"
               defaultValue={listing?.seller.phone}
@@ -737,19 +777,19 @@ export function ListingEditor({
           {saveError && (
             <div role="alert" className="alert alert-error alert-soft">
               <CircleAlert className="size-5 shrink-0" aria-hidden="true" />{" "}
-              {saveError}
+              {translateError(saveError)}
             </div>
           )}
           <div className="flex flex-wrap items-center justify-end gap-3 border-t border-base-300 pt-5">
             <button type="button" className="btn btn-ghost" onClick={onCancel}>
-              Cancel
+              {t("Cancel")}
             </button>
             <button
               type="submit"
               className="btn btn-primary"
               disabled={isPreparing || isImporting}
             >
-              {isSaving ? "Saving…" : "Save listing"}
+              {t(isSaving ? "Saving…" : "Save listing")}
             </button>
           </div>
         </fieldset>

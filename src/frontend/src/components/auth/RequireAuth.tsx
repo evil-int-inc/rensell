@@ -95,9 +95,9 @@ export function RequireAdmin({
       return (
         <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4 px-6 text-center">
           <ShieldAlert className="size-8 text-primary" aria-hidden="true" />
-          <h1 className="font-editorial text-4xl">Admin sign-in</h1>
+          <h1 className="font-editorial text-4xl">{t("Admin sign-in")}</h1>
           <p className="text-sm text-base-content/70">
-            Sign in with an administrator account to continue.
+            {t("Sign in with an administrator account to continue.")}
           </p>
           <button
             type="button"
@@ -105,7 +105,7 @@ export function RequireAdmin({
             onClick={() => login()}
             disabled={isLoggingIn}
           >
-            {isLoggingIn ? t("Signing in") : "Sign in with Internet Identity"}
+            {t(isLoggingIn ? "Signing in" : "Sign in with Internet Identity")}
           </button>
         </div>
       );

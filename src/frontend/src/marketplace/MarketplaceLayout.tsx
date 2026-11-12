@@ -1,33 +1,34 @@
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { useAuth } from "@/hooks/useAuth";
+import { useI18n } from "@/i18n";
 import { Link, Outlet, useNavigate } from "@tanstack/react-router";
 import {
   ArrowUpRight,
   LogIn,
   LogOut,
   Menu,
-  Moon,
   PanelLeftClose,
   PanelLeftOpen,
   Plus,
-  Sun,
   X,
 } from "lucide-react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import brand from "../../marketplace-brand.json";
-import { themeService } from "../services/themeService";
 import { MarketplaceProvider, useMarketplace } from "./MarketplaceContext";
 import { MarketplaceSidebar } from "./MarketplaceSidebar";
+import { MarketplaceThemeSwitcher } from "./MarketplaceThemeSwitcher";
 
 function Brand({
   iconOnly = false,
   onNavigate,
 }: { iconOnly?: boolean; onNavigate?: () => void }) {
+  const { t } = useI18n();
   return (
     <Link
       to="/"
       search={{}}
       onClick={onNavigate}
-      aria-label={`${brand.name} home`}
+      aria-label={t("{name} home", { name: brand.name })}
       className="inline-flex w-fit min-w-0 max-w-full items-center"
     >
       {iconOnly ? (
@@ -89,13 +90,7 @@ function MarketplaceHeader({
   mobileSidebarOpen: boolean;
   onOpenSidebar: () => void;
 }) {
-  const [theme, setTheme] = useState(themeService.getMarketplaceTheme);
-
-  useLayoutEffect(() => {
-    themeService.apply(theme);
-  }, [theme]);
-
-  const dark = theme === "market-dark";
+  const { t } = useI18n();
   return (
     <header className="sticky top-0 z-30 border-b border-base-300 bg-base-100">
       <div className="market-container flex min-h-[4.25rem] items-center justify-between gap-2 md:min-h-[4.5rem]">
@@ -103,7 +98,7 @@ function MarketplaceHeader({
           <button
             type="button"
             className={`${navIconClass} shrink-0 lg:hidden`}
-            aria-label="Open sidebar"
+            aria-label={t("Open sidebar")}
             aria-haspopup="dialog"
             aria-controls={mobileSidebarId}
             aria-expanded={mobileSidebarOpen}
@@ -114,47 +109,33 @@ function MarketplaceHeader({
           <Brand />
         </div>
         <div className="flex shrink-0 items-center gap-1 sm:gap-2.5">
-          <button
-            type="button"
-            className={navIconClass}
-            aria-label={`Switch to ${dark ? "light" : "dark"} theme`}
-            onClick={() => {
-              const next = dark ? "market-light" : "market-dark";
-              themeService.saveMarketplaceTheme(next);
-              setTheme(next);
-            }}
-          >
-            {dark ? (
-              <Sun size={17} aria-hidden="true" />
-            ) : (
-              <Moon size={17} aria-hidden="true" />
-            )}
-          </button>
+          <LanguageSwitcher align="end" />
+          <MarketplaceThemeSwitcher />
           {showAdmin && (
             <Link
               to="/sell"
               className="btn btn-primary hidden h-10 rounded-full px-4 text-sm md:inline-flex"
             >
-              <Plus size={17} aria-hidden="true" /> List a property
+              <Plus size={17} aria-hidden="true" /> {t("List a property")}
             </Link>
           )}
           {auth.isAuthenticated ? (
             <button
               type="button"
               className={navClass}
-              aria-label="Sign out"
-              title="Sign out"
+              aria-label={t("Sign out")}
+              title={t("Sign out")}
               onClick={onSignOut}
             >
               <LogOut size={17} aria-hidden="true" />
-              <span className="hidden md:inline">Sign out</span>
+              <span className="hidden md:inline">{t("Sign out")}</span>
             </button>
           ) : (
             <button
               type="button"
               className={navClass}
-              aria-label="Sign in"
-              title="Sign in with Internet Identity"
+              aria-label={t("Sign in")}
+              title={t("Sign in with Internet Identity")}
               disabled={auth.isInitializing || auth.isLoggingIn}
               onClick={() => auth.login()}
             >
@@ -163,7 +144,7 @@ function MarketplaceHeader({
                 className="hidden min-[480px]:block"
                 aria-hidden="true"
               />
-              <span>Sign in</span>
+              <span>{t("Sign in")}</span>
             </button>
           )}
         </div>
@@ -173,13 +154,14 @@ function MarketplaceHeader({
 }
 
 function MarketplaceFooter({ showAdmin }: { showAdmin: boolean }) {
+  const { t } = useI18n();
   return (
     <footer className="border-t border-base-300 bg-base-200">
       <div className="market-container flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:py-10">
         <div className="space-y-2">
           <Brand />
           <p className="text-sm text-base-content/70">
-            Property discovery in Tbilisi, Georgia.
+            {t("Property discovery in Tbilisi, Georgia.")}
           </p>
         </div>
         {showAdmin && (
@@ -187,7 +169,8 @@ function MarketplaceFooter({ showAdmin }: { showAdmin: boolean }) {
             to="/sell"
             className="flex w-fit items-center gap-2 text-sm font-semibold text-primary hover:underline"
           >
-            Seller workspace <ArrowUpRight size={15} aria-hidden="true" />
+            {t("Seller workspace")}{" "}
+            <ArrowUpRight size={15} aria-hidden="true" />
           </Link>
         )}
       </div>
@@ -196,6 +179,7 @@ function MarketplaceFooter({ showAdmin }: { showAdmin: boolean }) {
 }
 
 function MarketplaceFrame() {
+  const { t } = useI18n();
   const { favorites, storageError } = useMarketplace();
   const auth = useAuth();
   const navigate = useNavigate();
@@ -208,12 +192,24 @@ function MarketplaceFrame() {
   const [collapsed, setCollapsed] = useState(readSidebarCollapsed);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const mobileSidebar = useRef<HTMLDialogElement>(null);
-  const toggleLabel = collapsed ? "Expand sidebar" : "Collapse sidebar";
+  const toggleLabel = t(collapsed ? "Expand sidebar" : "Collapse sidebar");
   const sidebarProps = {
     showAdmin,
     showProfile: auth.isAuthenticated,
     favoriteCount: favorites.length,
   };
+
+  useEffect(() => {
+    const description = t(brand.description);
+    for (const tag of document.querySelectorAll(
+      'meta[name="description"], meta[property="og:description"]',
+    )) {
+      tag.setAttribute("content", description);
+    }
+    document
+      .querySelector('meta[property="og:image:alt"]')
+      ?.setAttribute("content", t(brand.socialImageAlt));
+  }, [t]);
 
   useEffect(() => {
     if (!mobileSidebarOpen) return;
@@ -259,13 +255,13 @@ function MarketplaceFrame() {
         href="#market-main"
         className="btn btn-primary sr-only z-50 focus:not-sr-only focus:absolute focus:top-2 focus:left-2"
       >
-        Skip to content
+        {t("Skip to content")}
       </a>
       <div
         className={`hidden shrink-0 motion-safe:transition-[width] lg:block ${collapsed ? "w-[4.5rem]" : "w-56"}`}
       >
         <aside
-          aria-label="Sidebar"
+          aria-label={t("Sidebar")}
           className="sticky top-0 z-40 flex h-svh flex-col border-e border-base-300 bg-base-100"
         >
           <div
@@ -287,7 +283,7 @@ function MarketplaceFrame() {
             ) : (
               <PanelLeftClose size={19} aria-hidden="true" />
             )}
-            {!collapsed && <span>Collapse</span>}
+            {!collapsed && <span>{t("Collapse")}</span>}
           </button>
           <MarketplaceSidebar
             {...sidebarProps}
@@ -299,7 +295,7 @@ function MarketplaceFrame() {
       <dialog
         ref={mobileSidebar}
         id={mobileSidebarId}
-        aria-label="Sidebar"
+        aria-label={t("Sidebar")}
         className="modal items-stretch justify-items-start lg:hidden"
         onClose={() => setMobileSidebarOpen(false)}
       >
@@ -309,7 +305,7 @@ function MarketplaceFrame() {
             <button
               type="button"
               className={navIconClass}
-              aria-label="Close sidebar"
+              aria-label={t("Close sidebar")}
               onClick={closeMobileSidebar}
             >
               <X size={20} aria-hidden="true" />
@@ -323,7 +319,7 @@ function MarketplaceFrame() {
         </div>
         <form method="dialog" className="modal-backdrop" aria-hidden="true">
           <button type="submit" tabIndex={-1}>
-            Close
+            {t("Close")}
           </button>
         </form>
       </dialog>
@@ -341,7 +337,7 @@ function MarketplaceFrame() {
               role="alert"
               className="alert alert-error market-container mt-4"
             >
-              {storageError}
+              {t(storageError)}
             </div>
           )}
           <Outlet />

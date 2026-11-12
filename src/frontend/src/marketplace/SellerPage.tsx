@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowUpRight,
@@ -17,6 +18,7 @@ import { listingStatusLabels } from "./listing-editor-data";
 import { useMyHomeImport } from "./myhome-import-service";
 
 export function SellerPage() {
+  const { t } = useI18n();
   const importMyHome = useMyHomeImport();
   const {
     ownedListings,
@@ -57,7 +59,7 @@ export function SellerPage() {
       <header className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-2xl">
           <p className="mb-3 text-[0.68rem] font-bold tracking-[0.2em] text-primary uppercase">
-            Seller workspace
+            {t("Seller workspace")}
           </p>
           <h1
             id="seller-heading"
@@ -65,11 +67,12 @@ export function SellerPage() {
             tabIndex={-1}
             className="font-editorial text-[clamp(2.7rem,6.5vw,5rem)] leading-none tracking-[-0.045em] focus:outline-none"
           >
-            Manage properties
+            {t("Manage properties")}
           </h1>
           <p className="mt-4 leading-relaxed text-base-content/70">
-            Create listings, update asking prices, and manage availability from
-            one place.
+            {t(
+              "Create listings, update asking prices, and manage availability from one place.",
+            )}
           </p>
         </div>
         {!editor && (
@@ -78,7 +81,7 @@ export function SellerPage() {
             className="btn btn-primary"
             onClick={() => editListing("new")}
           >
-            <Plus className="size-4" aria-hidden="true" /> New listing
+            <Plus className="size-4" aria-hidden="true" /> {t("New listing")}
           </button>
         )}
       </header>
@@ -89,14 +92,15 @@ export function SellerPage() {
           aria-hidden="true"
         />
         <p>
-          Drafts are visible to admins in this workspace. Published listings
-          appear in Explore.
+          {t(
+            "Drafts are visible to admins in this workspace. Published listings appear in Explore.",
+          )}
         </p>
       </div>
 
       {!editor && notice && (
         <output className="alert alert-success alert-soft mt-4">
-          <Check className="size-5" aria-hidden="true" /> {notice}
+          <Check className="size-5" aria-hidden="true" /> {t(notice)}
         </output>
       )}
 
@@ -114,41 +118,44 @@ export function SellerPage() {
             className="loading loading-spinner loading-sm text-primary"
             aria-hidden="true"
           />
-          Loading listings…
+          {t("Loading listings…")}
         </output>
       ) : ownedListingsError ? (
         <div role="alert" className="alert alert-error alert-soft mt-8">
           <CircleAlert className="size-5" aria-hidden="true" />
-          <p>Listings couldn’t be loaded.</p>
+          <p>{t("Listings couldn’t be loaded.")}</p>
           <button
             type="button"
             className="btn btn-sm"
             onClick={retryOwnedListings}
           >
-            Try again
+            {t("Try again")}
           </button>
         </div>
       ) : (
         <>
           <dl className="mt-8 grid grid-cols-3 gap-2 sm:gap-4">
-            {[
-              ["All listings", ownedListings.length],
+            {(
               [
-                "Available",
-                ownedListings.filter(({ status }) => status === "available")
-                  .length,
-              ],
-              [
-                "Drafts",
-                ownedListings.filter(({ status }) => status === "draft").length,
-              ],
-            ].map(([label, count]) => (
+                ["All listings", ownedListings.length],
+                [
+                  "Available",
+                  ownedListings.filter(({ status }) => status === "available")
+                    .length,
+                ],
+                [
+                  "Drafts",
+                  ownedListings.filter(({ status }) => status === "draft")
+                    .length,
+                ],
+              ] as const
+            ).map(([label, count]) => (
               <div
                 key={label}
                 className="rounded-box border border-base-300 bg-base-100 p-3.5 sm:p-5"
               >
                 <dt className="text-xs font-medium text-base-content/70 sm:text-sm">
-                  {label}
+                  {t(label)}
                 </dt>
                 <dd className="mt-1 font-editorial text-3xl tracking-tight sm:text-4xl">
                   {count}
@@ -162,7 +169,7 @@ export function SellerPage() {
               id="listing-management-title"
               className="mb-4 font-editorial text-3xl tracking-tight sm:text-4xl"
             >
-              Manage listings
+              {t("Manage listings")}
             </h2>
             {ownedListings.length ? (
               <ul className="divide-y divide-base-300 overflow-hidden rounded-box border border-base-300 bg-base-100">
@@ -190,7 +197,7 @@ export function SellerPage() {
                         <span
                           className={`badge badge-sm ${listing.status === "available" ? "badge-soft badge-success" : "badge-outline border-base-300 text-base-content/70"}`}
                         >
-                          {listingStatusLabels[listing.status]}
+                          {t(listingStatusLabels[listing.status])}
                         </span>
                       </div>
                       <p className="mt-1 text-sm text-base-content/70">
@@ -202,9 +209,11 @@ export function SellerPage() {
                         to="/properties/$listingId"
                         params={{ listingId: listing.id }}
                         className="btn btn-ghost btn-sm"
-                        aria-label={`Preview ${listing.title}`}
+                        aria-label={t("Preview {title}", {
+                          title: listing.title,
+                        })}
                       >
-                        Preview{" "}
+                        {t("Preview")}{" "}
                         <ArrowUpRight className="size-3.5" aria-hidden="true" />
                       </Link>
                       {listing.status === "draft" && (
@@ -240,19 +249,20 @@ export function SellerPage() {
                   <Building2 className="size-6" aria-hidden="true" />
                 </span>
                 <h3 className="mt-5 font-editorial text-2xl tracking-tight sm:text-3xl">
-                  Your first listing starts here
+                  {t("Your first listing starts here")}
                 </h3>
                 <p className="mt-2 max-w-sm text-sm leading-relaxed text-base-content/70">
-                  Add a property, its asking price, and a few photos. Save a
-                  draft or mark it available when you’re ready.
+                  {t(
+                    "Add a property, its asking price, and a few photos. Save a draft or mark it available when you’re ready.",
+                  )}
                 </p>
                 <button
                   type="button"
                   className="btn btn-outline mt-5 border-base-300"
                   onClick={() => editListing("new")}
                 >
-                  <Plus className="size-4" aria-hidden="true" /> Create a
-                  listing
+                  <Plus className="size-4" aria-hidden="true" />{" "}
+                  {t("Create a listing")}
                 </button>
               </div>
             )}

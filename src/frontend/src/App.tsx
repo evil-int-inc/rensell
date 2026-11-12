@@ -33,16 +33,17 @@ import {
 } from "@tanstack/react-router";
 
 function MarketplaceNotFound() {
+  const { t } = useI18n();
   return (
     <div className="market-container py-20">
       <p className="mb-3 text-xs font-bold tracking-widest text-primary">
-        404 / PAGE NOT FOUND
+        {t("404 / PAGE NOT FOUND")}
       </p>
       <h1 className="font-editorial text-5xl tracking-tight">
-        This page couldn’t be found.
+        {t("This page couldn’t be found.")}
       </h1>
       <Link to="/" className="btn btn-primary mt-6">
-        Explore properties
+        {t("Explore properties")}
       </Link>
     </div>
   );

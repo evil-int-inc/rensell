@@ -145,6 +145,12 @@ export const mockBackend: backendInterface = {
   deleteProperty: async () => {
     throw new Error("Removing listings requires the real backend.");
   },
+  http_request: async () => {
+    throw new Error("Listing announcements require the real backend.");
+  },
+  http_request_update: async () => {
+    throw new Error("Listing announcements require the real backend.");
+  },
   readMyHomeListing: async () => {
     throw new Error("Fetching a MyHome link requires the real backend.");
   },

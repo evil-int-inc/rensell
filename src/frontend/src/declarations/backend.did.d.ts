@@ -72,6 +72,25 @@ export interface PropertyRecord {
   'data' : string,
   'isDraft' : boolean,
 }
+export interface QueryRequest {
+  'url' : string,
+  'method' : string,
+  'body' : Uint8Array,
+  'headers' : Array<[string, string]>,
+  'certificate_version' : [] | [number],
+}
+export interface Request {
+  'url' : string,
+  'method' : string,
+  'body' : Uint8Array,
+  'headers' : Array<[string, string]>,
+}
+export interface Response {
+  'body' : Uint8Array,
+  'headers' : Array<[string, string]>,
+  'upgrade' : [] | [boolean],
+  'status_code' : number,
+}
 export interface Result { 'hasMore' : boolean, 'rows' : Array<Array<Cell>> }
 export type Result__1 = { 'ok' : null } |
   { 'err' : Error };
@@ -339,6 +358,8 @@ export interface _SERVICE {
   'getUser' : ActorMethod<[UserId], [] | [User]>,
   'getUserByUsername' : ActorMethod<[string], [] | [User]>,
   'grantAdminRole' : ActorMethod<[UserId], UserRoleView>,
+  'http_request' : ActorMethod<[QueryRequest], Response>,
+  'http_request_update' : ActorMethod<[Request], Response>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'linkPlayerToUser' : ActorMethod<[bigint, UserId], GlobalPlayerView>,
   'listManagedProperties' : ActorMethod<[[] | [string]], Array<PropertyRecord>>,

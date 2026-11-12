@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n";
 import { ImageOff, Images } from "lucide-react";
 import { useRef, useState } from "react";
 import { PropertyPhotoDialog } from "./PropertyPhotoDialog";
@@ -11,6 +12,7 @@ export function PropertyGallery({
   imageDescriptions?: string[];
   title: string;
 }) {
+  const { t } = useI18n();
   const gallery = useRef<HTMLDialogElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -27,7 +29,7 @@ export function PropertyGallery({
     return (
       <div className="flex aspect-2/1 flex-col items-center justify-center gap-3 rounded-box bg-base-200 text-base-content/65">
         <ImageOff className="size-8" aria-hidden="true" />
-        <p className="text-sm">Photography is coming soon</p>
+        <p className="text-sm">{t("Photography is coming soon")}</p>
       </div>
     );
   }
@@ -44,7 +46,7 @@ export function PropertyGallery({
             type="button"
             className="group absolute inset-0 w-full"
             onClick={() => openGallery(0)}
-            aria-label="Open property photo gallery"
+            aria-label={t("Open property photo gallery")}
           >
             <img
               className="h-full w-full object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-105"
@@ -60,8 +62,8 @@ export function PropertyGallery({
           >
             <Images className="size-4" aria-hidden="true" />
             {images.length === 1
-              ? "View photo"
-              : `View all ${images.length} photos`}
+              ? t("View photo")
+              : t("View all {count} photos", { count: images.length })}
           </button>
         </div>
         {images.length > 1 && (
@@ -72,7 +74,9 @@ export function PropertyGallery({
               <button
                 key={`${index}-${src}`}
                 type="button"
-                aria-label={`View property photo ${index + 2}`}
+                aria-label={t("View property photo {number}", {
+                  number: index + 2,
+                })}
                 className="group relative min-h-0 overflow-hidden bg-base-200"
                 onClick={() => openGallery(index + 1)}
               >

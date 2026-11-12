@@ -44,7 +44,8 @@ describe.skipIf(!hasTelegramBaseline)("Telegram avatar migration", () => {
 			displayName: "Existing member",
 			username: "existing_member",
 		});
-		await previous.setTelegramLinkConfig(["8851986381"]);
+		const customClientId = "1234567890";
+		await previous.setTelegramLinkConfig([customClientId]);
 		const request = await previous.startTelegramLink();
 		const issuedAt = Number(request.expiresAt / 1_000_000_000n) - 300;
 		const { publicKey, privateKey } = generateKeyPairSync("rsa", {
@@ -127,6 +128,9 @@ describe.skipIf(!hasTelegramBaseline)("Telegram avatar migration", () => {
 		});
 		const current = pic.createActor<_SERVICE>(idlFactory, fixture.canisterId);
 		current.setPrincipal(owner);
+		expect(await current.getTelegramLinkConfig()).toEqual({
+			clientId: [customClientId],
+		});
 		expect((await current.getCallerProfile())[0]).toEqual({
 			...profile,
 			avatarUrl: [],

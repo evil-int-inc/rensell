@@ -1,12 +1,15 @@
 import { LANGUAGES, useI18n } from "@/i18n";
 import { Check, Globe2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({
+  align = "start",
+}: { align?: "start" | "end" }) {
   const { language, setLanguage, t } = useI18n();
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
+  const optionsId = useId();
   useEffect(() => {
     if (!open) return;
     function close(event: PointerEvent) {
@@ -27,7 +30,10 @@ export function LanguageSwitcher() {
         }
       }}
     >
-      <div className="tooltip tooltip-bottom" data-tip={t("Language")}>
+      <div
+        className={open ? undefined : "tooltip tooltip-bottom"}
+        data-tip={open ? undefined : t("Language")}
+      >
         <button
           ref={trigger}
           type="button"
@@ -35,19 +41,19 @@ export function LanguageSwitcher() {
           className="btn btn-ghost btn-sm gap-2 px-2"
           aria-label={t("Change language")}
           aria-expanded={open}
-          aria-controls="language-options"
+          aria-controls={optionsId}
           onClick={() => setOpen((value) => !value)}
         >
           <Globe2 className="size-4" aria-hidden="true" />
           <span className="font-mono text-[10px]">
-            {language === "ka" ? "GEO" : language.toUpperCase()}
+            {language === "ka" ? "geo" : language.toUpperCase()}
           </span>
         </button>
       </div>
       {open ? (
         <fieldset
-          id="language-options"
-          className="absolute left-0 top-full z-50 mt-3 w-48 border border-base-300 border-t-primary bg-base-200 p-2 shadow-xl"
+          id={optionsId}
+          className={`absolute top-full z-50 mt-3 w-48 border border-base-300 border-t-primary bg-base-200 p-2 shadow-xl ${align === "end" ? "right-0" : "left-0"}`}
         >
           <legend className="sr-only">{t("Language")}</legend>
           {LANGUAGES.map((option) => (
@@ -55,11 +61,21 @@ export function LanguageSwitcher() {
               key={option.code}
               className="flex cursor-pointer items-center justify-between gap-3 px-3 py-3 text-sm hover:bg-base-300 has-[:focus-visible]:outline has-[:focus-visible]:outline-primary"
             >
-              <span lang={option.code}>{option.name}</span>
+              <span lang={option.code} className="grow">
+                {option.name}
+              </span>
+              {option.code === "ka" && (
+                <span
+                  className="font-mono text-xs text-base-content/60"
+                  aria-hidden="true"
+                >
+                  geo
+                </span>
+              )}
               <input
                 className="sr-only"
                 type="radio"
-                name="language"
+                name={optionsId}
                 value={option.code}
                 aria-label={option.name}
                 checked={language === option.code}

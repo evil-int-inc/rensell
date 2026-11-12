@@ -7,12 +7,14 @@ import AccessControl "mo:caffeineai-authorization/access-control";
 import Calls "mo:ic/Call";
 import IC "mo:ic/Types";
 import Properties "../types/properties";
+import Announcements "../lib/property-announcements";
 import PropertiesLib "../lib/properties";
 import RolesLib "../lib/roles";
 
 mixin (
   accessControlState : AccessControl.AccessControlState,
   properties : Map.Map<Text, Properties.PropertyRecord>,
+  propertyAnnouncements : Properties.Announcements,
 ) {
   public query func listProperties(after : ?Text) : async [Properties.PropertyRecord] {
     PropertiesLib.list(properties, after, false);
@@ -25,27 +27,47 @@ mixin (
 
   public shared ({ caller }) func saveProperty(property : Properties.PropertyRecord) : async () {
     RolesLib.requireAdmin(accessControlState, caller);
+    let previous = properties.get(property.id);
     PropertiesLib.save(properties, property);
+    Announcements.recordChange(propertyAnnouncements, previous, property);
   };
 
   public shared ({ caller }) func updateProperty(property : Properties.PropertyRecord) : async () {
     RolesLib.requireAdmin(accessControlState, caller);
+    let previous = properties.get(property.id);
     PropertiesLib.update(properties, property);
+    Announcements.recordChange(propertyAnnouncements, previous, property);
   };
 
   public shared ({ caller }) func publishProperty(id : Text) : async () {
     RolesLib.requireAdmin(accessControlState, caller);
-    PropertiesLib.setDraft(properties, id, false);
+    let previous = properties.get(id) ?? Runtime.trap("Property not found");
+    if (previous.isDraft) {
+      let property = { previous with isDraft = false };
+      properties.add(id, property);
+      Announcements.recordChange(propertyAnnouncements, ?previous, property);
+    };
   };
 
   public shared ({ caller }) func makePropertyDraft(id : Text) : async () {
     RolesLib.requireAdmin(accessControlState, caller);
     PropertiesLib.setDraft(properties, id, true);
+    Announcements.withdraw(propertyAnnouncements, id);
   };
 
   public shared ({ caller }) func deleteProperty(id : Text) : async () {
     RolesLib.requireAdmin(accessControlState, caller);
     properties.remove(id);
+    Announcements.withdraw(propertyAnnouncements, id);
+  };
+
+  public query func http_request(request : Announcements.QueryRequest) : async Announcements.Response {
+    // The gateway obtains the actual feed through a replicated update.
+    Announcements.upgradeRequest(request);
+  };
+
+  public func http_request_update(request : Announcements.Request) : async Announcements.Response {
+    Announcements.feed(propertyAnnouncements, request);
   };
 
   public query func myHomeListingTransform(input : { context : Blob; response : IC.HttpRequestResult }) : async IC.HttpRequestResult {

@@ -71,7 +71,7 @@ function renderProfile() {
 }
 
 describe("language selection", () => {
-  it("defaults to English and changes the entire profile without losing draft fields", async () => {
+  it("changes the entire profile language without losing draft fields", async () => {
     const user = userEvent.setup();
     renderProfile();
     const name = await screen.findByRole("textbox", {
@@ -160,7 +160,7 @@ describe("language selection", () => {
     expect(getLanguage()).toBe("ka");
     expect(
       screen.getByRole("button", { name: "ენის შეცვლა" }),
-    ).toHaveTextContent("GEO");
+    ).toHaveTextContent("geo");
   });
 
   it("syncs an existing page when another tab changes or clears the preference", () => {
@@ -185,8 +185,8 @@ describe("language selection", () => {
       );
     });
     expect(
-      screen.getByRole("button", { name: "Change language" }),
-    ).toHaveTextContent("EN");
+      screen.getByRole("button", { name: "Изменить язык" }),
+    ).toHaveTextContent("RU");
   });
 });
 

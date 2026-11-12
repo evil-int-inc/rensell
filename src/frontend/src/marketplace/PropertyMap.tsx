@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, LocateFixed, MapPin, Minus, Plus } from "lucide-react";
 import {
@@ -115,6 +116,7 @@ export function PropertyMap({
   showSummary = true,
   className = "",
 }: PropertyMapProps) {
+  const { t } = useI18n();
   const keyboardHint = useId();
   const viewport = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number; camera: Camera } | null>(null);
@@ -164,9 +166,11 @@ export function PropertyMap({
             aria-hidden="true"
             className="mx-auto mb-3 size-7 text-primary"
           />
-          <p className="font-semibold">No properties to show on the map</p>
+          <p className="font-semibold">
+            {t("No properties to show on the map")}
+          </p>
           <p className="mt-1 text-sm text-base-content/65">
-            Map pins appear when a listing includes coordinates.
+            {t("Map pins appear when a listing includes coordinates.")}
           </p>
         </div>
       </div>
@@ -240,7 +244,7 @@ export function PropertyMap({
 
   return (
     <section
-      aria-label="Property map"
+      aria-label={t("Property map")}
       className={`flex min-h-72 flex-col overflow-hidden rounded-box border border-base-300 bg-base-100 ${className}`}
     >
       <div
@@ -281,7 +285,7 @@ export function PropertyMap({
         />
         {tiles.length > 0 && tiles.every(({ url }) => failedTiles.has(url)) && (
           <output className="pointer-events-none absolute top-3 left-3 rounded-field border border-base-300 bg-base-100/95 px-2 py-1 text-xs text-base-content/70">
-            Basemap unavailable
+            {t("Basemap unavailable")}
           </output>
         )}
         {locations.map(({ listing, point }) => {
@@ -316,7 +320,7 @@ export function PropertyMap({
           <div className="join join-vertical shadow-sm">
             <button
               type="button"
-              aria-label="Zoom in"
+              aria-label={t("Zoom in")}
               disabled={camera.zoom >= maxZoom}
               onClick={() => zoomBy(1)}
               className="btn btn-sm join-item size-9 bg-base-100 p-0"
@@ -325,7 +329,7 @@ export function PropertyMap({
             </button>
             <button
               type="button"
-              aria-label="Zoom out"
+              aria-label={t("Zoom out")}
               disabled={camera.zoom <= minZoom}
               onClick={() => zoomBy(-1)}
               className="btn btn-sm join-item size-9 bg-base-100 p-0"
@@ -335,7 +339,7 @@ export function PropertyMap({
           </div>
           <button
             type="button"
-            aria-label="Fit property locations"
+            aria-label={t("Fit property locations")}
             aria-describedby={keyboardHint}
             onClick={() => setView(undefined)}
             onKeyDown={handleMapKey}
@@ -344,7 +348,7 @@ export function PropertyMap({
             <LocateFixed aria-hidden="true" className="size-4" />
           </button>
           <span id={keyboardHint} className="sr-only">
-            Use arrow keys to pan and plus or minus to zoom.
+            {t("Use arrow keys to pan and plus or minus to zoom.")}
           </span>
         </div>
         <div className="absolute right-0 bottom-0 z-20 flex flex-wrap justify-end gap-x-2 rounded-tl-field bg-base-100/95 px-2 py-1 text-[10px] text-base-content/80">
@@ -354,7 +358,7 @@ export function PropertyMap({
             rel="noreferrer"
             className="hover:underline"
           >
-            © OpenStreetMap contributors
+            {t("© OpenStreetMap contributors")}
           </a>
           <a
             href="https://www.openstreetmap.org/fixthemap"
@@ -362,7 +366,7 @@ export function PropertyMap({
             rel="noreferrer"
             className="hover:underline"
           >
-            Report a map issue
+            {t("Report a map issue")}
           </a>
         </div>
       </div>

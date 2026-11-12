@@ -1,3 +1,5 @@
+import { useI18n } from "@/i18n";
+import { formatClubDate } from "@/i18n/date";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowDownRight,
@@ -24,10 +26,14 @@ import { PublishListingButton } from "./PublishListingButton";
 import { type PropertyListing, formatArea, formatPrice } from "./catalog";
 import { listingStatusLabels } from "./listing-editor-data";
 
-const dateFormat = new Intl.DateTimeFormat("en", {
-  dateStyle: "medium",
-  timeZone: "UTC",
-});
+function formatListingDate(value: string) {
+  return formatClubDate(new Date(value), {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
 
 function DetailSection({
   id,
@@ -52,16 +58,25 @@ function DetailSection({
 }
 
 function SellerContact({ listing }: { listing: PropertyListing }) {
+  const { t } = useI18n();
   const { seller } = listing;
   const email = seller.email
     ? `mailto:${encodeURIComponent(seller.email).replace("%40", "@")}`
     : undefined;
   const telephone = seller.phone?.replace(/[^\d+]/g, "");
+  const inquirySubject = t("Inquiry about {title}", { title: listing.title });
+  const viewingSubject = t("Viewing request for {title}", {
+    title: listing.title,
+  });
+  const viewingBody = t(
+    "Hello {name},\n\nI would like to arrange a viewing of {title}. My preferred times are:\n\n",
+    { name: seller.name, title: listing.title },
+  );
 
   return (
     <div className="card border border-base-300 bg-base-100 p-6 shadow-sm sm:p-7">
       <p className="text-[0.68rem] font-bold tracking-[0.18em] text-base-content/65 uppercase">
-        Listed by
+        {t("Listed by")}
       </p>
       <div className="mt-5 flex items-center gap-4">
         <span className="grid size-12 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
@@ -69,7 +84,13 @@ function SellerContact({ listing }: { listing: PropertyListing }) {
         </span>
         <div>
           <p className="text-lg leading-tight font-semibold">{seller.name}</p>
-          <p className="mt-1 text-sm text-base-content/65">{seller.role}</p>
+          <p className="mt-1 text-sm text-base-content/65">
+            {["Owner", "Real estate agent", "Property developer"].includes(
+              seller.role,
+            )
+              ? t(seller.role)
+              : seller.role}
+          </p>
         </div>
       </div>
 
@@ -77,17 +98,17 @@ function SellerContact({ listing }: { listing: PropertyListing }) {
         {email && (
           <a
             className="btn btn-primary w-full"
-            href={`${email}?subject=${encodeURIComponent(`Inquiry about ${listing.title}`)}`}
+            href={`${email}?subject=${encodeURIComponent(inquirySubject)}`}
           >
-            <Mail className="size-4" aria-hidden="true" /> Contact seller
+            <Mail className="size-4" aria-hidden="true" /> {t("Contact seller")}
           </a>
         )}
         {email && listing.status === "available" && (
           <a
             className="btn btn-outline w-full"
-            href={`${email}?subject=${encodeURIComponent(`Viewing request for ${listing.title}`)}&body=${encodeURIComponent(`Hello ${seller.name},\n\nI would like to arrange a viewing of ${listing.title}. My preferred times are:\n\n`)}`}
+            href={`${email}?subject=${encodeURIComponent(viewingSubject)}&body=${encodeURIComponent(viewingBody)}`}
           >
-            Request a viewing{" "}
+            {t("Request a viewing")}{" "}
             <ArrowUpRight className="size-4" aria-hidden="true" />
           </a>
         )}
@@ -101,7 +122,7 @@ function SellerContact({ listing }: { listing: PropertyListing }) {
         )}
         {!email && !telephone && (
           <p className="text-sm text-base-content/70">
-            The seller hasn’t added contact details yet.
+            {t("The seller hasn’t added contact details yet.")}
           </p>
         )}
       </div>
@@ -110,6 +131,7 @@ function SellerContact({ listing }: { listing: PropertyListing }) {
 }
 
 export function PropertyDetailPage({ listingId }: { listingId: string }) {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const {
     listings,
@@ -139,7 +161,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
             className="loading loading-spinner loading-sm text-primary"
             aria-hidden="true"
           />
-          Loading property…
+          {t("Loading property…")}
         </output>
       );
     }
@@ -151,12 +173,16 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
           <Building2 className="size-7" aria-hidden="true" />
         </span>
         <h1 className="mt-6 font-editorial text-4xl tracking-tight sm:text-5xl">
-          {loadFailed ? "Property couldn’t be loaded" : "Property unavailable"}
+          {t(
+            loadFailed ? "Property couldn’t be loaded" : "Property unavailable",
+          )}
         </h1>
         <p className="mt-4 text-base-content/70">
-          {loadFailed
-            ? "There was a problem loading the listing. Please try again."
-            : "This listing may have moved or been taken off the market."}
+          {t(
+            loadFailed
+              ? "There was a problem loading the listing. Please try again."
+              : "This listing may have moved or been taken off the market.",
+          )}
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           {loadFailed && (
@@ -168,14 +194,14 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
                 if (ownedListingsError) retryOwnedListings();
               }}
             >
-              Try again
+              {t("Try again")}
             </button>
           )}
           <Link
             to="/"
             className={`btn ${loadFailed ? "btn-outline" : "btn-primary"}`}
           >
-            Explore properties
+            {t("Explore properties")}
           </Link>
         </div>
       </div>
@@ -197,30 +223,35 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
     { icon: Ruler, name: "Total area", value: formatArea(listing.areaM2) },
     { icon: BedDouble, name: "Bedrooms", value: listing.bedrooms },
     { icon: Bath, name: "Bathrooms", value: listing.bathrooms },
-    { icon: Building2, name: "Property type", value: listing.type },
+    { icon: Building2, name: "Property type", value: t(listing.type) },
   ];
-  const specifications = [
+  const specifications = (
     [
-      "Living area",
-      listing.livingAreaM2 == null
-        ? undefined
-        : formatArea(listing.livingAreaM2),
-    ],
-    ["Rooms", listing.rooms],
-    [
-      "Floor",
-      listing.floor == null
-        ? undefined
-        : `${listing.floor}${listing.totalFloors ? ` of ${listing.totalFloors}` : ""}`,
-    ],
-    [
-      "Building floors",
-      listing.floor == null ? listing.totalFloors : undefined,
-    ],
-    ["Building type", listing.buildingType],
-    ["Built in", listing.builtYear],
-    ["Condition", listing.condition],
-  ].filter(([, value]) => value != null && value !== "");
+      [
+        "Living area",
+        listing.livingAreaM2 == null
+          ? undefined
+          : formatArea(listing.livingAreaM2),
+      ],
+      ["Rooms", listing.rooms],
+      [
+        "Floor",
+        listing.floor != null && listing.totalFloors
+          ? t("{current} of {total}", {
+              current: listing.floor,
+              total: listing.totalFloors,
+            })
+          : listing.floor,
+      ],
+      [
+        "Building floors",
+        listing.floor == null ? listing.totalFloors : undefined,
+      ],
+      ["Building type", listing.buildingType],
+      ["Built in", listing.builtYear],
+      ["Condition", listing.condition],
+    ] as const
+  ).filter(([, value]) => value != null && value !== "");
 
   async function shareListing() {
     const url = window.location.href;
@@ -244,19 +275,19 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
         className="inline-flex items-center gap-2 text-sm font-semibold text-base-content/70 hover:text-primary"
       >
         <ArrowLeft className="size-4" aria-hidden="true" />{" "}
-        {isDraft ? "Seller workspace" : "Explore properties"}
+        {t(isDraft ? "Seller workspace" : "Explore properties")}
       </Link>
 
       <header className="mt-7 flex flex-wrap items-end justify-between gap-x-7 gap-y-5 pb-6 sm:mt-9 sm:pb-8">
         <div className="min-w-0">
           <div className="mb-3 flex flex-wrap items-center gap-2">
             <span className="badge badge-soft badge-primary">
-              {listing.type}
+              {t(listing.type)}
             </span>
             <span
               className={`badge ${listing.status === "available" ? "badge-soft badge-success" : "badge-outline"}`}
             >
-              {listingStatusLabels[listing.status]}
+              {t(listingStatusLabels[listing.status])}
             </span>
           </div>
           <h1
@@ -290,7 +321,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
                   <Share2 className="size-4" aria-hidden="true" />
                 )}
                 <span aria-live="polite">
-                  {shareState === "copied" ? "Link copied" : "Share"}
+                  {t(shareState === "copied" ? "Link copied" : "Share")}
                 </span>
               </button>
               <button
@@ -303,7 +334,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
                   className={`size-4 ${isFavorite ? "fill-current" : ""}`}
                   aria-hidden="true"
                 />
-                {isFavorite ? "Saved" : "Save property"}
+                {t(isFavorite ? "Saved" : "Save property")}
               </button>
             </>
           )}
@@ -317,7 +348,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
         </div>
         {!isDraft && shareState === "show-link" && (
           <label className="flex w-full max-w-md flex-col gap-2 text-sm font-semibold">
-            Copy this property link
+            {t("Copy this property link")}
             <input
               className="input w-full font-normal"
               readOnly
@@ -339,14 +370,14 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
         <div className="contents lg:block lg:space-y-12">
           <div className="order-1">
             <p className="text-[0.68rem] font-bold tracking-[0.18em] text-base-content/65 uppercase">
-              Asking price · USD
+              {t("Asking price · USD")}
             </p>
             <p className="mt-1 font-editorial text-5xl leading-none tracking-tight">
               {formatPrice(listing.price)}
             </p>
             {pricePerArea && (
               <p className="mt-2 text-sm text-base-content/65">
-                {pricePerArea} per m²
+                {t("{price} per m²", { price: pricePerArea })}
               </p>
             )}
             <dl className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
@@ -361,7 +392,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
                       className="mb-3 size-5 text-primary"
                       aria-hidden="true"
                     />
-                    <dt className="text-xs text-base-content/65">{name}</dt>
+                    <dt className="text-xs text-base-content/65">{t(name)}</dt>
                     <dd className="mt-1 text-sm font-semibold sm:text-base">
                       {value}
                     </dd>
@@ -371,14 +402,14 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
           </div>
 
           <div className="order-3 min-w-0 space-y-9 sm:space-y-12">
-            <DetailSection id="description" title="About this property">
+            <DetailSection id="description" title={t("About this property")}>
               <p className="max-w-prose leading-relaxed whitespace-pre-line text-base-content/75">
                 {listing.description}
               </p>
               <dl className="mt-5 grid max-w-2xl grid-cols-2 gap-x-4 gap-y-4 text-sm sm:grid-cols-3">
                 {specifications.map(([label, value]) => (
                   <div key={label} className="border-t border-base-300 pt-3">
-                    <dt className="text-base-content/65">{label}</dt>
+                    <dt className="text-base-content/65">{t(label)}</dt>
                     <dd className="mt-1 font-semibold">{value}</dd>
                   </div>
                 ))}
@@ -386,7 +417,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
             </DetailSection>
 
             {listing.amenities.length > 0 && (
-              <DetailSection id="amenities" title="Features and amenities">
+              <DetailSection id="amenities" title={t("Features and amenities")}>
                 <ul className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3">
                   {listing.amenities.map((amenity) => (
                     <li
@@ -404,7 +435,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
               </DetailSection>
             )}
 
-            <DetailSection id="location" title="Explore the location">
+            <DetailSection id="location" title={t("Explore the location")}>
               <p className="mb-4 text-sm text-base-content/70">{address}</p>
               {listing.coordinates && (
                 <PropertyMap
@@ -420,13 +451,13 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
                 target="_blank"
                 rel="noreferrer"
               >
-                Open in OpenStreetMap{" "}
+                {t("Open in OpenStreetMap")}{" "}
                 <ArrowUpRight className="size-4" aria-hidden="true" />
               </a>
             </DetailSection>
 
             {!!listing.priceHistory?.length && (
-              <DetailSection id="price-history" title="Price history">
+              <DetailSection id="price-history" title={t("Price history")}>
                 <ul className="max-w-md divide-y divide-base-300 rounded-box border border-base-300">
                   {listing.priceHistory.map(({ date, price }) => (
                     <li
@@ -434,7 +465,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
                       className="flex items-center justify-between gap-4 px-4 py-3 text-sm"
                     >
                       <time dateTime={date} className="text-base-content/70">
-                        {dateFormat.format(new Date(date))}
+                        {formatListingDate(date)}
                       </time>
                       <span className="font-semibold">
                         {formatPrice(price)}
@@ -446,14 +477,14 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
             )}
 
             {listing.source && (
-              <DetailSection id="source" title="Original listing">
+              <DetailSection id="source" title={t("Original listing")}>
                 <a
                   href={listing.source.url}
                   target="_blank"
                   rel="noreferrer"
                   className="link inline-flex items-center gap-1 text-sm font-semibold text-primary"
                 >
-                  MyHome listing {listing.source.id}
+                  {t("MyHome listing {id}", { id: listing.source.id })}
                   <ArrowUpRight className="size-4" aria-hidden="true" />
                 </a>
                 {!!listing.source.facts?.length && (
@@ -476,21 +507,21 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
 
         <aside
           className="order-2 grid gap-4 lg:sticky lg:top-28"
-          aria-label="Seller information"
+          aria-label={t("Seller information")}
         >
           <SellerContact listing={listing} />
           <div className="flex items-center justify-between gap-3 rounded-box border border-base-300 px-5 py-4 text-xs text-base-content/70">
             <p>
-              Listed{" "}
+              {t("Listed")}{" "}
               <time dateTime={listing.listedAt}>
-                {dateFormat.format(new Date(listing.listedAt))}
+                {formatListingDate(listing.listedAt)}
               </time>
             </p>
             <a
               href="#location"
               className="inline-flex items-center gap-1.5 font-semibold text-primary"
             >
-              Location{" "}
+              {t("Location")}{" "}
               <ArrowDownRight className="size-3.5" aria-hidden="true" />
             </a>
           </div>

@@ -1,5 +1,5 @@
 import { routeTree } from "@/App";
-import { setLanguage } from "@/i18n";
+import { LANGUAGE_STORAGE_KEY, setLanguage, translate } from "@/i18n";
 import type { PropertyListing } from "@/marketplace/catalog";
 import * as listingEditorData from "@/marketplace/listing-editor-data";
 import { encodeListing } from "@/marketplace/property-records";
@@ -26,6 +26,9 @@ const state = vi.hoisted(() => ({
     logout: vi.fn(),
   },
   actor: {
+    listUsersWithRoles: vi.fn(),
+    getTelegramLinkConfig: vi.fn(),
+    setTelegramLinkConfig: vi.fn(),
     listProperties: vi.fn(),
     listManagedProperties: vi.fn(),
     publishProperty: vi.fn(),
@@ -103,6 +106,59 @@ function expectNoAdminControls() {
   expect(state.actor.listManagedProperties).not.toHaveBeenCalled();
 }
 
+it("switches the marketplace between Russian, Georgian and English", async () => {
+  const user = userEvent.setup();
+  const russianHeading = translate("Explore properties", {}, "ru");
+  const georgianHeading = translate("Explore properties", {}, "ka");
+  expect(
+    new Set([russianHeading, georgianHeading, "Explore properties"]).size,
+  ).toBe(3);
+  setLanguage("ru");
+  state.actor.listProperties.mockResolvedValue([publishedProperty]);
+  renderMarketplace();
+
+  expect(
+    await screen.findByRole("heading", { name: russianHeading }),
+  ).toBeVisible();
+  await user.click(screen.getByRole("button", { name: "Изменить язык" }));
+  await user.click(screen.getByRole("radio", { name: "ქართული" }));
+  expect(screen.getByRole("heading", { name: georgianHeading })).toBeVisible();
+  expect(screen.getByRole("heading", { name: publishedTitle })).toBeVisible();
+  expect(localStorage.getItem(LANGUAGE_STORAGE_KEY)).toBe("ka");
+  expect(document.documentElement.lang).toBe("ka");
+  const languageButton = screen.getByRole("button", { name: "ენის შეცვლა" });
+  expect(languageButton).toHaveTextContent("geo");
+
+  await user.click(languageButton);
+  await user.click(screen.getByRole("radio", { name: "English" }));
+  expect(
+    screen.getByRole("heading", { name: "Explore properties" }),
+  ).toBeVisible();
+  expect(localStorage.getItem(LANGUAGE_STORAGE_KEY)).toBe("en");
+});
+
+it("defaults to System and saves theme changes from the marketplace header", async () => {
+  const user = userEvent.setup();
+  renderMarketplace();
+
+  const themeButton = await screen.findByRole("button", { name: "Theme" });
+  await user.click(themeButton);
+  const systemOption = screen.getByRole("radio", { name: "System" });
+  expect(systemOption).toBeChecked();
+  await user.click(systemOption);
+  expect(localStorage.getItem("property-marketplace:theme")).toBe("system");
+
+  await user.click(themeButton);
+  await user.click(screen.getByRole("radio", { name: "Dark" }));
+  expect(document.documentElement).toHaveAttribute("data-theme", "market-dark");
+  expect(localStorage.getItem("property-marketplace:theme")).toBe("dark");
+
+  await user.click(themeButton);
+  expect(screen.getByRole("radio", { name: "Dark" })).toBeChecked();
+  await user.click(screen.getByRole("radio", { name: "System" }));
+  expect(localStorage.getItem("property-marketplace:theme")).toBe("system");
+});
+
 beforeEach(() => {
   localStorage.clear();
   setLanguage("en");
@@ -113,6 +169,9 @@ beforeEach(() => {
   state.auth.principal = null;
   state.auth.login.mockReset();
   state.auth.logout.mockReset();
+  state.actor.listUsersWithRoles.mockReset().mockResolvedValue([]);
+  state.actor.getTelegramLinkConfig.mockReset().mockResolvedValue({});
+  state.actor.setTelegramLinkConfig.mockReset().mockResolvedValue(undefined);
   state.actor.listProperties.mockReset().mockResolvedValue([]);
   state.actor.listManagedProperties.mockReset().mockResolvedValue([]);
   state.actor.publishProperty.mockReset();
@@ -165,8 +224,37 @@ describe("marketplace permissions", () => {
       ).toBeVisible();
       expect(screen.queryByRole("button", { name: "New listing" })).toBeNull();
       expectNoAdminControls();
+      expect(state.actor.getTelegramLinkConfig).not.toHaveBeenCalled();
     },
   );
+
+  it("lets marketplace admins configure the Tbilisale Telegram bot", async () => {
+    const user = userEvent.setup();
+    signIn("admin");
+    renderMarketplace("/admin");
+
+    expect(
+      await screen.findByRole("link", { name: "@tbilisell_bot" }),
+    ).toHaveAttribute("href", "https://t.me/tbilisell_bot");
+    const settings = within(
+      screen.getByRole("region", { name: "Telegram linking settings" }),
+    );
+    expect(settings.getByText(/Allowed URLs/)).toHaveTextContent(
+      `${window.location.origin}/profile`,
+    );
+    const clientId = await settings.findByRole("textbox", {
+      name: "Telegram Login Client ID",
+    });
+    await waitFor(() => expect(clientId).toBeEnabled());
+    await user.type(clientId, "1234567890");
+    await user.click(
+      settings.getByRole("button", { name: "Save Telegram settings" }),
+    );
+    expect(await settings.findByText("Telegram settings saved.")).toBeVisible();
+    expect(state.actor.setTelegramLinkConfig).toHaveBeenCalledExactlyOnceWith(
+      "1234567890",
+    );
+  });
 
   it.each(["/sell", "/admin", publishedEditPath])(
     "offers explicit sign-in to a visitor at %s",

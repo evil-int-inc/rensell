@@ -38,6 +38,7 @@ actor {
   let tournamentStates : Map.Map<Nat, Tournaments.TournamentStateData>;
   let players : Map.Map<Nat, Players.GlobalPlayer>;
   let properties : Map.Map<Text, Properties.PropertyRecord>;
+  let propertyAnnouncements : Properties.Announcements;
   let counters : Common.Counters;
   let owner : Common.OwnerState;
   let telegramConfig : Telegram.ConfigState;
@@ -51,7 +52,7 @@ actor {
   include UsersApi(accessControlState, users, usernames, owner);
   include TournamentsApi(accessControlState, tournaments, tournamentStates, counters, players, users);
   include PlayersApi(accessControlState, users, usernames, owner, players, counters);
-  include PropertiesApi(accessControlState, properties);
+  include PropertiesApi(accessControlState, properties, propertyAnnouncements);
   include TelegramApi(accessControlState, users, usernames, owner, telegramConfig, telegramLinks, telegramOwners, telegramChallenges, telegramCache);
   include RolesApi(accessControlState, users, owner);
   include ApiDocMixin();

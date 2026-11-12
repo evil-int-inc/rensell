@@ -63,6 +63,7 @@ export function AdminPage({ marketplace = false }: { marketplace?: boolean }) {
   const { t } = useI18n();
   const { actor, isFetching } = useActor(createActor);
   const { principal, isAdmin } = useAuth();
+  const telegramBot = marketplace ? "tbilisell_bot" : "chill_pong_bot";
   const queryClient = useQueryClient();
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [notice, setNotice] = useState<LocalizedMessage | null>(null);
@@ -194,9 +195,11 @@ export function AdminPage({ marketplace = false }: { marketplace?: boolean }) {
                   : "section-kicker mb-4"
               }
             >
-              {marketplace
-                ? "Marketplace administration"
-                : t("CHILLPONG / CONTROL ROOM")}
+              {t(
+                marketplace
+                  ? "Marketplace administration"
+                  : "CHILLPONG / CONTROL ROOM",
+              )}
             </p>
             <h1 className={headingClass}>{t("Admin access")}</h1>
             <p className="text-sm text-muted-foreground">
@@ -206,22 +209,20 @@ export function AdminPage({ marketplace = false }: { marketplace?: boolean }) {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            {!marketplace && (
-              <a
-                href="https://t.me/chill_pong_bot"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-outline btn-sm"
-                data-ocid="admin.telegram_bot_link"
-              >
-                <Send className="size-4" aria-hidden="true" />
-                @chill_pong_bot
-                <ArrowUpRight className="size-3.5" aria-hidden="true" />
-              </a>
-            )}
+            <a
+              href={`https://t.me/${telegramBot}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline btn-sm"
+              data-ocid="admin.telegram_bot_link"
+            >
+              <Send className="size-4" aria-hidden="true" />
+              {`@${telegramBot}`}
+              <ArrowUpRight className="size-3.5" aria-hidden="true" />
+            </a>
             {marketplace && (
               <Link to="/sell" className="btn btn-primary btn-sm">
-                Manage listings
+                {t("Manage listings")}
               </Link>
             )}
             <a
@@ -251,7 +252,12 @@ export function AdminPage({ marketplace = false }: { marketplace?: boolean }) {
             </span>
           </div>
         </header>
-        {actor && !marketplace ? <TelegramSettings actor={actor} /> : null}
+        {actor ? (
+          <TelegramSettings
+            actor={actor}
+            botUsername={marketplace ? telegramBot : undefined}
+          />
+        ) : null}
         <div className="space-y-2">
           <Input
             type="search"

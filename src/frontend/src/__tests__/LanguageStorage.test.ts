@@ -20,21 +20,21 @@ describe("language startup", () => {
     },
   );
 
-  it.each([null, "fr", "", "garbage"])(
-    "uses English with missing or unsupported storage (%s)",
+  it.each([null, "fr", "geo", "", "garbage"])(
+    "uses Russian with missing or unsupported storage (%s)",
     async (stored) => {
       if (stored !== null) localStorage.setItem("chillpong.language", stored);
       const i18n = await import("@/i18n");
-      expect(i18n.getLanguage()).toBe("en");
-      expect(document.documentElement.lang).toBe("en");
+      expect(i18n.getLanguage()).toBe("ru");
+      expect(document.documentElement.lang).toBe("ru");
     },
   );
 
-  it("defaults to English when reading storage throws", async () => {
+  it("defaults to Russian when reading storage throws", async () => {
     vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
       throw new Error("Storage disabled");
     });
     const i18n = await import("@/i18n");
-    expect(i18n.getLanguage()).toBe("en");
+    expect(i18n.getLanguage()).toBe("ru");
   });
 });

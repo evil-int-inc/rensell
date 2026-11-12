@@ -182,13 +182,15 @@ export function UsersPage({ marketplace = false }: { marketplace?: boolean }) {
                 : "section-kicker mb-4"
             }
           >
-            {marketplace
-              ? "Marketplace administration"
-              : t("CHILLPONG / ADMIN ACCOUNTS")}
+            {t(
+              marketplace
+                ? "Marketplace administration"
+                : "CHILLPONG / ADMIN ACCOUNTS",
+            )}
           </p>
           {marketplace ? (
             <h1 className="font-editorial text-4xl tracking-tight sm:text-5xl">
-              Accounts
+              {t("Accounts")}
             </h1>
           ) : (
             <h1 className="page-title">
@@ -198,11 +200,11 @@ export function UsersPage({ marketplace = false }: { marketplace?: boolean }) {
             </h1>
           )}
           <p className="mt-5 max-w-xl text-sm leading-relaxed text-base-content/60">
-            {marketplace
-              ? "Manage account names, usernames, and profile details."
-              : t(
-                  "Manage member identities and account details. Tournament entrants are listed on the Players page.",
-                )}
+            {t(
+              marketplace
+                ? "Manage account names, usernames, and profile details."
+                : "Manage member identities and account details. Tournament entrants are listed on the Players page.",
+            )}
           </p>
         </div>
         {isAdmin ? (
@@ -434,19 +436,23 @@ export function UsersPage({ marketplace = false }: { marketplace?: boolean }) {
             <header className="mb-7 flex items-start justify-between gap-4">
               <div>
                 <p className="section-kicker mb-2">
-                  {marketplace
-                    ? "Marketplace account"
-                    : t("CHILLPONG / MEMBER FILE")}
+                  {t(
+                    marketplace
+                      ? "Marketplace account"
+                      : "CHILLPONG / MEMBER FILE",
+                  )}
                 </p>
                 <h2
                   id="user-dialog-title"
                   className="font-display text-3xl font-bold uppercase tracking-tight"
                 >
-                  {editor === "new"
-                    ? marketplace
-                      ? "Add account"
-                      : t("Add to the lineup.")
-                    : t("Edit member.")}
+                  {t(
+                    editor === "new"
+                      ? marketplace
+                        ? "Add account"
+                        : "Add to the lineup."
+                      : "Edit member.",
+                  )}
                 </h2>
               </div>
               <button

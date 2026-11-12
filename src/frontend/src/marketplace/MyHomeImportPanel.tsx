@@ -1,7 +1,11 @@
+import { type LocalizedMessage, translateError, useI18n } from "@/i18n";
 import { ArrowUpRight, CircleAlert, Link2 } from "lucide-react";
 import { type FormEvent, useEffect, useRef, useState } from "react";
 
-type ImportReview = { sourceUrl: string; warnings: string[] };
+type ImportReview = {
+  sourceUrl: string;
+  warnings: (string | LocalizedMessage)[];
+};
 
 export function MyHomeImportPanel({
   disabled,
@@ -20,6 +24,7 @@ export function MyHomeImportPanel({
   ) => Promise<ImportReview>;
   onReview: () => void;
 }) {
+  const { t } = useI18n();
   const [url, setUrl] = useState("");
   const [showSavedPage, setShowSavedPage] = useState(false);
   const [savedPage, setSavedPage] = useState<File>();
@@ -85,17 +90,18 @@ export function MyHomeImportPanel({
         className="flex items-center gap-2.5 font-editorial text-2xl tracking-tight"
       >
         <Link2 className="size-5 shrink-0 text-primary" aria-hidden="true" />
-        Import a MyHome ad
+        {t("Import a MyHome ad")}
       </h3>
       <p className="mt-2 text-sm leading-relaxed text-base-content/75">
-        Paste a MyHome.ge property link to fill in the listing. You can review
-        and edit the details before saving.
+        {t(
+          "Paste a MyHome.ge property link to fill in the listing. You can review and edit the details before saving.",
+        )}
       </p>
 
       <form onSubmit={handleImport} className="mt-4 grid gap-2.5">
         <div className="flex flex-col gap-2.5 sm:flex-row sm:items-end">
           <label className="grid min-w-0 flex-1 gap-1.5 text-sm font-semibold">
-            MyHome ad URL
+            {t("MyHome ad URL")}
             <input
               className="input w-full border-base-300 bg-base-100 font-normal"
               type="url"
@@ -115,11 +121,13 @@ export function MyHomeImportPanel({
             onClick={importing ? cancelImport : undefined}
             disabled={disabled}
           >
-            {importing
-              ? "Cancel import"
-              : savedPage
-                ? "Import saved page"
-                : "Import ad"}
+            {t(
+              importing
+                ? "Cancel import"
+                : savedPage
+                  ? "Import saved page"
+                  : "Import ad",
+            )}
           </button>
         </div>
         <button
@@ -133,7 +141,11 @@ export function MyHomeImportPanel({
             if (showSavedPage) setSavedPage(undefined);
           }}
         >
-          {showSavedPage ? "Hide saved-page option" : "Use a saved MyHome page"}
+          {t(
+            showSavedPage
+              ? "Hide saved-page option"
+              : "Use a saved MyHome page",
+          )}
         </button>
         <div id="myhome-saved-page" hidden={!showSavedPage}>
           {showSavedPage && (
@@ -142,7 +154,7 @@ export function MyHomeImportPanel({
                 htmlFor="myhome-saved-file"
                 className="text-sm font-semibold"
               >
-                Saved MyHome page
+                {t("Saved MyHome page")}
               </label>
               <input
                 id="myhome-saved-file"
@@ -159,8 +171,9 @@ export function MyHomeImportPanel({
                 id="myhome-saved-help"
                 className="text-xs text-base-content/65"
               >
-                Save the original ad as an HTML file in your browser. Enter the
-                matching MyHome URL above and choose the file here.
+                {t(
+                  "Save the original ad as an HTML file in your browser. Enter the matching MyHome URL above and choose the file here.",
+                )}
               </p>
             </div>
           )}
@@ -180,7 +193,7 @@ export function MyHomeImportPanel({
             aria-hidden="true"
           />
         )}
-        {status}
+        {t(status)}
       </output>
       {error && (
         <p
@@ -188,7 +201,7 @@ export function MyHomeImportPanel({
           className="mt-3 flex items-start gap-2 text-sm text-error"
         >
           <CircleAlert className="mt-px size-4 shrink-0" aria-hidden="true" />{" "}
-          {error}
+          {translateError(error)}
         </p>
       )}
       {review && (
@@ -196,7 +209,11 @@ export function MyHomeImportPanel({
           {review.warnings.length > 0 && (
             <ul className="mt-2 list-disc space-y-1 ps-5 text-sm text-base-content/75">
               {review.warnings.map((warning) => (
-                <li key={warning}>{warning}</li>
+                <li
+                  key={typeof warning === "string" ? warning : warning.message}
+                >
+                  {t(warning)}
+                </li>
               ))}
             </ul>
           )}
@@ -207,7 +224,7 @@ export function MyHomeImportPanel({
               onClick={onReview}
               disabled={disabled}
             >
-              Review listing details
+              {t("Review listing details")}
             </button>
             <a
               href={review.sourceUrl}
@@ -215,7 +232,7 @@ export function MyHomeImportPanel({
               rel="noreferrer"
               className="link inline-flex items-center gap-1 text-sm font-semibold text-primary"
             >
-              Original MyHome ad{" "}
+              {t("Original MyHome ad")}{" "}
               <ArrowUpRight className="size-4" aria-hidden="true" />
             </a>
           </div>

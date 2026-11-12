@@ -4,46 +4,72 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd8a1d3-ba9e-41a8-86c2-c846b232a63f" name="Changes" comment="feature/add-admin-action-buttons-2">
-      <change afterPath="$PROJECT_DIR$/src/frontend/dist/android-chrome-maskable-512x512.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/frontend/dist/marketplace.webmanifest" afterDir="false" />
+    <list default="true" id="ddd8a1d3-ba9e-41a8-86c2-c846b232a63f" name="Changes" comment="feature/redesign-to-black-theming">
+      <change afterPath="$PROJECT_DIR$/src/backend/lib/property-announcements.mo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/backend/migrations/20261112_221409.mo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/frontend/src/__tests__/ThemeService.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/frontend/src/i18n/marketplace-browse.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/frontend/src/i18n/marketplace-detail.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/frontend/src/i18n/marketplace-listings.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/frontend/src/i18n/marketplace-shell.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/MarketplaceThemeSwitcher.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/pocketic/listing-announcements.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/android-chrome-192x192.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/android-chrome-192x192.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/android-chrome-512x512.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/android-chrome-512x512.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/apple-touch-icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/apple-touch-icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/assets/index-G36a2bYZ.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/assets/index-O7srRstZ.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/assets/properties/chugureti-loft.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/assets/properties/krtsanisi-land.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/assets/properties/mtatsminda-house.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/assets/properties/saburtalo-apartment.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/assets/properties/vake-villa.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/assets/properties/vera-apartment.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/favicon-16x16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/favicon-16x16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/favicon-192.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/favicon-192.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/favicon-32x32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/favicon-32x32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/marketplace-mark.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/marketplace-mark.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/dist/site.webmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/dist/site.webmanifest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/dist/backend.did" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/dist/backend.did" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/dist/backend.most" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/dist/backend.most" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/dist/backend.wasm" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/dist/backend.wasm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/lib/telegram-verifier.mo" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/lib/telegram-verifier.mo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/lib/users.mo" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/lib/users.mo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/main.mo" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/main.mo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/mixins/api-doc.mo" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/mixins/api-doc.mo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/mixins/properties-api.mo" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/mixins/properties-api.mo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/mixins/telegram-api.mo" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/mixins/telegram-api.mo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/types/properties.mo" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/types/properties.mo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/marketplace-brand.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/marketplace-brand.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/android-chrome-192x192.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/public/android-chrome-192x192.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/android-chrome-512x512.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/public/android-chrome-512x512.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/android-chrome-maskable-512x512.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/public/android-chrome-maskable-512x512.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/apple-touch-icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/public/apple-touch-icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/favicon-16x16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/public/favicon-16x16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/favicon-192.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/public/favicon-192.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/favicon-32x32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/public/favicon-32x32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/public/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/marketplace-mark.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/public/marketplace-mark.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/marketplace.webmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/public/marketplace.webmanifest" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/__tests__/Language.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/__tests__/Language.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/__tests__/LanguageStorage.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/__tests__/LanguageStorage.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/__tests__/MarketplaceAccess.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/__tests__/MarketplaceAccess.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/__tests__/ProfilePage.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/__tests__/ProfilePage.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/backend.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/backend.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/backend.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/backend.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/auth/RequireAuth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/components/auth/RequireAuth.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/layout/LanguageSwitcher.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/components/layout/LanguageSwitcher.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/profile/TelegramLink.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/components/profile/TelegramLink.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/components/profile/TelegramSettings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/components/profile/TelegramSettings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/declarations/backend.did.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/declarations/backend.did.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/declarations/backend.did.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/declarations/backend.did.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/i18n/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/i18n/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/i18n/ka.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/i18n/ka.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/i18n/messages.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/i18n/messages.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/i18n/ru.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/i18n/ru.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/DiscoveryPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/DiscoveryPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/ListingEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/ListingEditor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/ListingManagementActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/ListingManagementActions.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/MarketplaceLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/MarketplaceLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/MarketplaceSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/MarketplaceSidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/MyHomeImportPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/MyHomeImportPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyDetailPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyDetailPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyEditPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyEditPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyGallery.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyGallery.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyMap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyMap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyPhotoDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/PropertyPhotoDialog.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/PublishListingButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/PublishListingButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/SavedPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/SavedPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/SellerPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/SellerPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/catalog.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/catalog.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/src/marketplace/myhome-import-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/marketplace/myhome-import-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/mocks/backend.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/mocks/backend.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/pages/AdminPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/pages/AdminPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/pages/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/pages/ProfilePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/pages/UsersPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/pages/UsersPage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/src/services/themeService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/services/themeService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/test/setup.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/test/setup.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/pocketic/avatars.upgrade.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/pocketic/avatars.upgrade.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/pocketic/shared-players.upgrade.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/pocketic/shared-players.upgrade.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/pocketic/telegram.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/pocketic/telegram.test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +146,8 @@
       <workItem from="1794176817227" duration="3835000" />
       <workItem from="1794344660445" duration="5355000" />
       <workItem from="1794408149253" duration="62000" />
-      <workItem from="1794408217313" duration="2826000" />
+      <workItem from="1794408217313" duration="3514000" />
+      <workItem from="1794522515639" duration="1204000" />
     </task>
     <task id="LOCAL-00001" summary="feature/redesign">
       <option name="closed" value="true" />
@@ -330,7 +357,15 @@
       <option name="project" value="LOCAL" />
       <updated>1794408239937</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="feature/redesign-to-black-theming">
+      <option name="closed" value="true" />
+      <created>1794424164697</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1794424164697</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -358,7 +393,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="feature/redesign-2" />
     <MESSAGE value="feature/functionality" />
     <MESSAGE value="feature/user-pfoile" />
     <MESSAGE value="feature/language" />
@@ -383,6 +417,7 @@
     <MESSAGE value="feature/favicon" />
     <MESSAGE value="feature/add-admin-action-buttons" />
     <MESSAGE value="feature/add-admin-action-buttons-2" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature/add-admin-action-buttons-2" />
+    <MESSAGE value="feature/redesign-to-black-theming" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature/redesign-to-black-theming" />
   </component>
 </project>

@@ -1,9 +1,17 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { errorMessages } from "./errors";
 import { ka } from "./ka";
+import { marketplaceBrowse } from "./marketplace-browse";
+import { marketplaceDetail } from "./marketplace-detail";
+import {
+  marketplaceListingErrors,
+  marketplaceListings,
+} from "./marketplace-listings";
+import { marketplaceShell } from "./marketplace-shell";
 import { ru } from "./ru";
 
 export type Language = "en" | "ru" | "ka";
+const defaultLanguage: Language = "ru";
 export const LANGUAGE_STORAGE_KEY = "chillpong.language";
 export const LANGUAGES = [
   { code: "en", name: "English" },
@@ -16,6 +24,13 @@ const locales: Record<Language, string> = {
   ka: "ka-GE",
 };
 const catalogs: Record<Language, Record<string, string>> = { en: {}, ru, ka };
+const marketplace: Record<string, { ru: string; ka: string }> = {
+  ...marketplaceBrowse,
+  ...marketplaceDetail,
+  ...marketplaceListings,
+  ...marketplaceShell,
+};
+const translatableErrors = [...errorMessages, ...marketplaceListingErrors];
 const listeners = new Set<() => void>();
 
 function isLanguage(value: string | null): value is Language {
@@ -25,9 +40,9 @@ function isLanguage(value: string | null): value is Language {
 function readLanguage(): Language {
   try {
     const saved = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-    return isLanguage(saved) ? saved : "en";
+    return isLanguage(saved) ? saved : defaultLanguage;
   } catch {
-    return "en";
+    return defaultLanguage;
   }
 }
 
@@ -59,7 +74,10 @@ if (typeof window !== "undefined") {
   document.documentElement.lang = language;
   window.addEventListener("storage", (event) => {
     if (event.key === LANGUAGE_STORAGE_KEY)
-      applyLanguage(isLanguage(event.newValue) ? event.newValue : "en");
+      applyLanguage(
+        isLanguage(event.newValue) ? event.newValue : defaultLanguage,
+      );
+    else if (event.key === null) applyLanguage(readLanguage());
   });
 }
 
@@ -78,7 +96,12 @@ export function translate(
   if (input === null || input === undefined) return "";
   const message = typeof input === "string" ? input : input.message;
   const values = typeof input === "string" ? params : input.params;
-  const translated = catalogs[selected][message] ?? message;
+  const translated =
+    selected === "en"
+      ? message
+      : Object.hasOwn(catalogs[selected], message)
+        ? catalogs[selected][message]
+        : (marketplace[message]?.[selected] ?? message);
   return translated.replace(/\{(\w+)\}/g, (placeholder, key: string) =>
     values[key] === undefined ? placeholder : String(values[key]),
   );
@@ -86,9 +109,10 @@ export function translate(
 
 /** Canister errors include transport diagnostics around the actual validation text. */
 export function translateError(message: string): string {
-  const key = Object.hasOwn(ru, message)
-    ? message
-    : errorMessages.find((candidate) => message.includes(candidate));
+  const key =
+    Object.hasOwn(ru, message) || Object.hasOwn(marketplace, message)
+      ? message
+      : translatableErrors.find((candidate) => message.includes(candidate));
   return key
     ? translate(key)
     : language === "en"
@@ -117,7 +141,7 @@ export function useI18n() {
   const selected = useSyncExternalStore(
     subscribe,
     getLanguage,
-    () => "en" as const,
+    () => defaultLanguage,
   );
   const t = useCallback(
     (

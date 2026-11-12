@@ -73,11 +73,19 @@ The backend verifies Telegram's signed ID token against Telegram's public keys,
 including issuer, audience, expiration and the caller's short-lived nonce. A
 Telegram account may belong to only one member. An absent Telegram username or
 a username reserved by another member rejects atomically. A successful link
-replaces the member's username, including an existing manually entered value,
-and preserves all other profile metadata. Verified Telegram handles may contain
-up to 32 characters. Unlinking removes the Telegram association and retains the
-profile username. TelegramLink contains subject, username and linkedAt.
+updates the member's username and profile photo from the verified token. It also
+updates the display name when Telegram provides a nonempty name of at most 80
+characters after trimming. Verified Telegram handles may contain up to 32
+characters. Unlinking removes the Telegram association and retains the profile
+details. TelegramLink contains subject, username and linkedAt.
 Configuration stores only a public client ID; the bot token is never stored.
+
+## Marketplace listing announcements
+
+GET /api/listing-announcements?after=0 returns up to four recent events in
+sequence order. Use the last sequence as the next cursor. The gateway uses an
+update call to read the feed. Publishing and edits to public listings create
+events, and queued snapshots are cleared when the listing is drafted or deleted.
 
 ## Shared players
 

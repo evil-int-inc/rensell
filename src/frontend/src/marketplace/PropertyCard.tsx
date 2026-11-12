@@ -1,3 +1,5 @@
+import { useI18n } from "@/i18n";
+import { formatBrowseCount } from "@/i18n/marketplace-browse";
 import { Link } from "@tanstack/react-router";
 import {
   Bath,
@@ -38,6 +40,8 @@ export function PropertyCard({
   managementActions,
   showPhotoControls = false,
 }: PropertyCardProps) {
+  const { language, locale, t } = useI18n();
+  const numberFormat = new Intl.NumberFormat(locale);
   const photoDialog = useRef<HTMLDialogElement>(null);
   const [photoIndex, setPhotoIndex] = useState(0);
   const photoCount = listing.images.length;
@@ -74,7 +78,7 @@ export function PropertyCard({
             />
           )}
           <span className="badge absolute top-3.5 left-3.5 h-7 rounded-full border-base-100/50 bg-base-100/95 px-3 text-[11px] font-semibold text-base-content shadow-sm">
-            {listing.type}
+            {t(listing.type)}
           </span>
         </div>
         <div className="flex grow flex-col px-4.5 pt-4.5 sm:px-5 sm:pt-5">
@@ -83,10 +87,14 @@ export function PropertyCard({
               {formatPrice(listing.price)}
             </p>
             {listing.status === "pending" && (
-              <span className="badge badge-soft badge-warning">Pending</span>
+              <span className="badge badge-soft badge-warning">
+                {t("Pending")}
+              </span>
             )}
             {listing.status === "sold" && (
-              <span className="badge badge-soft badge-neutral">Sold</span>
+              <span className="badge badge-soft badge-neutral">
+                {t("Sold")}
+              </span>
             )}
           </div>
           <h3 className="mt-1.5 text-base font-semibold tracking-tight transition-colors group-hover:text-primary">
@@ -101,14 +109,19 @@ export function PropertyCard({
               <li className="flex items-center gap-1.5">
                 <BedDouble aria-hidden="true" className="size-4" />
                 {listing.bedrooms === 0
-                  ? "Studio"
-                  : `${listing.bedrooms} ${listing.bedrooms === 1 ? "bed" : "beds"}`}
+                  ? t("Studio")
+                  : formatBrowseCount(
+                      listing.bedrooms,
+                      "bed",
+                      language,
+                      locale,
+                    )}
               </li>
             )}
             {listing.bathrooms !== undefined && (
               <li className="flex items-center gap-1.5">
                 <Bath aria-hidden="true" className="size-4" />
-                {listing.bathrooms} {listing.bathrooms === 1 ? "bath" : "baths"}
+                {formatBrowseCount(listing.bathrooms, "bath", language, locale)}
               </li>
             )}
             <li className="flex items-center gap-1.5">
@@ -128,7 +141,7 @@ export function PropertyCard({
                 <button
                   type="button"
                   className={`${photoButtonClass} top-1/2 left-2 -translate-y-1/2`}
-                  aria-label="Previous photo"
+                  aria-label={t("Previous photo")}
                   onClick={() => stepPhoto(-1)}
                 >
                   <ChevronLeft className="size-5" aria-hidden="true" />
@@ -136,7 +149,7 @@ export function PropertyCard({
                 <button
                   type="button"
                   className={`${photoButtonClass} top-1/2 right-2 -translate-y-1/2`}
-                  aria-label="Next photo"
+                  aria-label={t("Next photo")}
                   onClick={() => stepPhoto(1)}
                 >
                   <ChevronRight className="size-5" aria-hidden="true" />
@@ -144,12 +157,13 @@ export function PropertyCard({
               </>
             )}
             <output className="absolute bottom-3 left-3 rounded-full border border-neutral-content/25 bg-neutral/75 px-2.5 py-1 text-xs font-semibold text-neutral-content tabular-nums shadow-sm">
-              {activeIndex + 1} / {photoCount}
+              {numberFormat.format(activeIndex + 1)} /{" "}
+              {numberFormat.format(photoCount)}
             </output>
             <button
               type="button"
               className={`${photoButtonClass} right-2 bottom-2`}
-              aria-label="Expand photos"
+              aria-label={t("Expand photos")}
               aria-haspopup="dialog"
               onClick={() => photoDialog.current?.showModal()}
             >
@@ -169,7 +183,7 @@ export function PropertyCard({
       <button
         type="button"
         className="btn btn-circle absolute top-3 right-3 size-10 border-base-100/50 bg-base-100/95 p-0 text-base-content shadow-sm hover:border-base-100 hover:bg-base-100 hover:text-primary"
-        aria-label={`Save ${listing.title}`}
+        aria-label={t("Save {title}", { title: listing.title })}
         aria-pressed={isFavorite}
         onClick={() => onToggleFavorite(listing.id)}
       >

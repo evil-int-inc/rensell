@@ -19,10 +19,12 @@ import { useEffect, useRef, useState } from "react";
 
 function ProfileEditor({
   actor,
+  marketplace,
   principal,
   profile,
 }: {
   actor: Backend;
+  marketplace: boolean;
   principal: string;
   profile: User | null;
 }) {
@@ -112,14 +114,14 @@ function ProfileEditor({
           size="xl"
         />
         <h2 className="font-display text-xl font-semibold uppercase">
-          {t("Your club identity")}
+          {t(marketplace ? "Profile details" : "Your club identity")}
         </h2>
       </div>
       <Input
         label={t("Name / optional")}
         autoComplete="name"
         maxLength={80}
-        placeholder={t("Name at the table")}
+        placeholder={t(marketplace ? "Display name" : "Name at the table")}
         value={name}
         disabled={saveMutation.isPending}
         hint={t("Leave blank if you prefer. Up to 80 characters.")}
@@ -210,11 +212,11 @@ export function ProfilePage({
                 : "section-kicker mb-4"
             }
           >
-            {marketplace ? "Marketplace account" : t("CHILLPONG / MEMBER FILE")}
+            {t(marketplace ? "Marketplace account" : "CHILLPONG / MEMBER FILE")}
           </p>
           {marketplace ? (
             <h1 className="font-editorial text-4xl tracking-tight sm:text-5xl">
-              Your profile
+              {t("Your profile")}
             </h1>
           ) : (
             <h1 className="page-title">
@@ -222,11 +224,11 @@ export function ProfilePage({
             </h1>
           )}
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            {marketplace
-              ? "Choose the display name and username for your account."
-              : t(
-                  "A name for the club. A handle for the crew. Both are optional.",
-                )}
+            {t(
+              marketplace
+                ? "Choose the display name and username for your account."
+                : "A name for the club. A handle for the crew. Both are optional.",
+            )}
           </p>
         </header>
         <div className="space-y-2 border-l-2 border-primary pl-4">
@@ -255,16 +257,15 @@ export function ProfilePage({
             <ProfileEditor
               key={principal}
               actor={actor}
+              marketplace={marketplace}
               principal={principal}
               profile={profileQuery.data ?? null}
             />
-            {!marketplace && (
-              <TelegramLink
-                key={`telegram-${principal}`}
-                actor={actor}
-                principal={principal}
-              />
-            )}
+            <TelegramLink
+              key={`telegram-${principal}`}
+              actor={actor}
+              principal={principal}
+            />
           </>
         )}
       </div>
