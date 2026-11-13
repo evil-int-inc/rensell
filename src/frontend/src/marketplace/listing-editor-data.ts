@@ -199,7 +199,39 @@ export function readListingForm(
   };
 }
 
-export const maxPhotos = 5;
+export async function resizeListingPhoto(
+  source: string,
+  byteLimit: number,
+): Promise<string> {
+  const image = new Image();
+  image.src = source;
+  await image.decode();
+
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d", { alpha: false });
+  if (!context) throw new Error("Canvas is unavailable.");
+
+  let previousScale = 0;
+  for (const maxSize of [
+    1400, 1100, 850, 650, 480, 360, 270, 200, 150, 110, 80,
+  ]) {
+    const scale = Math.min(
+      1,
+      maxSize / Math.max(image.naturalWidth, image.naturalHeight),
+    );
+    if (scale === previousScale) continue;
+    previousScale = scale;
+    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    const webp = canvas.toDataURL("image/webp", 0.76);
+    const dataUrl = webp.startsWith("data:image/webp;")
+      ? webp
+      : canvas.toDataURL("image/jpeg", 0.74);
+    if (dataUrl.length <= byteLimit) return dataUrl;
+  }
+  throw new Error("Image compression exceeded the size limit.");
+}
 
 export async function prepareListingPhoto(file: File): Promise<string> {
   if (!file.type.startsWith("image/") || file.size > 20 * 1024 * 1024) {
@@ -207,29 +239,7 @@ export async function prepareListingPhoto(file: File): Promise<string> {
   }
   const url = URL.createObjectURL(file);
   try {
-    const image = new Image();
-    image.src = url;
-    await image.decode();
-
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d", { alpha: false });
-    if (!context) throw new Error("Canvas is unavailable.");
-
-    for (const maxSize of [1400, 1100, 850, 650, 480]) {
-      const scale = Math.min(
-        1,
-        maxSize / Math.max(image.naturalWidth, image.naturalHeight),
-      );
-      canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
-      canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      const webp = canvas.toDataURL("image/webp", 0.76);
-      const dataUrl = webp.startsWith("data:image/webp;")
-        ? webp
-        : canvas.toDataURL("image/jpeg", 0.74);
-      if (dataUrl.length <= 85_000) return dataUrl;
-    }
-    throw new Error("Image compression exceeded the size limit.");
+    return await resizeListingPhoto(url, 85_000);
   } catch {
     throw new Error(
       "This photo couldn’t be prepared. Try a smaller JPG, PNG, or WebP.",

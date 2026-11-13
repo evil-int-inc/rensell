@@ -9,7 +9,13 @@ import {
   createMemoryHistory,
   createRouter,
 } from "@tanstack/react-router";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -31,6 +37,7 @@ const state = vi.hoisted(() => ({
     setTelegramLinkConfig: vi.fn(),
     listProperties: vi.fn(),
     listManagedProperties: vi.fn(),
+    saveProperty: vi.fn(),
     publishProperty: vi.fn(),
     makePropertyDraft: vi.fn(),
     deleteProperty: vi.fn(),
@@ -147,16 +154,44 @@ it("defaults to System and saves theme changes from the marketplace header", asy
   expect(systemOption).toBeChecked();
   await user.click(systemOption);
   expect(localStorage.getItem("property-marketplace:theme")).toBe("system");
+  expect(themeButton).toHaveAttribute("aria-expanded", "false");
+  expect(themeButton).toHaveFocus();
 
   await user.click(themeButton);
-  await user.click(screen.getByRole("radio", { name: "Dark" }));
+  await user.click(screen.getByText("Light", { exact: true }));
+  expect(document.documentElement).toHaveAttribute(
+    "data-theme",
+    "market-light",
+  );
+  expect(localStorage.getItem("property-marketplace:theme")).toBe("light");
+  expect(themeButton).toHaveAttribute("aria-expanded", "false");
+
+  await user.click(themeButton);
+  const themeOnFocus = vi.fn(() => ({
+    applied: document.documentElement.dataset.theme,
+    saved: localStorage.getItem("property-marketplace:theme"),
+  }));
+  themeButton.addEventListener("focus", themeOnFocus, { once: true });
+  // Clicking a visible label can blur the focused radio before label activation.
+  fireEvent.blur(screen.getByRole("radio", { name: "Light" }), {
+    relatedTarget: null,
+  });
+  await user.click(screen.getByText("Dark", { exact: true }));
   expect(document.documentElement).toHaveAttribute("data-theme", "market-dark");
   expect(localStorage.getItem("property-marketplace:theme")).toBe("dark");
+  expect(themeOnFocus.mock.results.map(({ value }) => value)).toEqual([
+    { applied: "market-dark", saved: "dark" },
+  ]);
+  expect(
+    screen.queryByRole("group", { name: "Theme" }),
+  ).not.toBeInTheDocument();
+  expect(themeButton).toHaveFocus();
 
   await user.click(themeButton);
   expect(screen.getByRole("radio", { name: "Dark" })).toBeChecked();
-  await user.click(screen.getByRole("radio", { name: "System" }));
+  await user.click(screen.getByText("System", { exact: true }));
   expect(localStorage.getItem("property-marketplace:theme")).toBe("system");
+  expect(themeButton).toHaveAttribute("aria-expanded", "false");
 });
 
 beforeEach(() => {
@@ -174,6 +209,7 @@ beforeEach(() => {
   state.actor.setTelegramLinkConfig.mockReset().mockResolvedValue(undefined);
   state.actor.listProperties.mockReset().mockResolvedValue([]);
   state.actor.listManagedProperties.mockReset().mockResolvedValue([]);
+  state.actor.saveProperty.mockReset();
   state.actor.publishProperty.mockReset();
   state.actor.makePropertyDraft.mockReset();
   state.actor.deleteProperty.mockReset();
@@ -556,6 +592,30 @@ it("cycles Explore card photos and opens the gallery at the selected photo", asy
   expect(router.state.location.pathname).toBe("/");
 });
 
+it("opens the published property gallery from a Telegram link", async () => {
+  const user = userEvent.setup();
+  state.actor.listProperties.mockResolvedValue([
+    encodeListing({
+      ...publishedListing,
+      images: [
+        "data:image/jpeg;base64,Y292ZXI=",
+        "data:image/jpeg;base64,a2l0Y2hlbg==",
+      ],
+      imageDescriptions: ["Front elevation", "Kitchen"],
+    }),
+  ]);
+  renderMarketplace(`/properties/${publishedProperty.id}?gallery=true`);
+
+  const dialog = await screen.findByRole("dialog", {
+    name: `${publishedTitle} photo gallery`,
+  });
+  expect(
+    within(dialog).getByRole("img", { name: "Front elevation" }),
+  ).toBeVisible();
+  await user.click(within(dialog).getByRole("button", { name: "Next photo" }));
+  expect(within(dialog).getByRole("img", { name: "Kitchen" })).toBeVisible();
+});
+
 it("shows gallery controls appropriate to a card with one or zero photos", async () => {
   const user = userEvent.setup();
   const title = "Apartment with one photo";
@@ -622,6 +682,72 @@ it("reports a catalog failure and loads published properties after retry", async
   ).toBeVisible();
   expect(screen.queryByRole("alert")).toBeNull();
   expect(state.actor.listProperties).toHaveBeenCalledTimes(2);
+});
+
+it("offers publication in the seller header only after saving a new draft", async () => {
+  const user = userEvent.setup();
+  const title = "New draft apartment";
+  let finishSave = () => {};
+  const pendingSave = new Promise<void>((resolve) => {
+    finishSave = resolve;
+  });
+  let record: ReturnType<typeof encodeListing> | undefined;
+  state.actor.saveProperty.mockImplementation(async (next) => {
+    await pendingSave;
+    record = next;
+  });
+  state.actor.listManagedProperties.mockImplementation(async () =>
+    record ? [record] : [],
+  );
+  state.actor.listProperties.mockImplementation(async () =>
+    record && !record.isDraft ? [record] : [],
+  );
+  state.actor.publishProperty.mockImplementation(async () => {
+    if (record) record = { ...record, isDraft: false };
+  });
+  signIn("admin");
+  const router = renderMarketplace("/sell");
+
+  const heading = await screen.findByRole("heading", {
+    name: "Manage properties",
+  });
+  const header = within(heading.closest("header") as HTMLElement);
+  const publish = { name: /^Publish(?: |$)/ };
+  await user.click(header.getByRole("button", { name: "New listing" }));
+  expect(screen.queryByRole("button", publish)).toBeNull();
+
+  for (const [label, value] of [
+    [/Listing title/, title],
+    [/Asking price/, "150000"],
+    [/^Description/, "A newly created draft."],
+    [/^Neighborhood/, "Vera"],
+    [/^Street address/, "Vera Park area"],
+    [/^Total area/, "75"],
+    [/^Seller or agency name/, "Test owner"],
+  ] as const) {
+    fireEvent.change(screen.getByLabelText(label), { target: { value } });
+  }
+  await user.click(screen.getByRole("button", { name: "Save listing" }));
+
+  expect(state.actor.saveProperty).toHaveBeenCalledOnce();
+  const [saved] = state.actor.saveProperty.mock.calls[0];
+  expect(saved).toMatchObject({ isDraft: true, id: expect.any(String) });
+  expect(JSON.parse(saved.data)).toMatchObject({ title, status: "draft" });
+  expect(screen.getByRole("button", { name: "Saving…" })).toBeDisabled();
+  expect(screen.queryByRole("button", publish)).toBeNull();
+  expect(state.actor.publishProperty).not.toHaveBeenCalled();
+
+  finishSave();
+  const publishButton = await header.findByRole("button", {
+    name: `Publish ${title}`,
+  });
+  expect(header.getByRole("button", { name: "New listing" })).toBeVisible();
+  expect(screen.queryByRole("textbox", { name: /Listing title/ })).toBeNull();
+  expect(router.state.location.pathname).toBe("/sell");
+  await user.click(publishButton);
+
+  expect(state.actor.publishProperty).toHaveBeenCalledExactlyOnceWith(saved.id);
+  await waitFor(() => expect(header.queryByRole("button", publish)).toBeNull());
 });
 
 it.each(["/sell", "/properties/draft-apartment"])(

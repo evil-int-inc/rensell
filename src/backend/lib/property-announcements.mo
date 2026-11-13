@@ -11,6 +11,7 @@ module {
   // Keep recent saves available through worker restarts without retaining an
   // unbounded history of earlier versions and their photos.
   let retained = 128;
+  // Four 480,000-byte listing snapshots fit within the IC's 2 MiB reply limit.
   let pageSize = 4;
   let path = "/api/listing-announcements";
 
@@ -68,15 +69,22 @@ module {
     };
   };
 
+  func isListingImage(value : Json.Json) : Bool {
+    let #string url = value else return false;
+    url.startsWith(#text("data:image/jpeg;base64,")) or
+    url.startsWith(#text("data:image/png;base64,")) or
+    url.startsWith(#text("data:image/webp;base64,"));
+  };
+
   func listing(event : Properties.Announcement) : Json.Json {
     let ?data = event.data else return Json.nullable();
     let #ok(#object_ fields) = Json.parse(data) else return Json.nullable();
     let details = fields.filterMap(func((key, value)) {
       switch (key, value) {
         case ("images", #array images) {
-          if (images.size() == 0) { return null };
-          let #string cover = images[0] else return null;
-          ?(key, Json.arr([Json.str(cover)]));
+          let photos = images.filter(isListingImage);
+          if (photos.size() == 0) { return null };
+          ?(key, Json.arr(photos));
         };
         case ("title" or "description" or "type" or "address" or "city" or "neighborhood", #string _) {
           ?(key, value);

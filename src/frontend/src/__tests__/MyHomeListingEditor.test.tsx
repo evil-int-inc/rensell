@@ -1,4 +1,5 @@
 import { ListingEditor } from "@/marketplace/ListingEditor";
+import * as listingEditorData from "@/marketplace/listing-editor-data";
 import {
   act,
   fireEvent,
@@ -37,6 +38,49 @@ function setSourceUrl() {
 
 beforeEach(() => {
   importMyHome.mockReset();
+});
+
+it("keeps all imported photos in order and allows adding a manual photo", async () => {
+  const user = userEvent.setup();
+  const save = vi.fn().mockResolvedValue(undefined);
+  const importedPhotos = Array.from(
+    { length: 8 },
+    (_, index) => `data:image/jpeg;base64,${btoa(`photo ${index}`)}`,
+  );
+  importMyHome.mockResolvedValue({ ...importedAd, images: importedPhotos });
+  const preparePhoto = vi.spyOn(listingEditorData, "prepareListingPhoto");
+  preparePhoto.mockResolvedValue(image);
+  try {
+    render(
+      <ListingEditor
+        importMyHome={importMyHome}
+        onSave={save}
+        onCancel={vi.fn()}
+      />,
+    );
+    setSourceUrl();
+    await user.click(screen.getByRole("button", { name: "Import ad" }));
+    expect(
+      await screen.findByRole("img", { name: "Listing view 8" }),
+    ).toBeVisible();
+
+    const upload = new File(["new photo"], "new.jpg", { type: "image/jpeg" });
+    await user.upload(screen.getByLabelText(/Add property photos/), upload);
+    expect(
+      await screen.findByRole("img", { name: "Listing view 9" }),
+    ).toHaveAttribute("src", image);
+
+    await user.click(screen.getByRole("button", { name: "Save listing" }));
+    await waitFor(() =>
+      expect(save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          images: [...importedPhotos, image],
+        }),
+      ),
+    );
+  } finally {
+    preparePhoto.mockRestore();
+  }
 });
 
 it("fills a reviewable draft with source photos and preserves manually entered fields", async () => {

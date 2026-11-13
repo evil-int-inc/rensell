@@ -1,11 +1,11 @@
 import { createActor } from "@/backend";
-import type { LocalizedMessage } from "@/i18n";
 import { useActor } from "@caffeineai/core-infrastructure";
-import { maxPhotos, prepareListingPhoto } from "./listing-editor-data";
+import { prepareListingPhoto } from "./listing-editor-data";
 import { isMyHomePhotoUrl, parseMyHomeListing } from "./myhome-import";
 
 const maxPageSize = 5 * 1024 * 1024;
 const maxPhotoSize = 1_000_000;
+const photoBatchSize = 4;
 const supportedImageTypes = ["image/jpeg", "image/png", "image/webp"];
 
 function listingSlug(input: string) {
@@ -60,6 +60,7 @@ async function copyPhoto(url: string, signal: AbortSignal): Promise<string> {
     }
     chunks.push(value.slice());
   }
+  signal.throwIfAborted();
   return prepareListingPhoto(new File(chunks, "myhome-photo", { type }));
 }
 
@@ -91,25 +92,23 @@ export function useMyHomeImport() {
       photoUrls,
       warnings: sourceWarnings,
     } = parseMyHomeListing(sourceText, url.trim());
-    const warnings: (string | LocalizedMessage)[] = [...sourceWarnings];
-    const selected = photoUrls.slice(0, maxPhotos);
-    const results = await Promise.allSettled(
-      selected.map((photo) => copyPhoto(photo, signal)),
-    );
-    signal.throwIfAborted();
-    const images = results.flatMap((result) =>
-      result.status === "fulfilled" ? [result.value] : [],
-    );
-    if (images.length < selected.length)
+    const warnings = [...sourceWarnings];
+    const images: string[] = [];
+    for (let start = 0; start < photoUrls.length; start += photoBatchSize) {
+      signal.throwIfAborted();
+      const batch = photoUrls.slice(start, start + photoBatchSize);
+      const results = await Promise.allSettled(
+        batch.map((photo) => copyPhoto(photo, signal)),
+      );
+      signal.throwIfAborted();
+      for (const result of results) {
+        if (result.status === "fulfilled") images.push(result.value);
+      }
+    }
+    if (images.length < photoUrls.length)
       warnings.push(
         "Some unmarked photos could not be copied. You can upload them separately.",
       );
-    if (photoUrls.length > maxPhotos)
-      warnings.push({
-        message:
-          "You can save up to {count} photos per listing and replace the imported photos before saving.",
-        params: { count: maxPhotos },
-      });
     return { fields, source, warnings, images };
   };
 }

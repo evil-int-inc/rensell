@@ -1,5 +1,5 @@
 import { type Actor, PocketIc, createIdentity } from "@dfinity/pic";
-import { afterAll, beforeAll, expect, it } from "vitest";
+import { afterEach, beforeEach, expect, it } from "vitest";
 import type {
   PropertyRecord,
   _SERVICE,
@@ -9,7 +9,12 @@ import { idlFactory } from "../../src/frontend/src/declarations/backend.did.js";
 type Announcement = {
   sequence: number;
   kind: "published" | "updated";
-  listing: { id: string; title: string; price: number } | null;
+  listing: {
+    id: string;
+    title: string;
+    price: number;
+    images?: string[];
+  } | null;
 };
 
 const owner = createIdentity("listing-announcements-owner").getPrincipal();
@@ -17,7 +22,7 @@ let pic: PocketIc;
 let actor: Actor<_SERVICE>;
 let gateway: Actor<_SERVICE>;
 
-beforeAll(async () => {
+beforeEach(async () => {
   pic = await PocketIc.create(process.env.POCKET_IC_URL!);
   const fixture = await pic.setupCanister<_SERVICE>({
     idlFactory,
@@ -30,13 +35,14 @@ beforeAll(async () => {
   gateway = pic.createActor<_SERVICE>(idlFactory, fixture.canisterId);
 });
 
-afterAll(async () => pic?.tearDown());
+afterEach(async () => pic?.tearDown());
 
 function listing(
   id: string,
   title: string,
   price: number,
   isDraft: boolean,
+  images: unknown[] = [],
 ): PropertyRecord {
   return {
     id,
@@ -53,14 +59,17 @@ function listing(
       address: "Vera Park area",
       description: "An apartment in Tbilisi.",
       listedAt: "2026-10-01",
-      images: [],
+      images,
       amenities: [],
       seller: { name: "Property seller", role: "Owner" },
     }),
   };
 }
 
-async function readAnnouncements(after = 0): Promise<Announcement[]> {
+async function readAnnouncementPage(after = 0): Promise<{
+  events: Announcement[];
+  byteLength: number;
+}> {
   const request = {
     method: "GET",
     url: `/api/listing-announcements?after=${after}`,
@@ -76,13 +85,30 @@ async function readAnnouncements(after = 0): Promise<Announcement[]> {
   const response = await gateway.http_request_update(request);
   expect(response.status_code).toBe(200);
   const { events } = JSON.parse(new TextDecoder().decode(response.body));
-  return events;
+  return { events, byteLength: response.body.byteLength };
+}
+
+async function readAnnouncements(after = 0): Promise<Announcement[]> {
+  return (await readAnnouncementPage(after)).events;
 }
 
 it("announces public saves, publication and real public updates while suppressing hidden listings", async () => {
   const draftId = "draft-apartment";
   await actor.saveProperty(listing(draftId, "Draft apartment", 120_000, true));
-  const editedDraft = listing(draftId, "Edited apartment", 125_000, true);
+  const gallery = [
+    "data:image/jpeg;base64,Y292ZXI=",
+    "data:image/webp;base64,c2Vjb25k",
+    "data:image/png;base64,dGhpcmQ=",
+  ];
+  const editedDraft = listing(draftId, "Edited apartment", 125_000, true, [
+    null,
+    gallery[0],
+    42,
+    gallery[1],
+    "",
+    "data:image/gif;base64,Z2lm",
+    gallery[2],
+  ]);
   await actor.updateProperty(editedDraft);
   expect(await readAnnouncements()).toEqual([]);
 
@@ -94,7 +120,12 @@ it("announces public saves, publication and real public updates while suppressin
   expect(published).toMatchObject({
     sequence: expect.any(Number),
     kind: "published",
-    listing: { id: draftId, title: "Edited apartment", price: 125_000 },
+    listing: {
+      id: draftId,
+      title: "Edited apartment",
+      price: 125_000,
+      images: gallery,
+    },
   });
 
   const [publicRecord] = await actor.listProperties([]);
@@ -148,4 +179,33 @@ it("announces public saves, publication and real public updates while suppressin
     { ...direct, listing: null },
     republished,
   ]);
+});
+
+it("returns four near-limit galleries in one response below 2 MiB", async () => {
+  const gallery = Array.from(
+    { length: 12 },
+    (_, index) =>
+      `data:image/webp;base64,${String.fromCharCode(65 + index).repeat(39_936)}`,
+  );
+  const ids = ["large-a", "large-b", "large-c", "large-d"];
+  for (const id of ids) {
+    const record = listing(id, "Large apartment", 150_000, false, gallery);
+    expect(new TextEncoder().encode(record.data).byteLength).toBeGreaterThan(
+      479_000,
+    );
+    await actor.saveProperty(record);
+  }
+  await actor.saveProperty(
+    listing("next-page", "Next apartment", 160_000, false),
+  );
+
+  const { events, byteLength } = await readAnnouncementPage();
+  expect(events.map(({ listing }) => listing?.id)).toEqual(ids);
+  for (const event of events) expect(event.listing?.images).toEqual(gallery);
+  expect(byteLength).toBeLessThan(2 * 1024 * 1024);
+
+  const nextEvents = await readAnnouncements(
+    events[events.length - 1].sequence,
+  );
+  expect(nextEvents.map(({ listing }) => listing?.id)).toEqual(["next-page"]);
 });

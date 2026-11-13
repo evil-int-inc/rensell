@@ -130,7 +130,13 @@ function SellerContact({ listing }: { listing: PropertyListing }) {
   );
 }
 
-export function PropertyDetailPage({ listingId }: { listingId: string }) {
+export function PropertyDetailPage({
+  listingId,
+  openGallery,
+}: {
+  listingId: string;
+  openGallery?: boolean;
+}) {
   const { t } = useI18n();
   const navigate = useNavigate();
   const {
@@ -364,6 +370,7 @@ export function PropertyDetailPage({ listingId }: { listingId: string }) {
         images={listing.images}
         imageDescriptions={listing.imageDescriptions}
         title={listing.title}
+        openOnLoad={openGallery}
       />
 
       <div className="mt-8 grid items-start gap-10 sm:mt-10 lg:grid-cols-[minmax(0,1fr)_minmax(19rem,0.44fr)] lg:gap-16">

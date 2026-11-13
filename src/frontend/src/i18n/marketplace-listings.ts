@@ -151,9 +151,9 @@ export const marketplaceListings = {
     ka: "კოორდინატები არასავალდებულოა. მისამართით რუკაზე ძებნა მაინც შესაძლებელი იქნება.",
   },
   Photos: { ru: "Фотографии", ka: "ფოტოები" },
-  "Add up to {count} photos. The first photo is used as the cover image.": {
-    ru: "Можно добавить до {count} фотографий. Первая станет обложкой.",
-    ka: "შეგიძლიათ დაამატოთ მაქსიმუმ {count} ფოტო. პირველი ფოტო გარეკანზე გამოჩნდება.",
+  "The first photo is used as the cover image.": {
+    ru: "Первая фотография станет обложкой объявления.",
+    ka: "პირველი ფოტო განცხადების გარეკანზე გამოჩნდება.",
   },
   "Listing view {number}": {
     ru: "Фото объекта {number}",
@@ -273,15 +273,6 @@ export const marketplaceListings = {
   "Your manual edits were kept.": {
     ru: "Ваши изменения сохранены в форме.",
     ka: "თქვენ მიერ შეტანილი ცვლილებები ფორმაში დარჩა.",
-  },
-  "Some source photos were skipped because the listing can hold up to {count} photos.":
-    {
-      ru: "Некоторые фотографии пропущены. В объявление можно добавить до {count} фотографий.",
-      ka: "ზოგიერთი ფოტო გამოტოვებულია. განცხადებაში მაქსიმუმ {count} ფოტოს დამატება შეიძლება.",
-    },
-  "You can add up to {count} photos per listing.": {
-    ru: "В объявление можно добавить до {count} фотографий.",
-    ka: "თითოეულ განცხადებაში შეგიძლიათ დაამატოთ მაქსიმუმ {count} ფოტო.",
   },
   "These photos couldn’t be prepared.": {
     ru: "Не удалось обработать фотографии.",
@@ -460,11 +451,6 @@ export const marketplaceListings = {
     ru: "Не удалось скопировать некоторые фотографии без водяного знака. Их можно загрузить отдельно.",
     ka: "წყლის ნიშნის გარეშე ზოგიერთი ფოტოს კოპირება ვერ მოხერხდა. შეგიძლიათ ისინი ცალკე ატვირთოთ.",
   },
-  "You can save up to {count} photos per listing and replace the imported photos before saving.":
-    {
-      ru: "В объявлении можно сохранить до {count} фотографий. Перед сохранением импортированные фотографии можно заменить.",
-      ka: "თითო განცხადებაში მაქსიმუმ {count} ფოტოს შენახვა შეგიძლიათ. შენახვამდე იმპორტირებული ფოტოების შეცვლაც შეგიძლიათ.",
-    },
   "MyHome could not be reached. Import a saved HTML copy of the listing.": {
     ru: "Не удалось связаться с MyHome. Импортируйте сохранённую HTML-копию объявления.",
     ka: "MyHome-თან დაკავშირება ვერ მოხერხდა. შემოიტანეთ განცხადების შენახული HTML ასლი.",

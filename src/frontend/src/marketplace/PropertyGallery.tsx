@@ -1,20 +1,31 @@
 import { useI18n } from "@/i18n";
 import { ImageOff, Images } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PropertyPhotoDialog } from "./PropertyPhotoDialog";
 
 export function PropertyGallery({
   images,
   imageDescriptions,
   title,
+  openOnLoad,
 }: {
   images: string[];
   imageDescriptions?: string[];
   title: string;
+  openOnLoad?: boolean;
 }) {
   const { t } = useI18n();
   const gallery = useRef<HTMLDialogElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const hasImages = images.length > 0;
+
+  useEffect(() => {
+    const dialog = gallery.current;
+    if (openOnLoad && hasImages && dialog && !dialog.open) {
+      setActiveIndex(0);
+      dialog.showModal();
+    }
+  }, [openOnLoad, hasImages]);
 
   function openGallery(index: number) {
     setActiveIndex(index);
@@ -25,7 +36,7 @@ export function PropertyGallery({
     setActiveIndex((index) => (index + offset + images.length) % images.length);
   }
 
-  if (!images.length) {
+  if (!hasImages) {
     return (
       <div className="flex aspect-2/1 flex-col items-center justify-center gap-3 rounded-box bg-base-200 text-base-content/65">
         <ImageOff className="size-8" aria-hidden="true" />

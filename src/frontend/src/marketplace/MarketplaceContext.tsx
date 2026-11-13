@@ -11,7 +11,10 @@ import {
 } from "react";
 import type { PropertyListing } from "./catalog";
 import type { DiscoveryFilters } from "./discovery-filters";
-import { encodeListing, fetchPropertyListings } from "./property-records";
+import {
+  fetchPropertyListings,
+  prepareListingRecord,
+} from "./property-records";
 
 export type SavedSearch = DiscoveryFilters & { id: string };
 
@@ -198,7 +201,7 @@ export function MarketplaceProvider({ children }: { children: ReactNode }) {
     async saveListing(listing, editing) {
       if (!actor || isFetching || !isAdmin)
         throw new Error("Only admins can save listings.");
-      const record = encodeListing(listing);
+      const record = await prepareListingRecord(listing);
       if (editing) await actor.updateProperty(record);
       else await actor.saveProperty(record);
       await refreshListings();

@@ -68,12 +68,21 @@ const indexRoute = createRoute({
 const propertyRoute = createRoute({
   getParentRoute: () => marketplaceRoute,
   path: "/properties/$listingId",
+  validateSearch: (search: Record<string, unknown>): { gallery?: true } =>
+    search.gallery === true ? { gallery: true } : {},
   component: PropertyRoute,
 });
 
 function PropertyRoute() {
   const { listingId } = propertyRoute.useParams();
-  return <PropertyDetailPage key={listingId} listingId={listingId} />;
+  const { gallery } = propertyRoute.useSearch();
+  return (
+    <PropertyDetailPage
+      key={listingId}
+      listingId={listingId}
+      openGallery={gallery}
+    />
+  );
 }
 
 const propertyEditRoute = createRoute({

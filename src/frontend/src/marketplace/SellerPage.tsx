@@ -29,6 +29,8 @@ export function SellerPage() {
   } = useMarketplace();
   const [editor, setEditor] = useState<PropertyListing | "new" | undefined>();
   const [notice, setNotice] = useState("");
+  const [savedDraft, setSavedDraft] =
+    useState<Pick<PropertyListing, "id" | "title">>();
   const pageHeading = useRef<HTMLHeadingElement>(null);
 
   function closeEditor() {
@@ -38,6 +40,11 @@ export function SellerPage() {
 
   async function onSave(listing: PropertyListing) {
     await saveListing(listing, editor !== "new");
+    setSavedDraft(
+      listing.status === "draft"
+        ? { id: listing.id, title: listing.title }
+        : undefined,
+    );
     setNotice(
       listing.status === "draft"
         ? "Draft saved. Only admins can preview it."
@@ -49,6 +56,10 @@ export function SellerPage() {
   function editListing(listing: PropertyListing | "new") {
     setNotice("");
     setEditor(listing);
+  }
+
+  function clearSavedDraft(id: string) {
+    setSavedDraft((current) => (current?.id === id ? undefined : current));
   }
 
   return (
@@ -76,13 +87,27 @@ export function SellerPage() {
           </p>
         </div>
         {!editor && (
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => editListing("new")}
-          >
-            <Plus className="size-4" aria-hidden="true" /> {t("New listing")}
-          </button>
+          <div className="flex flex-wrap items-start gap-2">
+            {savedDraft && (
+              <PublishListingButton
+                key={savedDraft.id}
+                id={savedDraft.id}
+                title={savedDraft.title}
+                onPublished={() => {
+                  clearSavedDraft(savedDraft.id);
+                  setNotice("Listing published to the marketplace.");
+                  pageHeading.current?.focus();
+                }}
+              />
+            )}
+            <button
+              type="button"
+              className={savedDraft ? "btn btn-outline" : "btn btn-primary"}
+              onClick={() => editListing("new")}
+            >
+              <Plus className="size-4" aria-hidden="true" /> {t("New listing")}
+            </button>
+          </div>
         )}
       </header>
 
@@ -216,16 +241,17 @@ export function SellerPage() {
                         {t("Preview")}{" "}
                         <ArrowUpRight className="size-3.5" aria-hidden="true" />
                       </Link>
-                      {listing.status === "draft" && (
-                        <PublishListingButton
-                          id={listing.id}
-                          title={listing.title}
-                          small
-                          onPublished={() =>
-                            setNotice("Listing published to the marketplace.")
-                          }
-                        />
-                      )}
+                      {listing.status === "draft" &&
+                        listing.id !== savedDraft?.id && (
+                          <PublishListingButton
+                            id={listing.id}
+                            title={listing.title}
+                            small
+                            onPublished={() =>
+                              setNotice("Listing published to the marketplace.")
+                            }
+                          />
+                        )}
                       <ListingManagementActions
                         listing={listing}
                         small
@@ -235,6 +261,7 @@ export function SellerPage() {
                           pageHeading.current?.focus();
                         }}
                         onRemoved={() => {
+                          clearSavedDraft(listing.id);
                           setNotice("Listing removed.");
                           pageHeading.current?.focus();
                         }}

@@ -15,7 +15,6 @@ import {
   getListingField,
   importedFormValues,
   listingStatusLabels,
-  maxPhotos,
   prepareListingPhoto,
   readListingForm,
   updateImportedField,
@@ -116,7 +115,7 @@ export function ListingEditor({
   const [isImporting, setIsImporting] = useState(false);
   const [isPreparing, setIsPreparing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [photoError, setPhotoError] = useState<string | LocalizedMessage>("");
+  const [photoError, setPhotoError] = useState("");
   const [saveError, setSaveError] = useState("");
   const title = listing ? "Edit property" : "Create a property listing";
   const sellerRole = listing?.seller.role || "Owner";
@@ -150,17 +149,9 @@ export function ListingEditor({
 
     const uploaded = photos.filter((photo) => !photo.imported);
     const uploadedSources = new Set(uploaded.map(({ source }) => source));
-    const found = [...new Set(imported.images)].filter(
+    const added = [...new Set(imported.images)].filter(
       (source) => !uploadedSources.has(source),
     );
-    const added = found.slice(0, maxPhotos - uploaded.length);
-    if (added.length < found.length) {
-      warnings.push({
-        message:
-          "Some source photos were skipped because the listing can hold up to {count} photos.",
-        params: { count: maxPhotos },
-      });
-    }
     setPhotos([
       ...uploaded,
       ...added.map((source) => ({ source, imported: true })),
@@ -181,13 +172,6 @@ export function ListingEditor({
   async function addPhotos(files: File[]) {
     setPhotoError("");
     if (!files.length || isImporting) return;
-    if (files.length + photos.length > maxPhotos) {
-      setPhotoError({
-        message: "You can add up to {count} photos per listing.",
-        params: { count: maxPhotos },
-      });
-      return;
-    }
     setIsPreparing(true);
     try {
       const uploaded: EditorPhoto[] = [];
@@ -445,10 +429,7 @@ export function ListingEditor({
 
           <FormSection
             title={t("Photos")}
-            description={t(
-              "Add up to {count} photos. The first photo is used as the cover image.",
-              { count: maxPhotos },
-            )}
+            description={t("The first photo is used as the cover image.")}
           >
             {photos.length > 0 && (
               <ul className="grid grid-cols-2 gap-3 sm:col-span-2 sm:grid-cols-3 lg:grid-cols-5">
@@ -460,6 +441,7 @@ export function ListingEditor({
                     <div className="relative aspect-4/3 overflow-hidden rounded-box bg-base-200">
                       <img
                         src={source}
+                        loading="lazy"
                         alt={t("Listing view {number}", { number: index + 1 })}
                         className="h-full w-full object-cover"
                       />
@@ -509,29 +491,27 @@ export function ListingEditor({
                 ))}
               </ul>
             )}
-            {photos.length < maxPhotos && (
-              <label className="flex flex-col items-start gap-2 rounded-box border border-dashed border-base-300 bg-base-200 p-4 text-sm font-semibold sm:col-span-2 sm:p-5">
-                <span className="flex items-center gap-2">
-                  <Camera className="size-4 text-primary" aria-hidden="true" />{" "}
-                  {t("Add property photos")}
-                </span>
-                <input
-                  className="file-input file-input-sm w-full max-w-sm border-base-300 bg-base-100"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  disabled={isPreparing || isImporting}
-                  onChange={(event) => {
-                    const files = [...(event.currentTarget.files ?? [])];
-                    event.currentTarget.value = "";
-                    void addPhotos(files);
-                  }}
-                />
-                <span className="text-xs font-normal text-base-content/65">
-                  {t("JPG, PNG, or WebP. Up to 20 MB per original image.")}
-                </span>
-              </label>
-            )}
+            <label className="flex flex-col items-start gap-2 rounded-box border border-dashed border-base-300 bg-base-200 p-4 text-sm font-semibold sm:col-span-2 sm:p-5">
+              <span className="flex items-center gap-2">
+                <Camera className="size-4 text-primary" aria-hidden="true" />{" "}
+                {t("Add property photos")}
+              </span>
+              <input
+                className="file-input file-input-sm w-full max-w-sm border-base-300 bg-base-100"
+                type="file"
+                accept="image/*"
+                multiple
+                disabled={isPreparing || isImporting}
+                onChange={(event) => {
+                  const files = [...(event.currentTarget.files ?? [])];
+                  event.currentTarget.value = "";
+                  void addPhotos(files);
+                }}
+              />
+              <span className="text-xs font-normal text-base-content/65">
+                {t("JPG, PNG, or WebP. Up to 20 MB per original image.")}
+              </span>
+            </label>
             {isPreparing && (
               <output className="text-sm text-base-content/70 sm:col-span-2">
                 {t("Preparing your photos…")}
@@ -539,9 +519,7 @@ export function ListingEditor({
             )}
             {photoError && (
               <p role="alert" className="text-sm text-error sm:col-span-2">
-                {typeof photoError === "string"
-                  ? translateError(photoError)
-                  : t(photoError)}
+                {translateError(photoError)}
               </p>
             )}
           </FormSection>

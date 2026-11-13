@@ -4,7 +4,14 @@ import {
   themeService,
 } from "@/services/themeService";
 import { Check, Monitor, Moon, Sun } from "lucide-react";
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 const themeOptions = [
   { value: "system", label: "System", Icon: Monitor },
@@ -21,14 +28,24 @@ export function MarketplaceThemeSwitcher() {
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const selectedOption = useRef<HTMLInputElement>(null);
+  const closeAfterApply = useRef(false);
   const optionsId = useId();
   const { Icon: ActiveIcon } =
     themeOptions.find(({ value }) => value === preference) ?? themeOptions[0];
 
-  useLayoutEffect(
-    () => themeService.watchMarketplaceTheme(preference),
-    [preference],
-  );
+  const close = useCallback(() => {
+    setOpen(false);
+    trigger.current?.focus();
+  }, []);
+
+  useLayoutEffect(() => {
+    const stopWatching = themeService.watchMarketplaceTheme(preference);
+    if (closeAfterApply.current) {
+      closeAfterApply.current = false;
+      close();
+    }
+    return stopWatching;
+  }, [close, preference]);
 
   useEffect(() => {
     if (!open) return;
@@ -40,15 +57,14 @@ export function MarketplaceThemeSwitcher() {
     return () => document.removeEventListener("pointerdown", closeOutside);
   }, [open]);
 
-  function close() {
-    setOpen(false);
-    trigger.current?.focus();
-  }
-
   function select(next: MarketplaceThemePreference) {
     themeService.saveMarketplacePreference(next);
+    if (next === preference) {
+      close();
+      return;
+    }
+    closeAfterApply.current = true;
     setPreference(next);
-    close();
   }
 
   return (
@@ -56,7 +72,14 @@ export function MarketplaceThemeSwitcher() {
       ref={root}
       className="relative shrink-0"
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+        // Clicking a label can blur the focused radio before its click fires.
+        // Let the outside pointer handler dismiss the menu in that case.
+        if (
+          event.relatedTarget &&
+          !event.currentTarget.contains(event.relatedTarget)
+        ) {
+          setOpen(false);
+        }
       }}
       onKeyDown={(event) => {
         if (open && event.key === "Escape") {
