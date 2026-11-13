@@ -5547,6 +5547,11 @@
     height: 1.1rem;
   }
 
+  .size-\[17px\] {
+    width: 17px;
+    height: 17px;
+  }
+
   .size-\[18px\] {
     width: 18px;
     height: 18px;
@@ -5751,6 +5756,10 @@
 
   .w-36 {
     width: calc(var(--spacing) * 36);
+  }
+
+  .w-40 {
+    width: calc(var(--spacing) * 40);
   }
 
   .w-48 {
@@ -7245,6 +7254,10 @@
   .tracking-widest {
     --tw-tracking: var(--tracking-widest);
     letter-spacing: var(--tracking-widest);
+  }
+
+  .\[overflow-wrap\:anywhere\] {
+    overflow-wrap: anywhere;
   }
 
   .break-words {

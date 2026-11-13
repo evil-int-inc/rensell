@@ -269,7 +269,7 @@ type Result =
    hasMore: bool;
    rows: vec vec Cell;
  };
-type Response =
+type Response = 
  record {
    body: blob;
    headers: vec record {
@@ -279,7 +279,7 @@ type Response =
    status_code: nat16;
    upgrade: opt bool;
  };
-type Request =
+type Request = 
  record {
    body: blob;
    headers: vec record {
@@ -289,7 +289,7 @@ type Request =
    method: text;
    url: text;
  };
-type QueryRequest =
+type QueryRequest = 
  record {
    body: blob;
    certificate_version: opt nat16;

@@ -15604,15 +15604,15 @@ const ka = {
   "Player is already registered in this tournament": "მოთამაშე უკვე რეგისტრირებულია ამ ტურნირში",
   Telegram: "Telegram",
   "Link Telegram": "Telegram-ის დაკავშირება",
-  "Link Telegram to your existing member account. Linking replaces your current username with your Telegram username.": "დააკავშირეთ Telegram თქვენს არსებულ ანგარიშთან. თქვენი მომხმარებლის სახელი ჩაანაცვლდება Telegram-ის მომხმარებლის სახელით.",
+  "Link Telegram to use your Telegram name, username and profile photo when available.": "დააკავშირეთ Telegram, რომ პროფილში გადაიტანოთ Telegram-ის სახელი, მომხმარებლის სახელი და ფოტო, თუ ისინი ხელმისაწვდომია.",
   "Linked Telegram account": "დაკავშირებული Telegram-ის ანგარიში",
   "Sync Telegram profile": "Telegram-იდან პროფილის განახლება",
   "Telegram linking is not configured yet. Ask an admin to set the public Login Client ID.": "Telegram-ის დაკავშირება ჯერ არ არის გამართული. სთხოვეთ ადმინისტრატორს მიუთითოს საჯარო შესვლის კლიენტის ID.",
   "Unlink Telegram": "Telegram-ის კავშირის გაუქმება",
   "Couldn't load Telegram. Check your connection and try again.": "Telegram-ის ჩატვირთვა ვერ მოხერხდა. შეამოწმეთ ინტერნეტკავშირი და სცადეთ ხელახლა.",
   "Couldn't prepare Telegram linking. Try again.": "Telegram-ის დაკავშირებისთვის მომზადება ვერ მოხერხდა. სცადეთ ხელახლა.",
-  "Telegram linked. Your username now matches Telegram.": "Telegram დაკავშირებულია. თქვენი მომხმარებლის სახელი ახლა Telegram-ის სახელს ემთხვევა.",
-  "Telegram unlinked. Your username is unchanged.": "Telegram-ის კავშირი გაუქმებულია. თქვენი მომხმარებლის სახელი უცვლელია.",
+  "Telegram profile synced.": "პროფილი Telegram-იდან განახლდა.",
+  "Telegram unlinked.": "Telegram-ის კავშირი გაუქმებულია.",
   "The Telegram link request expired. Refresh it and try again.": "Telegram-ის დაკავშირების მოთხოვნას ვადა გაუვიდა. განაახლეთ ის და სცადეთ ხელახლა.",
   "Telegram didn't finish linking. Allow popups or retry in your browser.": "Telegram-ის დაკავშირება ვერ დასრულდა. დაუშვით ამომხტარი ფანჯრები ან სცადეთ ხელახლა ბრაუზერში.",
   "Telegram linking was cancelled or could not be completed. Try again.": "Telegram-ის დაკავშირება გაუქმდა ან ვერ დასრულდა. სცადეთ ხელახლა.",
@@ -15682,6 +15682,925 @@ const ka = {
   "Remove this registration from the selected tournament. The shared player remains available.": "რეგისტრაცია წაიშლება არჩეული ტურნირიდან. მოთამაშე საერთო სიაში დარჩება.",
   "Already registered in this tournament. Choose a match to place this player in the bracket.": "მოთამაშე უკვე რეგისტრირებულია ტურნირში. ბადეში დასამატებლად აირჩიეთ მატჩი.",
   "No safe bracket slots": "ბადეში უსაფრთხო პოზიციები არ არის"
+};
+const marketplaceBrowse = {
+  "Find your next": { ru: "Начните", ka: "დაიწყეთ" },
+  "chapter.": { ru: "новую главу.", ka: "ახალი თავი." },
+  "Explore homes and investment properties in Tbilisi, Georgia.": {
+    ru: "Жильё и инвестиционная недвижимость в Тбилиси, Грузия.",
+    ka: "მოძებნეთ საცხოვრებელი და საინვესტიციო უძრავი ქონება თბილისში, საქართველოში."
+  },
+  "Search properties": { ru: "Найти недвижимость", ka: "უძრავი ქონების ძიება" },
+  "City or neighborhood": { ru: "Город или район", ka: "ქალაქი ან უბანი" },
+  "Any type": { ru: "Любой тип", ka: "ნებისმიერი ტიპი" },
+  "Max price": { ru: "Цена до", ka: "მაქსიმალური ფასი" },
+  "No maximum": { ru: "Без верхнего предела", ka: "მაქსიმუმის გარეშე" },
+  "Any price": { ru: "Любая цена", ka: "ნებისმიერი ფასი" },
+  "Up to {value}": { ru: "До {value}", ka: "{value}-მდე" },
+  "From {value}": { ru: "От {value}", ka: "{value}-დან" },
+  "Close filters": { ru: "Закрыть фильтры", ka: "ფილტრების დახურვა" },
+  "Refine your search": { ru: "Уточните поиск", ka: "დააზუსტეთ ძიება" },
+  "Price in USD": { ru: "Цена в долларах США", ka: "ფასი აშშ დოლარში" },
+  "Minimum price": { ru: "Минимальная цена", ka: "მინიმალური ფასი" },
+  "Maximum price": { ru: "Максимальная цена", ka: "მაქსიმალური ფასი" },
+  "Any minimum": { ru: "Без нижнего предела", ka: "მინიმუმის გარეშე" },
+  "Any maximum": { ru: "Без верхнего предела", ka: "მაქსიმუმის გარეშე" },
+  "Area in m²": { ru: "Площадь в м²", ka: "ფართობი მ²-ში" },
+  "Minimum area": { ru: "Минимальная площадь", ka: "მინიმალური ფართობი" },
+  "Maximum area": { ru: "Максимальная площадь", ka: "მაქსიმალური ფართობი" },
+  "Any number": { ru: "Любое количество", ka: "ნებისმიერი რაოდენობა" },
+  "{count}+ bedrooms": { ru: "Спальни: {count}+", ka: "{count}+ საძინებელი" },
+  "Minimum values must be less than or equal to maximum values.": {
+    ru: "Минимальные значения не должны превышать максимальные.",
+    ka: "მინიმალური მნიშვნელობები მაქსიმალურს არ უნდა აღემატებოდეს."
+  },
+  "Apply filters": { ru: "Применить фильтры", ka: "ფილტრების გამოყენება" },
+  "The collection": { ru: "Подборка", ka: "კატალოგი" },
+  "Explore properties": {
+    ru: "Каталог недвижимости",
+    ka: "უძრავი ქონების კატალოგი"
+  },
+  "Property display": { ru: "Вид результатов", ka: "შედეგების ხედვა" },
+  Grid: { ru: "Карточки", ka: "ბარათები" },
+  Map: { ru: "Карта", ka: "რუკა" },
+  "Property categories": {
+    ru: "Категории недвижимости",
+    ka: "უძრავი ქონების კატეგორიები"
+  },
+  "All properties": { ru: "Все объекты", ka: "ყველა ობიექტი" },
+  Apartment: { ru: "Квартира", ka: "ბინა" },
+  Apartments: { ru: "Квартиры", ka: "ბინები" },
+  House: { ru: "Дом", ka: "სახლი" },
+  Houses: { ru: "Дома", ka: "სახლები" },
+  Villa: { ru: "Вилла", ka: "ვილა" },
+  Villas: { ru: "Виллы", ka: "ვილები" },
+  Commercial: { ru: "Коммерческая недвижимость", ka: "კომერციული ფართი" },
+  Land: { ru: "Земельный участок", ka: "მიწის ნაკვეთი" },
+  Filters: { ru: "Фильтры", ka: "ფილტრები" },
+  "Clear filters": { ru: "Сбросить фильтры", ka: "ფილტრების გასუფთავება" },
+  "Search saved": { ru: "Запрос сохранён", ka: "ძიება შენახულია" },
+  "Save search": { ru: "Сохранить запрос", ka: "ძიების შენახვა" },
+  "Sort properties": { ru: "Сортировать объекты", ka: "ობიექტების დალაგება" },
+  "Featured first": {
+    ru: "Сначала рекомендуемые",
+    ka: "რჩეული ობიექტები პირველად"
+  },
+  "Newest first": { ru: "Сначала новые", ka: "უახლესი პირველად" },
+  "Price: low to high": { ru: "Сначала дешевле", ka: "დაბალი ფასიდან" },
+  "Price: high to low": { ru: "Сначала дороже", ka: "მაღალი ფასიდან" },
+  "Largest area": { ru: "Сначала большая площадь", ka: "დიდი ფართობიდან" },
+  "Properties couldn’t be loaded.": {
+    ru: "Не удалось загрузить объявления.",
+    ka: "განცხადებები ვერ ჩაიტვირთა."
+  },
+  Retry: { ru: "Повторить", ka: "ხელახლა ცდა" },
+  "Loading properties…": {
+    ru: "Загрузка объявлений…",
+    ka: "განცხადებები იტვირთება…"
+  },
+  "No matching properties": {
+    ru: "Подходящих объектов нет",
+    ka: "შესაბამისი ობიექტები ვერ მოიძებნა"
+  },
+  "No properties listed yet": {
+    ru: "Объявлений пока нет",
+    ka: "განცხადებები ჯერ არ არის"
+  },
+  "Try a broader location or adjust your price and property filters.": {
+    ru: "Расширьте район поиска или измените фильтры цены и типа недвижимости.",
+    ka: "გააფართოეთ ძიების არეალი ან შეცვალეთ ფასისა და ქონების ფილტრები."
+  },
+  "New listings will appear here when they’re published.": {
+    ru: "Новые объявления появятся здесь после публикации.",
+    ka: "ახალი განცხადებები გამოქვეყნების შემდეგ აქ გამოჩნდება."
+  },
+  "View all properties": {
+    ru: "Посмотреть все объекты",
+    ka: "ყველა ობიექტის ნახვა"
+  },
+  "Properties on the map": {
+    ru: "Недвижимость на карте",
+    ka: "ობიექტები რუკაზე"
+  },
+  "Locate {title} on the map": {
+    ru: "Показать «{title}» на карте",
+    ka: "რუკაზე ჩვენება — {title}"
+  },
+  "View {title}": { ru: "Посмотреть «{title}»", ka: "ნახვა — {title}" },
+  Pending: { ru: "Есть предложение", ka: "მიღებულია შეთავაზება" },
+  Studio: { ru: "Студия", ka: "სტუდიო" },
+  "Expand photos": { ru: "Открыть фотографии", ka: "ფოტოების გადიდება" },
+  "Save {title}": { ru: "Сохранить «{title}»", ka: "შენახვა — {title}" },
+  "No properties to show on the map": {
+    ru: "Нет объектов для отображения на карте",
+    ka: "რუკაზე საჩვენებელი ობიექტები არ არის"
+  },
+  "Map pins appear when a listing includes coordinates.": {
+    ru: "Метки появляются, если в объявлении указаны координаты.",
+    ka: "ნიშნული გამოჩნდება, თუ განცხადებაში მითითებულია კოორდინატები."
+  },
+  "Property map": { ru: "Карта недвижимости", ka: "უძრავი ქონების რუკა" },
+  "Basemap unavailable": {
+    ru: "Не удалось загрузить карту",
+    ka: "რუკა ვერ ჩაიტვირთა"
+  },
+  "Zoom in": { ru: "Увеличить масштаб", ka: "მასშტაბის გაზრდა" },
+  "Zoom out": { ru: "Уменьшить масштаб", ka: "მასშტაბის შემცირება" },
+  "Fit property locations": {
+    ru: "Показать все объекты на карте",
+    ka: "ყველა ობიექტის ჩვენება რუკაზე"
+  },
+  "Use arrow keys to pan and plus or minus to zoom.": {
+    ru: "Перемещайтесь по карте стрелками. Меняйте масштаб клавишами плюс и минус.",
+    ka: "რუკაზე გადასაადგილებლად გამოიყენეთ ისრები, მასშტაბისთვის კი პლუსი ან მინუსი."
+  },
+  "© OpenStreetMap contributors": {
+    ru: "© Участники OpenStreetMap",
+    ka: "© OpenStreetMap-ის მონაწილეები"
+  },
+  "Report a map issue": {
+    ru: "Сообщить об ошибке на карте",
+    ka: "რუკაზე შეცდომის შეტყობინება"
+  },
+  "Your shortlist": { ru: "Ваша подборка", ka: "თქვენი სია" },
+  "Saved properties": {
+    ru: "Избранная недвижимость",
+    ka: "შენახული ობიექტები"
+  },
+  "Revisit the places that caught your eye and compare up to three properties side by side.": {
+    ru: "Вернитесь к понравившимся объектам и сравните до трёх из них.",
+    ka: "დაუბრუნდით მოწონებულ ობიექტებს და შეადარეთ მაქსიმუმ სამი მათგანი."
+  },
+  Compare: { ru: "Сравнить", ka: "შედარება" },
+  "Compare {title}": { ru: "Сравнить «{title}»", ka: "შედარება — {title}" },
+  "Your shortlist starts here": {
+    ru: "В избранном пока ничего нет",
+    ka: "შენახული ობიექტები ჯერ არ გაქვთ"
+  },
+  "Select the heart on any property to save it here.": {
+    ru: "Нажмите на сердечко на карточке объекта, чтобы сохранить его здесь.",
+    ka: "ობიექტის აქ შესანახად მის ბარათზე გულის ნიშნულს დააჭირეთ."
+  },
+  "Compare properties": { ru: "Сравнить объекты", ka: "ობიექტების შედარება" },
+  Property: { ru: "Объект", ka: "ობიექტი" },
+  Price: { ru: "Цена", ka: "ფასი" },
+  "Price per m²": { ru: "Цена за м²", ka: "ფასი ერთ მ²-ზე" },
+  Area: { ru: "Площадь", ka: "ფართობი" },
+  "Saved searches": { ru: "Сохранённые запросы", ka: "შენახული ძიებები" },
+  "Remove saved search: {description}": {
+    ru: "Удалить сохранённый запрос «{description}»",
+    ka: "შენახული ძიების წაშლა — {description}"
+  },
+  "Save a search from Explore to return to the same filters later.": {
+    ru: "Сохраните запрос в каталоге, чтобы вернуться к тем же фильтрам позже.",
+    ka: "შეინახეთ ძიება კატალოგში, რომ მოგვიანებით იმავე ფილტრებს დაუბრუნდეთ."
+  }
+};
+const countNouns = {
+  property: {
+    en: ["property", "properties", "properties"],
+    ru: ["объект", "объекта", "объектов"],
+    ka: ["ობიექტი", "ობიექტი", "ობიექტი"]
+  },
+  bed: {
+    en: ["bed", "beds", "beds"],
+    ru: ["спальня", "спальни", "спален"],
+    ka: ["საძინებელი", "საძინებელი", "საძინებელი"]
+  },
+  bath: {
+    en: ["bath", "baths", "baths"],
+    ru: ["ванная", "ванные", "ванных"],
+    ka: ["სააბაზანო", "სააბაზანო", "სააბაზანო"]
+  }
+};
+function formatBrowseCount(count, noun, language2, locale) {
+  const [one, few, other] = countNouns[noun][language2];
+  const rule = new Intl.PluralRules(locale).select(count);
+  const word = rule === "one" ? one : rule === "few" ? few : other;
+  return `${new Intl.NumberFormat(locale).format(count)} ${word}`;
+}
+const marketplaceDetail = {
+  "Listed by": { ru: "Автор объявления", ka: "განცხადების ავტორი" },
+  "Inquiry about {title}": {
+    ru: "Вопрос об объявлении «{title}»",
+    ka: "შეკითხვა განცხადებაზე „{title}“"
+  },
+  "Contact seller": {
+    ru: "Связаться с продавцом",
+    ka: "გამყიდველთან დაკავშირება"
+  },
+  "Viewing request for {title}": {
+    ru: "Запрос на просмотр объекта «{title}»",
+    ka: "ობიექტის „{title}“ დათვალიერების მოთხოვნა"
+  },
+  "Hello {name},\n\nI would like to arrange a viewing of {title}. My preferred times are:\n\n": {
+    ru: "Здравствуйте, {name}!\n\nЯ хочу договориться о просмотре объекта «{title}». Мне удобно в следующее время:\n\n",
+    ka: "გამარჯობა, {name}!\n\nმსურს დავათვალიერო ობიექტი „{title}“. ჩემთვის მოსახერხებელი დროებია:\n\n"
+  },
+  "Request a viewing": {
+    ru: "Запросить просмотр",
+    ka: "დათვალიერების მოთხოვნა"
+  },
+  "The seller hasn’t added contact details yet.": {
+    ru: "Продавец пока не добавил контактные данные.",
+    ka: "გამყიდველს საკონტაქტო ინფორმაცია ჯერ არ დაუმატებია."
+  },
+  "Loading property…": { ru: "Загрузка объекта…", ka: "ობიექტი იტვირთება…" },
+  "Property couldn’t be loaded": {
+    ru: "Не удалось загрузить объект",
+    ka: "ობიექტი ვერ ჩაიტვირთა"
+  },
+  "Property unavailable": {
+    ru: "Объект недоступен",
+    ka: "ობიექტი მიუწვდომელია"
+  },
+  "There was a problem loading the listing. Please try again.": {
+    ru: "Не удалось загрузить объявление. Попробуйте ещё раз.",
+    ka: "განცხადება ვერ ჩაიტვირთა. სცადეთ ხელახლა."
+  },
+  "This listing may have moved or been taken off the market.": {
+    ru: "Возможно, объявление перемещено или снято с публикации.",
+    ka: "შესაძლოა, განცხადება გადატანილი ან მოხსნილი იყოს."
+  },
+  "Total area": { ru: "Общая площадь", ka: "საერთო ფართობი" },
+  "Living area": { ru: "Жилая площадь", ka: "საცხოვრებელი ფართობი" },
+  "{current} of {total}": {
+    ru: "{current} из {total}",
+    ka: "{current} / {total}"
+  },
+  "Building floors": {
+    ru: "Этажность здания",
+    ka: "შენობის სართულების რაოდენობა"
+  },
+  "Built in": { ru: "Год постройки", ka: "აშენების წელი" },
+  "Link copied": { ru: "Ссылка скопирована", ka: "ბმული დაკოპირებულია" },
+  Share: { ru: "Поделиться", ka: "გაზიარება" },
+  "Save property": { ru: "Сохранить объект", ka: "ობიექტის შენახვა" },
+  "Copy this property link": {
+    ru: "Скопируйте ссылку на объект",
+    ka: "დააკოპირეთ ობიექტის ბმული"
+  },
+  "Asking price · USD": { ru: "Цена продажи · USD", ka: "გასაყიდი ფასი · USD" },
+  "{price} per m²": { ru: "{price} за м²", ka: "{price} კვ. მ-ზე" },
+  "About this property": { ru: "Об объекте", ka: "ობიექტის შესახებ" },
+  "Features and amenities": {
+    ru: "Характеристики и удобства",
+    ka: "მახასიათებლები და კეთილმოწყობა"
+  },
+  "Explore the location": {
+    ru: "Расположение на карте",
+    ka: "მდებარეობა რუკაზე"
+  },
+  "Open in OpenStreetMap": {
+    ru: "Открыть в OpenStreetMap",
+    ka: "OpenStreetMap-ზე გახსნა"
+  },
+  "Price history": { ru: "История цен", ka: "ფასის ისტორია" },
+  "Original listing": {
+    ru: "Исходное объявление",
+    ka: "თავდაპირველი განცხადება"
+  },
+  "MyHome listing {id}": {
+    ru: "Объявление MyHome №{id}",
+    ka: "MyHome-ის განცხადება {id}"
+  },
+  Listed: { ru: "Опубликовано", ka: "გამოქვეყნდა" },
+  "Photography is coming soon": {
+    ru: "Фотографии появятся позже",
+    ka: "ფოტოები მოგვიანებით დაემატება"
+  },
+  "Open property photo gallery": {
+    ru: "Открыть фотогалерею объекта",
+    ka: "ობიექტის ფოტოგალერეის გახსნა"
+  },
+  "View photo": { ru: "Смотреть фото", ka: "ფოტოს ნახვა" },
+  "View all {count} photos": {
+    ru: "Смотреть все {count} фото",
+    ka: "ყველა {count} ფოტოს ნახვა"
+  },
+  "View property photo {number}": {
+    ru: "Открыть фото объекта №{number}",
+    ka: "ობიექტის ფოტოს ნახვა №{number}"
+  },
+  "{title} photo gallery": {
+    ru: "Фотогалерея «{title}»",
+    ka: "„{title}“ — ფოტოგალერეა"
+  },
+  "Close gallery": { ru: "Закрыть фотогалерею", ka: "ფოტოგალერეის დახურვა" },
+  "Previous photo": { ru: "Предыдущее фото", ka: "წინა ფოტო" },
+  "Next photo": { ru: "Следующее фото", ka: "შემდეგი ფოტო" },
+  "Back to property": { ru: "К объявлению", ka: "განცხადებაზე დაბრუნება" }
+};
+const marketplaceListings = {
+  "Manage properties": {
+    ru: "Управление объектами",
+    ka: "უძრავი ქონების მართვა"
+  },
+  "Create listings, update asking prices, and manage availability from one place.": {
+    ru: "Создавайте объявления, меняйте цены и обновляйте статусы в одном месте.",
+    ka: "შექმენით განცხადებები, განაახლეთ ფასები და მართეთ სტატუსები ერთ სივრცეში."
+  },
+  "New listing": { ru: "Новое объявление", ka: "ახალი განცხადება" },
+  "Drafts are visible to admins in this workspace. Published listings appear in Explore.": {
+    ru: "Черновики в кабинете видны администраторам. Опубликованные объявления появляются в каталоге.",
+    ka: "ამ სივრცეში მონახაზებს ადმინისტრატორები ხედავენ. გამოქვეყნებული განცხადებები კატალოგში ჩნდება."
+  },
+  "Draft saved. Only admins can preview it.": {
+    ru: "Черновик сохранён. Просматривать его могут только администраторы.",
+    ka: "მონახაზი შენახულია. მისი ნახვა მხოლოდ ადმინისტრატორებს შეუძლიათ."
+  },
+  "Listing saved to the marketplace.": {
+    ru: "Объявление сохранено в каталоге.",
+    ka: "განცხადება კატალოგში შენახულია."
+  },
+  "Loading listings…": {
+    ru: "Загружаем объявления…",
+    ka: "განცხადებები იტვირთება…"
+  },
+  "Listings couldn’t be loaded.": {
+    ru: "Не удалось загрузить объявления.",
+    ka: "განცხადებების ჩატვირთვა ვერ მოხერხდა."
+  },
+  "All listings": { ru: "Все объявления", ka: "ყველა განცხადება" },
+  Available: { ru: "Доступно", ka: "ხელმისაწვდომია" },
+  "Under offer": { ru: "Есть предложение", ka: "მიღებულია შეთავაზება" },
+  Sold: { ru: "Продано", ka: "გაყიდულია" },
+  Draft: { ru: "Черновик", ka: "მონახაზი" },
+  Drafts: { ru: "Черновики", ka: "მონახაზები" },
+  Preview: { ru: "Предпросмотр", ka: "წინასწარი ნახვა" },
+  "Preview {title}": {
+    ru: "Предпросмотр: {title}",
+    ka: "წინასწარი ნახვა: {title}"
+  },
+  "Listing published to the marketplace.": {
+    ru: "Объявление опубликовано в каталоге.",
+    ka: "განცხადება კატალოგში გამოქვეყნდა."
+  },
+  "Listing moved to drafts.": {
+    ru: "Объявление перенесено в черновики.",
+    ka: "განცხადება მონახაზებში გადავიდა."
+  },
+  "Listing removed.": { ru: "Объявление удалено.", ka: "განცხადება წაიშალა." },
+  "Your first listing starts here": {
+    ru: "Создайте первое объявление",
+    ka: "შექმენით პირველი განცხადება"
+  },
+  "Add a property, its asking price, and a few photos. Save a draft or mark it available when you’re ready.": {
+    ru: "Добавьте объект, его цену и несколько фотографий. Сохраните черновик или отметьте объект как доступный, когда всё будет готово.",
+    ka: "დაამატეთ უძრავი ქონება, ფასი და რამდენიმე ფოტო. შეინახეთ მონახაზი ან მიუთითეთ, რომ ქონება ხელმისაწვდომია, როცა მზად იქნებით."
+  },
+  "Create a listing": { ru: "Создать объявление", ka: "განცხადების შექმნა" },
+  "Edit {title}": { ru: "Изменить: {title}", ka: "რედაქტირება: {title}" },
+  "Make draft": { ru: "В черновики", ka: "მონახაზად გადატანა" },
+  "Make draft: {title}": {
+    ru: "Перенести в черновики: {title}",
+    ka: "მონახაზად გადატანა: {title}"
+  },
+  "Make this ad a draft?": {
+    ru: "Перенести объявление в черновики?",
+    ka: "განცხადება მონახაზად გადავიტანოთ?"
+  },
+  "The ad will disappear from public listings and Saved. You can publish it again from Manage properties.": {
+    ru: "Объявление исчезнет из каталога и сохранённых. Вы сможете снова опубликовать его в разделе управления объектами.",
+    ka: "განცხადება კატალოგიდან და შენახული განცხადებებიდან გაქრება. მისი ხელახლა გამოქვეყნება უძრავი ქონების მართვის განყოფილებიდან შეგიძლიათ."
+  },
+  "Making draft…": { ru: "Переносим в черновики…", ka: "მონახაზად გადადის…" },
+  "Couldn’t move the ad to drafts. Try again.": {
+    ru: "Не удалось перенести объявление в черновики. Попробуйте ещё раз.",
+    ka: "განცხადების მონახაზად გადატანა ვერ მოხერხდა. სცადეთ ხელახლა."
+  },
+  Remove: { ru: "Удалить", ka: "წაშლა" },
+  "Remove {title}": { ru: "Удалить: {title}", ka: "წაშლა: {title}" },
+  "Remove this ad?": { ru: "Удалить объявление?", ka: "წავშალოთ განცხადება?" },
+  "This permanently deletes the ad and its photos. It will disappear from public listings, Saved, and Manage properties.": {
+    ru: "Объявление и его фотографии будут удалены без возможности восстановления. Оно исчезнет из каталога, сохранённых и раздела управления объектами.",
+    ka: "განცხადება და მისი ფოტოები სამუდამოდ წაიშლება. ის გაქრება კატალოგიდან, შენახული განცხადებებიდან და უძრავი ქონების მართვის განყოფილებიდან."
+  },
+  "Remove permanently": { ru: "Удалить навсегда", ka: "სამუდამოდ წაშლა" },
+  "Removing…": { ru: "Удаляем…", ka: "იშლება…" },
+  "Couldn’t remove the ad. Try again.": {
+    ru: "Не удалось удалить объявление. Попробуйте ещё раз.",
+    ka: "განცხადების წაშლა ვერ მოხერხდა. სცადეთ ხელახლა."
+  },
+  Publish: { ru: "Опубликовать", ka: "გამოქვეყნება" },
+  "Publish {title}": {
+    ru: "Опубликовать: {title}",
+    ka: "გამოქვეყნება: {title}"
+  },
+  "Publishing…": { ru: "Публикуем…", ka: "ქვეყნდება…" },
+  "Couldn’t publish this listing. Try again.": {
+    ru: "Не удалось опубликовать объявление. Попробуйте ещё раз.",
+    ka: "განცხადების გამოქვეყნება ვერ მოხერხდა. სცადეთ ხელახლა."
+  },
+  "Edit property": { ru: "Редактирование объекта", ka: "ქონების რედაქტირება" },
+  "Create a property listing": {
+    ru: "Новое объявление о недвижимости",
+    ka: "უძრავი ქონების განცხადების შექმნა"
+  },
+  "Fields marked with an asterisk are required.": {
+    ru: "Поля со звёздочкой обязательны.",
+    ka: "ვარსკვლავით მონიშნული ველები სავალდებულოა."
+  },
+  "Close editor": { ru: "Закрыть редактор", ka: "რედაქტორის დახურვა" },
+  "Property essentials": { ru: "Основные сведения", ka: "ძირითადი ინფორმაცია" },
+  "Give buyers a clear picture of what you’re offering.": {
+    ru: "Расскажите покупателям, что вы предлагаете.",
+    ka: "მყიდველებს გასაგებად აუხსენით, რას სთავაზობთ."
+  },
+  "Listing title": { ru: "Заголовок объявления", ka: "განცხადების სათაური" },
+  "A light-filled apartment in Vera": {
+    ru: "Светлая квартира на Вере",
+    ka: "ნათელი ბინა ვერაზე"
+  },
+  "Property type": { ru: "Тип недвижимости", ka: "ქონების ტიპი" },
+  "Asking price (USD)": { ru: "Цена (USD)", ka: "გასაყიდი ფასი (USD)" },
+  Description: { ru: "Описание", ka: "აღწერა" },
+  "Describe the layout, condition, and what makes this property special.": {
+    ru: "Опишите планировку, состояние и особенности объекта.",
+    ka: "აღწერეთ განლაგება, მდგომარეობა და ქონების გამორჩეული მახასიათებლები."
+  },
+  Availability: { ru: "Статус", ka: "სტატუსი" },
+  "Featured listing": {
+    ru: "Рекомендуемое объявление",
+    ka: "რჩეული განცხადება"
+  },
+  Location: { ru: "Расположение", ka: "მდებარეობა" },
+  "Add the street address. Use coordinates to place a pin on the map.": {
+    ru: "Укажите адрес. Чтобы отметить объект на карте, добавьте координаты.",
+    ka: "მიუთითეთ მისამართი. რუკაზე მოსანიშნად დაამატეთ კოორდინატები."
+  },
+  City: { ru: "Город", ka: "ქალაქი" },
+  Neighborhood: { ru: "Район", ka: "უბანი" },
+  "Street address": { ru: "Улица и номер дома", ka: "ქუჩა და სახლის ნომერი" },
+  Latitude: { ru: "Широта", ka: "განედი" },
+  Longitude: { ru: "Долгота", ka: "გრძედი" },
+  "Coordinates are optional. The address will still link to a map search.": {
+    ru: "Координаты необязательны. По адресу можно будет открыть поиск на карте.",
+    ka: "კოორდინატები არასავალდებულოა. მისამართით რუკაზე ძებნა მაინც შესაძლებელი იქნება."
+  },
+  Photos: { ru: "Фотографии", ka: "ფოტოები" },
+  "Add up to {count} photos. The first photo is used as the cover image.": {
+    ru: "Можно добавить до {count} фотографий. Первая станет обложкой.",
+    ka: "შეგიძლიათ დაამატოთ მაქსიმუმ {count} ფოტო. პირველი ფოტო გარეკანზე გამოჩნდება."
+  },
+  "Listing view {number}": {
+    ru: "Фото объекта {number}",
+    ka: "განცხადების ფოტო {number}"
+  },
+  "Remove photo {number}": {
+    ru: "Удалить фото {number}",
+    ka: "ფოტო {number}-ის წაშლა"
+  },
+  Cover: { ru: "Обложка", ka: "გარეკანი" },
+  "Photo {number} description": {
+    ru: "Описание фото {number}",
+    ka: "ფოტო {number}-ის აღწერა"
+  },
+  Optional: { ru: "Необязательно", ka: "არასავალდებულო" },
+  "Add property photos": {
+    ru: "Добавить фотографии объекта",
+    ka: "ქონების ფოტოების დამატება"
+  },
+  "JPG, PNG, or WebP. Up to 20 MB per original image.": {
+    ru: "JPG, PNG или WebP. До 20 МБ на исходное изображение.",
+    ka: "JPG, PNG ან WebP. თითოეული საწყისი ფაილი მაქსიმუმ 20 მბ."
+  },
+  "Preparing your photos…": {
+    ru: "Подготавливаем фотографии…",
+    ka: "ფოტოები მუშავდება…"
+  },
+  "MyHome source": { ru: "Источник MyHome", ka: "MyHome-ის წყარო" },
+  "Edit or remove imported facts shown on this listing.": {
+    ru: "Измените или удалите импортированные сведения, которые видны в объявлении.",
+    ka: "შეცვალეთ ან წაშალეთ ამ განცხადებაში ნაჩვენები იმპორტირებული მონაცემები."
+  },
+  "Original MyHome ad {id}": {
+    ru: "Оригинал объявления MyHome {id}",
+    ka: "MyHome-ის თავდაპირველი განცხადება {id}"
+  },
+  "Imported fact {number} label": {
+    ru: "Название параметра {number}",
+    ka: "იმპორტირებული მონაცემი {number}: დასახელება"
+  },
+  "Imported fact {number} value": {
+    ru: "Значение параметра {number}",
+    ka: "იმპორტირებული მონაცემი {number}: მნიშვნელობა"
+  },
+  "Remove imported fact {number}": {
+    ru: "Удалить импортированный параметр {number}",
+    ka: "იმპორტირებული მონაცემის {number} წაშლა"
+  },
+  "Details and amenities": {
+    ru: "Характеристики и удобства",
+    ka: "მახასიათებლები და კეთილმოწყობა"
+  },
+  "Add any specifications that will help buyers compare properties.": {
+    ru: "Добавьте характеристики, которые помогут покупателям сравнить объекты.",
+    ka: "დაამატეთ მახასიათებლები, რომლებიც მყიდველებს ქონების შედარებაში დაეხმარება."
+  },
+  "Total area (m²)": { ru: "Общая площадь (м²)", ka: "საერთო ფართობი (მ²)" },
+  "Living area (m²)": {
+    ru: "Жилая площадь (м²)",
+    ka: "საცხოვრებელი ფართობი (მ²)"
+  },
+  Bedrooms: { ru: "Спальни", ka: "საძინებლები" },
+  Bathrooms: { ru: "Санузлы", ka: "სველი წერტილები" },
+  Rooms: { ru: "Комнаты", ka: "ოთახები" },
+  Floor: { ru: "Этаж", ka: "სართული" },
+  "Total floors": { ru: "Всего этажей", ka: "სართულების რაოდენობა" },
+  "Construction year": { ru: "Год постройки", ka: "აშენების წელი" },
+  "Building type": { ru: "Тип здания", ka: "შენობის ტიპი" },
+  "Detached residence": {
+    ru: "Отдельно стоящий дом",
+    ka: "ცალკე მდგომი სახლი"
+  },
+  Condition: { ru: "Состояние", ka: "მდგომარეობა" },
+  "Recently renovated": {
+    ru: "Недавно отремонтировано",
+    ka: "ახლახან გარემონტებული"
+  },
+  "Amenities (separate with commas)": {
+    ru: "Удобства (через запятую)",
+    ka: "კეთილმოწყობა (გამოყავით მძიმეებით)"
+  },
+  "Parking, balcony, garden": {
+    ru: "Парковка, балкон, сад",
+    ka: "პარკინგი, აივანი, ბაღი"
+  },
+  "Seller information": {
+    ru: "Информация о продавце",
+    ka: "გამყიდველის ინფორმაცია"
+  },
+  "Email and phone are optional and will be public when the listing is published.": {
+    ru: "Электронная почта и телефон необязательны и будут видны после публикации объявления.",
+    ka: "ელფოსტა და ტელეფონი არასავალდებულოა და გამოქვეყნების შემდეგ საჯაროდ გამოჩნდება."
+  },
+  "Seller or agency name": {
+    ru: "Имя продавца или название агентства",
+    ka: "გამყიდველის ან სააგენტოს სახელი"
+  },
+  "Seller type": { ru: "Тип продавца", ka: "გამყიდველის ტიპი" },
+  Owner: { ru: "Собственник", ka: "მესაკუთრე" },
+  "Real estate agent": {
+    ru: "Агент по недвижимости",
+    ka: "უძრავი ქონების აგენტი"
+  },
+  "Property developer": { ru: "Застройщик", ka: "დეველოპერი" },
+  "Email address": { ru: "Электронная почта", ka: "ელფოსტის მისამართი" },
+  "Phone number": { ru: "Номер телефона", ka: "ტელეფონის ნომერი" },
+  "Save listing": { ru: "Сохранить объявление", ka: "განცხადების შენახვა" },
+  "The listing editor is closed.": {
+    ru: "Редактор объявления закрыт.",
+    ka: "განცხადების რედაქტორი დახურულია."
+  },
+  "No listing details could be read from this MyHome ad.": {
+    ru: "Не удалось прочитать сведения из этого объявления MyHome.",
+    ka: "MyHome-ის ამ განცხადებიდან მონაცემების წაკითხვა ვერ მოხერხდა."
+  },
+  "Your manual edits were kept.": {
+    ru: "Ваши изменения сохранены в форме.",
+    ka: "თქვენ მიერ შეტანილი ცვლილებები ფორმაში დარჩა."
+  },
+  "Some source photos were skipped because the listing can hold up to {count} photos.": {
+    ru: "Некоторые фотографии пропущены. В объявление можно добавить до {count} фотографий.",
+    ka: "ზოგიერთი ფოტო გამოტოვებულია. განცხადებაში მაქსიმუმ {count} ფოტოს დამატება შეიძლება."
+  },
+  "You can add up to {count} photos per listing.": {
+    ru: "В объявление можно добавить до {count} фотографий.",
+    ka: "თითოეულ განცხადებაში შეგიძლიათ დაამატოთ მაქსიმუმ {count} ფოტო."
+  },
+  "These photos couldn’t be prepared.": {
+    ru: "Не удалось обработать фотографии.",
+    ka: "ფოტოების დამუშავება ვერ მოხერხდა."
+  },
+  "This listing couldn’t be saved.": {
+    ru: "Не удалось сохранить объявление.",
+    ka: "განცხადების შენახვა ვერ მოხერხდა."
+  },
+  "Fill in the required property, location, and seller fields.": {
+    ru: "Заполните обязательные поля об объекте, расположении и продавце.",
+    ka: "შეავსეთ ქონების, მდებარეობისა და გამყიდველის სავალდებულო ველები."
+  },
+  "Living area must be within the total property area.": {
+    ru: "Жилая площадь не может превышать общую.",
+    ka: "საცხოვრებელი ფართობი საერთო ფართობს არ უნდა აღემატებოდეს."
+  },
+  "The floor number must be within the building’s total floors.": {
+    ru: "Номер этажа не может превышать общее количество этажей.",
+    ka: "სართულის ნომერი შენობის სართულების რაოდენობას არ უნდა აღემატებოდეს."
+  },
+  "Enter both latitude and longitude to add a map pin.": {
+    ru: "Укажите широту и долготу, чтобы отметить объект на карте.",
+    ka: "რუკაზე მოსანიშნად მიუთითეთ განედიც და გრძედიც."
+  },
+  "Enter a phone number with at least five digits.": {
+    ru: "Введите номер телефона, содержащий не менее пяти цифр.",
+    ka: "შეიყვანეთ ტელეფონის ნომერი მინიმუმ ხუთი ციფრით."
+  },
+  "Choose an image file of 20 MB or less.": {
+    ru: "Выберите изображение размером до 20 МБ.",
+    ka: "აირჩიეთ მაქსიმუმ 20 მბ ზომის გამოსახულება."
+  },
+  "Canvas is unavailable.": {
+    ru: "Обработка изображений в браузере недоступна.",
+    ka: "ბრაუზერში გამოსახულების დამუშავება მიუწვდომელია."
+  },
+  "Image compression exceeded the size limit.": {
+    ru: "Сжатое изображение превышает допустимый размер.",
+    ka: "შეკუმშული გამოსახულება დასაშვებ ზომას აღემატება."
+  },
+  "This photo couldn’t be prepared. Try a smaller JPG, PNG, or WebP.": {
+    ru: "Не удалось обработать фото. Попробуйте файл JPG, PNG или WebP меньшего размера.",
+    ka: "ფოტოს დამუშავება ვერ მოხერხდა. სცადეთ უფრო მცირე JPG, PNG ან WebP ფაილი."
+  },
+  "This listing is too large. Shorten the description or remove a photo and try again.": {
+    ru: "Объявление слишком большое. Сократите описание или удалите фотографию и попробуйте снова.",
+    ka: "განცხადება ძალიან დიდია. შეამოკლეთ აღწერა ან წაშალეთ ფოტო და სცადეთ ხელახლა."
+  },
+  "Import a MyHome ad": {
+    ru: "Импорт объявления MyHome",
+    ka: "MyHome-ის განცხადების იმპორტი"
+  },
+  "Paste a MyHome.ge property link to fill in the listing. You can review and edit the details before saving.": {
+    ru: "Вставьте ссылку на объект MyHome.ge, чтобы заполнить объявление. Перед сохранением вы сможете проверить и изменить данные.",
+    ka: "განცხადების შესავსებად ჩასვით MyHome.ge-ის ბმული. შენახვამდე მონაცემების შემოწმება და შეცვლა შეგიძლიათ."
+  },
+  "MyHome ad URL": {
+    ru: "Ссылка на объявление MyHome",
+    ka: "MyHome-ის განცხადების ბმული"
+  },
+  "Cancel import": { ru: "Отменить импорт", ka: "იმპორტის გაუქმება" },
+  "Import saved page": {
+    ru: "Импортировать сохранённую страницу",
+    ka: "შენახული გვერდის იმპორტი"
+  },
+  "Import ad": { ru: "Импортировать объявление", ka: "განცხადების იმპორტი" },
+  "Hide saved-page option": {
+    ru: "Скрыть импорт из файла",
+    ka: "ფაილიდან იმპორტის დამალვა"
+  },
+  "Use a saved MyHome page": {
+    ru: "Использовать сохранённую страницу MyHome",
+    ka: "MyHome-ის შენახული გვერდის გამოყენება"
+  },
+  "Saved MyHome page": {
+    ru: "Сохранённая страница MyHome",
+    ka: "MyHome-ის შენახული გვერდი"
+  },
+  "Save the original ad as an HTML file in your browser. Enter the matching MyHome URL above and choose the file here.": {
+    ru: "Сохраните оригинал объявления в браузере как HTML-файл. Введите ссылку на то же объявление MyHome выше и выберите файл здесь.",
+    ka: "თავდაპირველი განცხადება ბრაუზერში HTML ფაილად შეინახეთ. ზემოთ შეიყვანეთ შესაბამისი MyHome-ის ბმული და აქ აირჩიეთ ფაილი."
+  },
+  "Importing ad…": {
+    ru: "Импортируем объявление…",
+    ka: "განცხადება იტვირთება…"
+  },
+  "Import canceled.": { ru: "Импорт отменён.", ka: "იმპორტი გაუქმდა." },
+  "Ad imported. Review the details before saving.": {
+    ru: "Объявление импортировано. Проверьте данные перед сохранением.",
+    ka: "განცხადება იმპორტირებულია. შენახვამდე შეამოწმეთ მონაცემები."
+  },
+  "This ad couldn’t be imported.": {
+    ru: "Не удалось импортировать объявление.",
+    ka: "განცხადების იმპორტი ვერ მოხერხდა."
+  },
+  "Review listing details": {
+    ru: "Проверить данные объявления",
+    ka: "განცხადების მონაცემების შემოწმება"
+  },
+  "Original MyHome ad": {
+    ru: "Оригинал объявления MyHome",
+    ka: "MyHome-ის თავდაპირველი განცხადება"
+  },
+  "MyHome returned a different listing than the one requested.": {
+    ru: "MyHome вернул другое объявление.",
+    ka: "MyHome-მა მოთხოვნილის ნაცვლად სხვა განცხადება დააბრუნა."
+  },
+  "Only MyHome sale listings can be imported.": {
+    ru: "Импортировать можно только объявления MyHome о продаже.",
+    ka: "მხოლოდ MyHome-ის გაყიდვის განცხადებების იმპორტია შესაძლებელი."
+  },
+  "Enter a valid MyHome listing URL.": {
+    ru: "Введите действительную ссылку на объявление MyHome.",
+    ka: "შეიყვანეთ MyHome-ის განცხადების სწორი ბმული."
+  },
+  "This MyHome source is too large to import.": {
+    ru: "Источник MyHome слишком большой для импорта.",
+    ka: "MyHome-ის წყარო იმპორტისთვის ძალიან დიდია."
+  },
+  "The saved page belongs to a different MyHome listing.": {
+    ru: "Сохранённая страница относится к другому объявлению MyHome.",
+    ka: "შენახული გვერდი MyHome-ის სხვა განცხადებას ეკუთვნის."
+  },
+  "Couldn’t find the requested listing in the MyHome source.": {
+    ru: "Не удалось найти нужное объявление в источнике MyHome.",
+    ka: "MyHome-ის წყაროში მოთხოვნილი განცხადება ვერ მოიძებნა."
+  },
+  "The MyHome source does not contain enough listing details to import.": {
+    ru: "В источнике MyHome недостаточно данных для импорта.",
+    ka: "MyHome-ის წყაროში იმპორტისთვის საკმარისი მონაცემები არ არის."
+  },
+  "No unmarked photo URLs were available in the MyHome source.": {
+    ru: "В источнике MyHome нет ссылок на фотографии без водяного знака.",
+    ka: "MyHome-ის წყაროში წყლის ნიშნის გარეშე ფოტოების ბმულები ვერ მოიძებნა."
+  },
+  "A USD asking price was not available. Enter the price before saving.": {
+    ru: "Цена в долларах США недоступна. Укажите цену перед сохранением.",
+    ka: "გასაყიდი ფასი აშშ დოლარში მითითებული არ იყო. შენახვამდე შეიყვანეთ ფასი."
+  },
+  "The seller role could not be verified. Review the seller details before saving.": {
+    ru: "Не удалось проверить тип продавца. Проверьте данные продавца перед сохранением.",
+    ka: "გამყიდველის ტიპის დადასტურება ვერ მოხერხდა. შენახვამდე შეამოწმეთ მისი მონაცემები."
+  },
+  "Enter an English MyHome property listing link that ends in the property ID.": {
+    ru: "Введите ссылку на англоязычное объявление MyHome, которая заканчивается номером объекта.",
+    ka: "შეიყვანეთ MyHome-ის ინგლისურენოვანი განცხადების ბმული, რომელიც ქონების ID-ით მთავრდება."
+  },
+  "Invalid MyHome photo URL.": {
+    ru: "Некорректная ссылка на фотографию MyHome.",
+    ka: "MyHome-ის ფოტოს ბმული არასწორია."
+  },
+  "The MyHome photo was unavailable.": {
+    ru: "Фотография MyHome недоступна.",
+    ka: "MyHome-ის ფოტო მიუწვდომელია."
+  },
+  "The MyHome photo is too large.": {
+    ru: "Фотография MyHome слишком большая.",
+    ka: "MyHome-ის ფოტო ძალიან დიდია."
+  },
+  "The saved MyHome page is too large. Choose an HTML file of 5 MB or less.": {
+    ru: "Сохранённая страница MyHome слишком большая. Выберите HTML-файл размером до 5 МБ.",
+    ka: "MyHome-ის შენახული გვერდი ძალიან დიდია. აირჩიეთ მაქსიმუმ 5 მბ ზომის HTML ფაილი."
+  },
+  "The marketplace backend is still connecting. Try again or import a saved HTML page.": {
+    ru: "Подключение к серверу ещё не установлено. Попробуйте ещё раз или импортируйте сохранённую HTML-страницу.",
+    ka: "სერვერთან კავშირი ჯერ არ დამყარებულა. სცადეთ ხელახლა ან შემოიტანეთ შენახული HTML გვერდი."
+  },
+  "Some unmarked photos could not be copied. You can upload them separately.": {
+    ru: "Не удалось скопировать некоторые фотографии без водяного знака. Их можно загрузить отдельно.",
+    ka: "წყლის ნიშნის გარეშე ზოგიერთი ფოტოს კოპირება ვერ მოხერხდა. შეგიძლიათ ისინი ცალკე ატვირთოთ."
+  },
+  "You can save up to {count} photos per listing and replace the imported photos before saving.": {
+    ru: "В объявлении можно сохранить до {count} фотографий. Перед сохранением импортированные фотографии можно заменить.",
+    ka: "თითო განცხადებაში მაქსიმუმ {count} ფოტოს შენახვა შეგიძლიათ. შენახვამდე იმპორტირებული ფოტოების შეცვლაც შეგიძლიათ."
+  },
+  "MyHome could not be reached. Import a saved HTML copy of the listing.": {
+    ru: "Не удалось связаться с MyHome. Импортируйте сохранённую HTML-копию объявления.",
+    ka: "MyHome-თან დაკავშირება ვერ მოხერხდა. შემოიტანეთ განცხადების შენახული HTML ასლი."
+  },
+  "MyHome blocked the direct request. Import a saved HTML copy of the listing.": {
+    ru: "MyHome заблокировал прямой запрос. Импортируйте сохранённую HTML-копию объявления.",
+    ka: "MyHome-მა პირდაპირი მოთხოვნა დაბლოკა. შემოიტანეთ განცხადების შენახული HTML ასლი."
+  },
+  "MyHome did not return this listing. Check the link or import a saved HTML copy.": {
+    ru: "MyHome не вернул это объявление. Проверьте ссылку или импортируйте сохранённую HTML-копию.",
+    ka: "MyHome-მა ეს განცხადება არ დააბრუნა. შეამოწმეთ ბმული ან შემოიტანეთ შენახული HTML ასლი."
+  },
+  "MyHome returned an unreadable page.": {
+    ru: "MyHome вернул страницу, которую не удалось прочитать.",
+    ka: "MyHome-დან მიღებული გვერდის წაკითხვა ვერ მოხერხდა."
+  },
+  "Property not found": { ru: "Объект не найден", ka: "ქონება ვერ მოიძებნა" },
+  "Property ID must contain between 1 and 128 characters": {
+    ru: "Идентификатор объекта должен содержать от 1 до 128 символов",
+    ka: "ქონების ID უნდა შეიცავდეს 1-დან 128-მდე სიმბოლოს"
+  },
+  "Property ID may contain letters, digits, hyphens, and underscores": {
+    ru: "Идентификатор объекта может содержать буквы, цифры, дефисы и подчёркивания",
+    ka: "ქონების ID შეიძლება შეიცავდეს ასოებს, ციფრებს, დეფისებსა და ქვედა ტირეებს"
+  },
+  "Property data must contain between 1 and 480,000 UTF-8 bytes": {
+    ru: "Данные объекта должны занимать от 1 до 480 000 байт в кодировке UTF-8",
+    ka: "ქონების მონაცემების ზომა 1-დან 480 000-მდე UTF-8 ბაიტი უნდა იყოს"
+  }
+};
+const marketplaceListingErrors = [
+  "Enter a valid MyHome listing URL.",
+  "MyHome could not be reached. Import a saved HTML copy of the listing.",
+  "MyHome blocked the direct request. Import a saved HTML copy of the listing.",
+  "MyHome did not return this listing. Check the link or import a saved HTML copy.",
+  "MyHome returned an unreadable page.",
+  "Property not found",
+  "Property ID must contain between 1 and 128 characters",
+  "Property ID may contain letters, digits, hyphens, and underscores",
+  "Property data must contain between 1 and 480,000 UTF-8 bytes"
+];
+const name = "Tbilisale";
+const description$1 = "Explore a curated collection of homes, spaces, and land in Tbilisi, Georgia.";
+const descriptionRu = "Подборка домов, коммерческих помещений и земельных участков в Тбилиси, Грузия.";
+const icon = "/marketplace-mark.svg";
+const logo = "/marketplace-logo.svg";
+const logoInverse = "/marketplace-logo-inverse.svg";
+const manifest = "/marketplace.webmanifest";
+const themeLight = "#fafafa";
+const themeDark = "#161616";
+const socialImageAlt = "A contemporary hillside residence at dusk";
+const socialImageAltRu = "Современный дом на склоне в сумерках";
+const brand = {
+  name,
+  description: description$1,
+  descriptionRu,
+  icon,
+  logo,
+  logoInverse,
+  manifest,
+  themeLight,
+  themeDark,
+  socialImageAlt,
+  socialImageAltRu
+};
+const marketplaceShell = {
+  "{name} home": {
+    ru: "{name}: главная",
+    ka: "{name}: მთავარი გვერდი"
+  },
+  Theme: { ru: "Тема", ka: "თემა" },
+  System: { ru: "Системная", ka: "სისტემური" },
+  Light: { ru: "Светлая", ka: "ნათელი" },
+  Dark: { ru: "Тёмная", ka: "მუქი" },
+  "List a property": { ru: "Добавить объявление", ka: "განცხადების დამატება" },
+  "Sign in with Internet Identity": {
+    ru: "Войти через Internet Identity",
+    ka: "შესვლა Internet Identity-ით"
+  },
+  "Property discovery in Tbilisi, Georgia.": {
+    ru: "Поиск недвижимости в Тбилиси, Грузия.",
+    ka: "უძრავი ქონების ძიება თბილისში, საქართველო."
+  },
+  "Seller workspace": { ru: "Кабинет продавца", ka: "გამყიდველის კაბინეტი" },
+  "Expand sidebar": { ru: "Развернуть меню", ka: "გვერდითი მენიუს გაშლა" },
+  "Collapse sidebar": { ru: "Свернуть меню", ka: "გვერდითი მენიუს ჩაკეცვა" },
+  Collapse: { ru: "Свернуть", ka: "ჩაკეცვა" },
+  Sidebar: { ru: "Боковое меню", ka: "გვერდითი მენიუ" },
+  "Sidebar navigation": { ru: "Боковая навигация", ka: "გვერდითი ნავიგაცია" },
+  "Skip to content": { ru: "К содержимому", ka: "შინაარსზე გადასვლა" },
+  Browse: { ru: "Обзор", ka: "დათვალიერება" },
+  Explore: { ru: "Поиск", ka: "ძიება" },
+  Saved: { ru: "Избранное", ka: "შენახული" },
+  Workspace: { ru: "Управление", ka: "მართვა" },
+  Listings: { ru: "Объявления", ka: "განცხადებები" },
+  Account: { ru: "Аккаунт", ka: "ანგარიში" },
+  "Your changes could not be saved in this browser.": {
+    ru: "Не удалось сохранить изменения в этом браузере.",
+    ka: "ამ ბრაუზერში ცვლილებების შენახვა ვერ მოხერხდა."
+  },
+  "404 / PAGE NOT FOUND": {
+    ru: "404 / СТРАНИЦА НЕ НАЙДЕНА",
+    ka: "404 / გვერდი ვერ მოიძებნა"
+  },
+  "This page couldn’t be found.": {
+    ru: "Эта страница не найдена.",
+    ka: "ეს გვერდი ვერ მოიძებნა."
+  },
+  "Admin sign-in": {
+    ru: "Вход для администратора",
+    ka: "ადმინისტრატორის შესვლა"
+  },
+  "Sign in with an administrator account to continue.": {
+    ru: "Чтобы продолжить, войдите в аккаунт администратора.",
+    ka: "გასაგრძელებლად შედით ადმინისტრატორის ანგარიშით."
+  },
+  "Marketplace administration": {
+    ru: "Управление площадкой",
+    ka: "პლატფორმის მართვა"
+  },
+  "Manage listings": {
+    ru: "Управление объявлениями",
+    ka: "განცხადებების მართვა"
+  },
+  "Marketplace account": {
+    ru: "Аккаунт на площадке",
+    ka: "პლატფორმის ანგარიში"
+  },
+  "Your profile": { ru: "Ваш профиль", ka: "თქვენი პროფილი" },
+  "Profile details": { ru: "Данные профиля", ka: "პროფილის მონაცემები" },
+  "In BotFather, open {bot} → Login Widget → Allowed URLs and add {origin} and {profileUrl}.": {
+    ru: "В BotFather откройте {bot} → Login Widget → Allowed URLs и добавьте {origin} и {profileUrl}.",
+    ka: "BotFather-ში გახსენით {bot} → Login Widget → Allowed URLs და დაამატეთ {origin} და {profileUrl}."
+  },
+  "Open BotFather": { ru: "Открыть BotFather", ka: "BotFather-ის გახსნა" },
+  "Choose the display name and username for your account.": {
+    ru: "Выберите имя для отображения и имя пользователя.",
+    ka: "აირჩიეთ საჩვენებელი სახელი და მომხმარებლის სახელი."
+  },
+  "Manage account names, usernames, and profile details.": {
+    ru: "Управляйте именами, логинами и данными профилей.",
+    ka: "მართეთ ანგარიშების სახელები, მომხმარებლის სახელები და პროფილის მონაცემები."
+  },
+  "Add account": { ru: "Добавить аккаунт", ka: "ანგარიშის დამატება" },
+  "Only admins can save listings.": {
+    ru: "Сохранять объявления могут только администраторы.",
+    ka: "განცხადებების შენახვა მხოლოდ ადმინისტრატორებს შეუძლიათ."
+  },
+  "{area} m²": { ru: "{area} м²", ka: "{area} მ²" },
+  [brand.description]: {
+    ru: brand.descriptionRu,
+    ka: "დაათვალიერეთ შერჩეული საცხოვრებელი, კომერციული ფართები და მიწის ნაკვეთები თბილისში, საქართველო."
+  },
+  [brand.socialImageAlt]: {
+    ru: brand.socialImageAltRu,
+    ka: "თანამედროვე სახლი ფერდობზე შებინდებისას"
+  }
 };
 const ru = {
   "Find a player in the bracket": "Найти игрока в турнирной сетке",
@@ -16377,15 +17296,15 @@ const ru = {
   "Player is already registered in this tournament": "Игрок уже зарегистрирован в этом турнире",
   Telegram: "Telegram",
   "Link Telegram": "Связать Telegram",
-  "Link Telegram to your existing member account. Linking replaces your current username with your Telegram username.": "Свяжите Telegram со своим аккаунтом. Ваш текущий никнейм будет заменён никнеймом из Telegram.",
+  "Link Telegram to use your Telegram name, username and profile photo when available.": "Подключите Telegram, чтобы перенести в профиль имя, никнейм и фото из Telegram, если они доступны.",
   "Linked Telegram account": "Связанный аккаунт Telegram",
   "Sync Telegram profile": "Обновить профиль из Telegram",
   "Telegram linking is not configured yet. Ask an admin to set the public Login Client ID.": "Связь с Telegram ещё не настроена. Попросите администратора указать публичный Login Client ID.",
   "Unlink Telegram": "Удалить связь с Telegram",
   "Couldn't load Telegram. Check your connection and try again.": "Не удалось загрузить Telegram. Проверьте подключение и попробуйте снова.",
   "Couldn't prepare Telegram linking. Try again.": "Не удалось подготовить связь с Telegram. Попробуйте снова.",
-  "Telegram linked. Your username now matches Telegram.": "Telegram связан. Ваш никнейм теперь совпадает с никнеймом в Telegram.",
-  "Telegram unlinked. Your username is unchanged.": "Связь с Telegram удалена. Ваш никнейм сохранён.",
+  "Telegram profile synced.": "Профиль обновлён из Telegram.",
+  "Telegram unlinked.": "Связь с Telegram удалена.",
   "The Telegram link request expired. Refresh it and try again.": "Запрос на связь с Telegram истёк. Обновите его и попробуйте снова.",
   "Telegram didn't finish linking. Allow popups or retry in your browser.": "Связь с Telegram не завершена. Разрешите всплывающие окна или повторите попытку в браузере.",
   "Telegram linking was cancelled or could not be completed. Try again.": "Связь с Telegram отменена или не завершена. Попробуйте снова.",
@@ -16456,6 +17375,7 @@ const ru = {
   "Already registered in this tournament. Choose a match to place this player in the bracket.": "Игрок уже зарегистрирован в турнире. Выберите матч, чтобы добавить его в сетку.",
   "No safe bracket slots": "Нет доступных мест в сетке"
 };
+const defaultLanguage = "ru";
 const LANGUAGE_STORAGE_KEY = "chillpong.language";
 const LANGUAGES = [
   { code: "en", name: "English" },
@@ -16468,6 +17388,13 @@ const locales = {
   ka: "ka-GE"
 };
 const catalogs = { en: {}, ru, ka };
+const marketplace = {
+  ...marketplaceBrowse,
+  ...marketplaceDetail,
+  ...marketplaceListings,
+  ...marketplaceShell
+};
+const translatableErrors = [...errorMessages, ...marketplaceListingErrors];
 const listeners = /* @__PURE__ */ new Set();
 function isLanguage(value) {
   return value === "en" || value === "ru" || value === "ka";
@@ -16475,9 +17402,9 @@ function isLanguage(value) {
 function readLanguage() {
   try {
     const saved = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-    return isLanguage(saved) ? saved : "en";
+    return isLanguage(saved) ? saved : defaultLanguage;
   } catch {
-    return "en";
+    return defaultLanguage;
   }
 }
 let language = readLanguage();
@@ -16504,21 +17431,25 @@ if (typeof window !== "undefined") {
   document.documentElement.lang = language;
   window.addEventListener("storage", (event) => {
     if (event.key === LANGUAGE_STORAGE_KEY)
-      applyLanguage(isLanguage(event.newValue) ? event.newValue : "en");
+      applyLanguage(
+        isLanguage(event.newValue) ? event.newValue : defaultLanguage
+      );
+    else if (event.key === null) applyLanguage(readLanguage());
   });
 }
 function translate(input, params = {}, selected = language) {
+  var _a2;
   if (input === null || input === void 0) return "";
   const message = typeof input === "string" ? input : input.message;
   const values = typeof input === "string" ? params : input.params;
-  const translated = catalogs[selected][message] ?? message;
+  const translated = selected === "en" ? message : Object.hasOwn(catalogs[selected], message) ? catalogs[selected][message] : ((_a2 = marketplace[message]) == null ? void 0 : _a2[selected]) ?? message;
   return translated.replace(
     /\{(\w+)\}/g,
     (placeholder, key) => values[key] === void 0 ? placeholder : String(values[key])
   );
 }
 function translateError(message) {
-  const key = Object.hasOwn(ru, message) ? message : errorMessages.find((candidate) => message.includes(candidate));
+  const key = Object.hasOwn(ru, message) || Object.hasOwn(marketplace, message) ? message : translatableErrors.find((candidate) => message.includes(candidate));
   return key ? translate(key) : language === "en" ? message : translate("Something went wrong. Please try again.");
 }
 function translateHistory(caption) {
@@ -16538,7 +17469,7 @@ function useI18n() {
   const selected = reactExports.useSyncExternalStore(
     subscribe$1,
     getLanguage,
-    () => "en"
+    () => defaultLanguage
   );
   const t = reactExports.useCallback(
     (message, params) => translate(message, params, selected),
@@ -27993,6 +28924,25 @@ const UserRoleView = Record({
   "role": Opt(Role$1),
   "avatarUrl": Opt(Text)
 });
+const QueryRequest = Record({
+  "url": Text,
+  "method": Text,
+  "body": Vec(Nat8),
+  "headers": Vec(Tuple(Text, Text)),
+  "certificate_version": Opt(Nat16)
+});
+const Response$1 = Record({
+  "body": Vec(Nat8),
+  "headers": Vec(Tuple(Text, Text)),
+  "upgrade": Opt(Bool),
+  "status_code": Nat16
+});
+const Request = Record({
+  "url": Text,
+  "method": Text,
+  "body": Vec(Nat8),
+  "headers": Vec(Tuple(Text, Text))
+});
 const PropertyRecord = Record({
   "id": Text,
   "data": Text,
@@ -28074,6 +29024,8 @@ Service({
   "getUser": Func([UserId], [Opt(User$1)], ["query"]),
   "getUserByUsername": Func([Text], [Opt(User$1)], ["query"]),
   "grantAdminRole": Func([UserId], [UserRoleView], []),
+  "http_request": Func([QueryRequest], [Response$1], ["query"]),
+  "http_request_update": Func([Request], [Response$1], []),
   "isCallerAdmin": Func([], [Bool], ["query"]),
   "linkPlayerToUser": Func([Nat, UserId], [GlobalPlayerView], []),
   "listManagedProperties": Func(
@@ -28417,6 +29369,25 @@ const idlFactory = ({ IDL: IDL2 }) => {
     "role": IDL2.Opt(Role2),
     "avatarUrl": IDL2.Opt(IDL2.Text)
   });
+  const QueryRequest2 = IDL2.Record({
+    "url": IDL2.Text,
+    "method": IDL2.Text,
+    "body": IDL2.Vec(IDL2.Nat8),
+    "headers": IDL2.Vec(IDL2.Tuple(IDL2.Text, IDL2.Text)),
+    "certificate_version": IDL2.Opt(IDL2.Nat16)
+  });
+  const Response2 = IDL2.Record({
+    "body": IDL2.Vec(IDL2.Nat8),
+    "headers": IDL2.Vec(IDL2.Tuple(IDL2.Text, IDL2.Text)),
+    "upgrade": IDL2.Opt(IDL2.Bool),
+    "status_code": IDL2.Nat16
+  });
+  const Request2 = IDL2.Record({
+    "url": IDL2.Text,
+    "method": IDL2.Text,
+    "body": IDL2.Vec(IDL2.Nat8),
+    "headers": IDL2.Vec(IDL2.Tuple(IDL2.Text, IDL2.Text))
+  });
   const PropertyRecord2 = IDL2.Record({
     "id": IDL2.Text,
     "data": IDL2.Text,
@@ -28498,6 +29469,8 @@ const idlFactory = ({ IDL: IDL2 }) => {
     "getUser": IDL2.Func([UserId2], [IDL2.Opt(User2)], ["query"]),
     "getUserByUsername": IDL2.Func([IDL2.Text], [IDL2.Opt(User2)], ["query"]),
     "grantAdminRole": IDL2.Func([UserId2], [UserRoleView2], []),
+    "http_request": IDL2.Func([QueryRequest2], [Response2], ["query"]),
+    "http_request_update": IDL2.Func([Request2], [Response2], []),
     "isCallerAdmin": IDL2.Func([], [IDL2.Bool], ["query"]),
     "linkPlayerToUser": IDL2.Func([IDL2.Nat, UserId2], [GlobalPlayerView2], []),
     "listManagedProperties": IDL2.Func(
@@ -33757,6 +34730,34 @@ class Backend {
       return from_candid_UserRoleView_n98(this._uploadFile, this._downloadFile, result);
     }
   }
+  async http_request(arg0) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.http_request(to_candid_QueryRequest_n100(this._uploadFile, this._downloadFile, arg0));
+        return from_candid_Response_n102(this._uploadFile, this._downloadFile, result);
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.http_request(to_candid_QueryRequest_n100(this._uploadFile, this._downloadFile, arg0));
+      return from_candid_Response_n102(this._uploadFile, this._downloadFile, result);
+    }
+  }
+  async http_request_update(arg0) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.http_request_update(arg0);
+        return from_candid_Response_n102(this._uploadFile, this._downloadFile, result);
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.http_request_update(arg0);
+      return from_candid_Response_n102(this._uploadFile, this._downloadFile, result);
+    }
+  }
   async isCallerAdmin() {
     if (this.processError) {
       try {
@@ -33788,14 +34789,14 @@ class Backend {
   async listManagedProperties(arg0) {
     if (this.processError) {
       try {
-        const result = await this.actor.listManagedProperties(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
+        const result = await this.actor.listManagedProperties(to_candid_opt_n104(this._uploadFile, this._downloadFile, arg0));
         return result;
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
-      const result = await this.actor.listManagedProperties(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
+      const result = await this.actor.listManagedProperties(to_candid_opt_n104(this._uploadFile, this._downloadFile, arg0));
       return result;
     }
   }
@@ -33803,27 +34804,27 @@ class Backend {
     if (this.processError) {
       try {
         const result = await this.actor.listPlayers();
-        return from_candid_vec_n101(this._uploadFile, this._downloadFile, result);
+        return from_candid_vec_n105(this._uploadFile, this._downloadFile, result);
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
       const result = await this.actor.listPlayers();
-      return from_candid_vec_n101(this._uploadFile, this._downloadFile, result);
+      return from_candid_vec_n105(this._uploadFile, this._downloadFile, result);
     }
   }
   async listProperties(arg0) {
     if (this.processError) {
       try {
-        const result = await this.actor.listProperties(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
+        const result = await this.actor.listProperties(to_candid_opt_n104(this._uploadFile, this._downloadFile, arg0));
         return result;
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
-      const result = await this.actor.listProperties(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
+      const result = await this.actor.listProperties(to_candid_opt_n104(this._uploadFile, this._downloadFile, arg0));
       return result;
     }
   }
@@ -33831,28 +34832,28 @@ class Backend {
     if (this.processError) {
       try {
         const result = await this.actor.listUsers();
-        return from_candid_vec_n102(this._uploadFile, this._downloadFile, result);
+        return from_candid_vec_n106(this._uploadFile, this._downloadFile, result);
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
       const result = await this.actor.listUsers();
-      return from_candid_vec_n102(this._uploadFile, this._downloadFile, result);
+      return from_candid_vec_n106(this._uploadFile, this._downloadFile, result);
     }
   }
   async listUsersWithRoles() {
     if (this.processError) {
       try {
         const result = await this.actor.listUsersWithRoles();
-        return from_candid_vec_n103(this._uploadFile, this._downloadFile, result);
+        return from_candid_vec_n107(this._uploadFile, this._downloadFile, result);
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
       const result = await this.actor.listUsersWithRoles();
-      return from_candid_vec_n103(this._uploadFile, this._downloadFile, result);
+      return from_candid_vec_n107(this._uploadFile, this._downloadFile, result);
     }
   }
   async makePropertyDraft(arg0) {
@@ -33970,14 +34971,14 @@ class Backend {
   async setTelegramLinkConfig(arg0) {
     if (this.processError) {
       try {
-        const result = await this.actor.setTelegramLinkConfig(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
+        const result = await this.actor.setTelegramLinkConfig(to_candid_opt_n104(this._uploadFile, this._downloadFile, arg0));
         return result;
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
-      const result = await this.actor.setTelegramLinkConfig(to_candid_opt_n100(this._uploadFile, this._downloadFile, arg0));
+      const result = await this.actor.setTelegramLinkConfig(to_candid_opt_n104(this._uploadFile, this._downloadFile, arg0));
       return result;
     }
   }
@@ -34124,6 +35125,9 @@ function from_candid_GlobalPlayerView_n58(_uploadFile, _downloadFile, value) {
 function from_candid_MatchSource_n40(_uploadFile, _downloadFile, value) {
   return from_candid_variant_n41(_uploadFile, _downloadFile, value);
 }
+function from_candid_Response_n102(_uploadFile, _downloadFile, value) {
+  return from_candid_record_n103(_uploadFile, _downloadFile, value);
+}
 function from_candid_Result__1_n8(_uploadFile, _downloadFile, value) {
   return from_candid_variant_n9(_uploadFile, _downloadFile, value);
 }
@@ -34213,6 +35217,14 @@ function from_candid_opt_n95(_uploadFile, _downloadFile, value) {
 }
 function from_candid_opt_n96(_uploadFile, _downloadFile, value) {
   return value.length === 0 ? null : from_candid_TournamentState_n24(_uploadFile, _downloadFile, value[0]);
+}
+function from_candid_record_n103(_uploadFile, _downloadFile, value) {
+  return {
+    body: value.body,
+    headers: value.headers,
+    upgrade: record_opt_to_undefined(from_candid_opt_n6(_uploadFile, _downloadFile, value.upgrade)),
+    status_code: value.status_code
+  };
 }
 function from_candid_record_n25(_uploadFile, _downloadFile, value) {
   return {
@@ -34470,13 +35482,13 @@ function from_candid_variant_n9(_uploadFile, _downloadFile, value) {
 function from_candid_variant_n92(_uploadFile, _downloadFile, value) {
   return "admin" in value ? "admin" : "user" in value ? "user" : "guest" in value ? "guest" : value;
 }
-function from_candid_vec_n101(_uploadFile, _downloadFile, value) {
+function from_candid_vec_n105(_uploadFile, _downloadFile, value) {
   return value.map((x2) => from_candid_GlobalPlayerView_n58(_uploadFile, _downloadFile, x2));
 }
-async function from_candid_vec_n102(_uploadFile, _downloadFile, value) {
+async function from_candid_vec_n106(_uploadFile, _downloadFile, value) {
   return await Promise.all(value.map(async (x2) => await from_candid_User_n51(_uploadFile, _downloadFile, x2)));
 }
-function from_candid_vec_n103(_uploadFile, _downloadFile, value) {
+function from_candid_vec_n107(_uploadFile, _downloadFile, value) {
   return value.map((x2) => from_candid_UserRoleView_n98(_uploadFile, _downloadFile, x2));
 }
 function from_candid_vec_n28(_uploadFile, _downloadFile, value) {
@@ -34496,6 +35508,9 @@ function from_candid_vec_n84(_uploadFile, _downloadFile, value) {
 }
 function from_candid_vec_n97(_uploadFile, _downloadFile, value) {
   return value.map((x2) => from_candid_Tournament_n66(_uploadFile, _downloadFile, x2));
+}
+function to_candid_QueryRequest_n100(_uploadFile, _downloadFile, value) {
+  return to_candid_record_n101(_uploadFile, _downloadFile, value);
 }
 function to_candid_TournamentCommand_n12(_uploadFile, _downloadFile, value) {
   return to_candid_variant_n13(_uploadFile, _downloadFile, value);
@@ -34527,8 +35542,17 @@ function to_candid__ImmutableObjectStorageRefillInformation_n2(_uploadFile, _dow
 function to_candid_opt_n1(_uploadFile, _downloadFile, value) {
   return value === null ? candid_none() : candid_some(to_candid__ImmutableObjectStorageRefillInformation_n2(_uploadFile, _downloadFile, value));
 }
-function to_candid_opt_n100(_uploadFile, _downloadFile, value) {
+function to_candid_opt_n104(_uploadFile, _downloadFile, value) {
   return value === null ? candid_none() : candid_some(value);
+}
+function to_candid_record_n101(_uploadFile, _downloadFile, value) {
+  return {
+    url: value.url,
+    method: value.method,
+    body: value.body,
+    headers: value.headers,
+    certificate_version: value.certificate_version ? candid_some(value.certificate_version) : candid_none()
+  };
 }
 function to_candid_record_n14(_uploadFile, _downloadFile, value) {
   return {
@@ -37387,11 +38411,22 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$1b = [
+const __iconNode$1c = [
   ["path", { d: "m7 7 10 10", key: "1fmybs" }],
   ["path", { d: "M17 7v10H7", key: "6fjiku" }]
 ];
-const ArrowDownRight = createLucideIcon("arrow-down-right", __iconNode$1b);
+const ArrowDownRight = createLucideIcon("arrow-down-right", __iconNode$1c);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$1b = [
+  ["path", { d: "M12 5v14", key: "s699le" }],
+  ["path", { d: "m19 12-7 7-7-7", key: "1idqje" }]
+];
+const ArrowDown = createLucideIcon("arrow-down", __iconNode$1b);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37399,10 +38434,10 @@ const ArrowDownRight = createLucideIcon("arrow-down-right", __iconNode$1b);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$1a = [
-  ["path", { d: "M12 5v14", key: "s699le" }],
-  ["path", { d: "m19 12-7 7-7-7", key: "1idqje" }]
+  ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
+  ["path", { d: "M19 12H5", key: "x3x0zl" }]
 ];
-const ArrowDown = createLucideIcon("arrow-down", __iconNode$1a);
+const ArrowLeft = createLucideIcon("arrow-left", __iconNode$1a);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37410,10 +38445,10 @@ const ArrowDown = createLucideIcon("arrow-down", __iconNode$1a);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$19 = [
-  ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
-  ["path", { d: "M19 12H5", key: "x3x0zl" }]
+  ["path", { d: "M5 12h14", key: "1ays0h" }],
+  ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
-const ArrowLeft = createLucideIcon("arrow-left", __iconNode$19);
+const ArrowRight = createLucideIcon("arrow-right", __iconNode$19);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37421,10 +38456,10 @@ const ArrowLeft = createLucideIcon("arrow-left", __iconNode$19);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$18 = [
-  ["path", { d: "M5 12h14", key: "1ays0h" }],
-  ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
+  ["path", { d: "M7 7h10v10", key: "1tivn9" }],
+  ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowRight = createLucideIcon("arrow-right", __iconNode$18);
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$18);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37432,10 +38467,10 @@ const ArrowRight = createLucideIcon("arrow-right", __iconNode$18);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$17 = [
-  ["path", { d: "M7 7h10v10", key: "1tivn9" }],
-  ["path", { d: "M7 17 17 7", key: "1vkiza" }]
+  ["path", { d: "m5 12 7-7 7 7", key: "hav0vg" }],
+  ["path", { d: "M12 19V5", key: "x0mq9r" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$17);
+const ArrowUp = createLucideIcon("arrow-up", __iconNode$17);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37443,17 +38478,6 @@ const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$17);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$16 = [
-  ["path", { d: "m5 12 7-7 7 7", key: "hav0vg" }],
-  ["path", { d: "M12 19V5", key: "x0mq9r" }]
-];
-const ArrowUp = createLucideIcon("arrow-up", __iconNode$16);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$15 = [
   ["path", { d: "M10 4 8 6", key: "1rru8s" }],
   ["path", { d: "M17 19v2", key: "ts1sot" }],
   ["path", { d: "M2 12h20", key: "9i4pu4" }],
@@ -37466,7 +38490,20 @@ const __iconNode$15 = [
     }
   ]
 ];
-const Bath = createLucideIcon("bath", __iconNode$15);
+const Bath = createLucideIcon("bath", __iconNode$16);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$15 = [
+  ["path", { d: "M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8", key: "1k78r4" }],
+  ["path", { d: "M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4", key: "fb3tl2" }],
+  ["path", { d: "M12 4v6", key: "1dcgq2" }],
+  ["path", { d: "M2 18h20", key: "ajqnye" }]
+];
+const BedDouble = createLucideIcon("bed-double", __iconNode$15);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37474,12 +38511,9 @@ const Bath = createLucideIcon("bath", __iconNode$15);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$14 = [
-  ["path", { d: "M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8", key: "1k78r4" }],
-  ["path", { d: "M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4", key: "fb3tl2" }],
-  ["path", { d: "M12 4v6", key: "1dcgq2" }],
-  ["path", { d: "M2 18h20", key: "ajqnye" }]
+  ["path", { d: "m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z", key: "1fy3hk" }]
 ];
-const BedDouble = createLucideIcon("bed-double", __iconNode$14);
+const Bookmark = createLucideIcon("bookmark", __iconNode$14);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37487,16 +38521,6 @@ const BedDouble = createLucideIcon("bed-double", __iconNode$14);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$13 = [
-  ["path", { d: "m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z", key: "1fy3hk" }]
-];
-const Bookmark = createLucideIcon("bookmark", __iconNode$13);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$12 = [
   ["path", { d: "M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z", key: "1b4qmf" }],
   ["path", { d: "M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2", key: "i71pzd" }],
   ["path", { d: "M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2", key: "10jefs" }],
@@ -37505,14 +38529,14 @@ const __iconNode$12 = [
   ["path", { d: "M10 14h4", key: "kelpxr" }],
   ["path", { d: "M10 18h4", key: "1ulq68" }]
 ];
-const Building2 = createLucideIcon("building-2", __iconNode$12);
+const Building2 = createLucideIcon("building-2", __iconNode$13);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$11 = [
+const __iconNode$12 = [
   ["path", { d: "M8 2v4", key: "1cmpym" }],
   ["path", { d: "M16 2v4", key: "4m81vk" }],
   ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
@@ -37524,14 +38548,14 @@ const __iconNode$11 = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M16 18h.01", key: "kzsmim" }]
 ];
-const CalendarDays = createLucideIcon("calendar-days", __iconNode$11);
+const CalendarDays = createLucideIcon("calendar-days", __iconNode$12);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$10 = [
+const __iconNode$11 = [
   [
     "path",
     {
@@ -37541,39 +38565,51 @@ const __iconNode$10 = [
   ],
   ["circle", { cx: "12", cy: "13", r: "3", key: "1vg3eu" }]
 ];
-const Camera = createLucideIcon("camera", __iconNode$10);
+const Camera = createLucideIcon("camera", __iconNode$11);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$$ = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-const Check = createLucideIcon("check", __iconNode$$);
+const __iconNode$10 = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+const Check = createLucideIcon("check", __iconNode$10);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$_ = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$_);
+const __iconNode$$ = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$$);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$Z = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
-const ChevronLeft = createLucideIcon("chevron-left", __iconNode$Z);
+const __iconNode$_ = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
+const ChevronLeft = createLucideIcon("chevron-left", __iconNode$_);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$Y = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$Y);
+const __iconNode$Z = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$Z);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$Y = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
+  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+];
+const CircleAlert = createLucideIcon("circle-alert", __iconNode$Y);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37582,10 +38618,9 @@ const ChevronRight = createLucideIcon("chevron-right", __iconNode$Y);
  */
 const __iconNode$X = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
-  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const CircleAlert = createLucideIcon("circle-alert", __iconNode$X);
+const CircleCheck = createLucideIcon("circle-check", __iconNode$X);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37594,9 +38629,9 @@ const CircleAlert = createLucideIcon("circle-alert", __iconNode$X);
  */
 const __iconNode$W = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
+  ["polyline", { points: "12 6 12 12 16.5 12", key: "1aq6pp" }]
 ];
-const CircleCheck = createLucideIcon("circle-check", __iconNode$W);
+const Clock3 = createLucideIcon("clock-3", __iconNode$W);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37604,17 +38639,6 @@ const CircleCheck = createLucideIcon("circle-check", __iconNode$W);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$V = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["polyline", { points: "12 6 12 12 16.5 12", key: "1aq6pp" }]
-];
-const Clock3 = createLucideIcon("clock-3", __iconNode$V);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$U = [
   [
     "path",
     {
@@ -37624,7 +38648,18 @@ const __iconNode$U = [
   ],
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
 ];
-const Compass = createLucideIcon("compass", __iconNode$U);
+const Compass = createLucideIcon("compass", __iconNode$V);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$U = [
+  ["rect", { width: "14", height: "14", x: "8", y: "8", rx: "2", ry: "2", key: "17jyea" }],
+  ["path", { d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2", key: "zix9uf" }]
+];
+const Copy = createLucideIcon("copy", __iconNode$U);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37632,17 +38667,6 @@ const Compass = createLucideIcon("compass", __iconNode$U);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$T = [
-  ["rect", { width: "14", height: "14", x: "8", y: "8", rx: "2", ry: "2", key: "17jyea" }],
-  ["path", { d: "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2", key: "zix9uf" }]
-];
-const Copy = createLucideIcon("copy", __iconNode$T);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$S = [
   ["path", { d: "M21.54 15H17a2 2 0 0 0-2 2v4.54", key: "1djwo0" }],
   [
     "path",
@@ -37654,7 +38678,21 @@ const __iconNode$S = [
   ["path", { d: "M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05", key: "14pb5j" }],
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
 ];
-const Earth = createLucideIcon("earth", __iconNode$S);
+const Earth = createLucideIcon("earth", __iconNode$T);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$S = [
+  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
+  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }],
+  ["path", { d: "M10 9H8", key: "b1mrlr" }],
+  ["path", { d: "M16 13H8", key: "t4e002" }],
+  ["path", { d: "M16 17H8", key: "z1uh3a" }]
+];
+const FileText = createLucideIcon("file-text", __iconNode$S);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37662,13 +38700,10 @@ const Earth = createLucideIcon("earth", __iconNode$S);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$R = [
-  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
-  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }],
-  ["path", { d: "M10 9H8", key: "b1mrlr" }],
-  ["path", { d: "M16 13H8", key: "t4e002" }],
-  ["path", { d: "M16 17H8", key: "z1uh3a" }]
+  ["path", { d: "M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z", key: "i9b6wo" }],
+  ["line", { x1: "4", x2: "4", y1: "22", y2: "15", key: "1cm3nv" }]
 ];
-const FileText = createLucideIcon("file-text", __iconNode$R);
+const Flag = createLucideIcon("flag", __iconNode$R);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37676,10 +38711,12 @@ const FileText = createLucideIcon("file-text", __iconNode$R);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$Q = [
-  ["path", { d: "M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z", key: "i9b6wo" }],
-  ["line", { x1: "4", x2: "4", y1: "22", y2: "15", key: "1cm3nv" }]
+  ["line", { x1: "6", x2: "6", y1: "3", y2: "15", key: "17qcm7" }],
+  ["circle", { cx: "18", cy: "6", r: "3", key: "1h7g24" }],
+  ["circle", { cx: "6", cy: "18", r: "3", key: "fqmcym" }],
+  ["path", { d: "M18 9a9 9 0 0 1-9 9", key: "n2h4wq" }]
 ];
-const Flag = createLucideIcon("flag", __iconNode$Q);
+const GitBranch = createLucideIcon("git-branch", __iconNode$Q);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37687,12 +38724,11 @@ const Flag = createLucideIcon("flag", __iconNode$Q);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$P = [
-  ["line", { x1: "6", x2: "6", y1: "3", y2: "15", key: "17qcm7" }],
-  ["circle", { cx: "18", cy: "6", r: "3", key: "1h7g24" }],
-  ["circle", { cx: "6", cy: "18", r: "3", key: "fqmcym" }],
-  ["path", { d: "M18 9a9 9 0 0 1-9 9", key: "n2h4wq" }]
+  ["path", { d: "M12 3v18", key: "108xh3" }],
+  ["path", { d: "M3 12h18", key: "1i2n21" }],
+  ["rect", { x: "3", y: "3", width: "18", height: "18", rx: "2", key: "h1oib" }]
 ];
-const GitBranch = createLucideIcon("git-branch", __iconNode$P);
+const Grid2x2 = createLucideIcon("grid-2x2", __iconNode$P);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37700,18 +38736,6 @@ const GitBranch = createLucideIcon("git-branch", __iconNode$P);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$O = [
-  ["path", { d: "M12 3v18", key: "108xh3" }],
-  ["path", { d: "M3 12h18", key: "1i2n21" }],
-  ["rect", { x: "3", y: "3", width: "18", height: "18", rx: "2", key: "h1oib" }]
-];
-const Grid2x2 = createLucideIcon("grid-2x2", __iconNode$O);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$N = [
   [
     "path",
     {
@@ -37720,14 +38744,14 @@ const __iconNode$N = [
     }
   ]
 ];
-const Heart = createLucideIcon("heart", __iconNode$N);
+const Heart = createLucideIcon("heart", __iconNode$O);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$M = [
+const __iconNode$N = [
   ["path", { d: "M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8", key: "5wwlr5" }],
   [
     "path",
@@ -37737,14 +38761,14 @@ const __iconNode$M = [
     }
   ]
 ];
-const House = createLucideIcon("house", __iconNode$M);
+const House = createLucideIcon("house", __iconNode$N);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$L = [
+const __iconNode$M = [
   ["line", { x1: "2", x2: "22", y1: "2", y2: "22", key: "a6p6uj" }],
   ["path", { d: "M10.41 10.41a2 2 0 1 1-2.83-2.83", key: "1bzlo9" }],
   ["line", { x1: "13.5", x2: "6", y1: "13.5", y2: "21", key: "1q0aeu" }],
@@ -37758,7 +38782,20 @@ const __iconNode$L = [
   ],
   ["path", { d: "M21 15V5a2 2 0 0 0-2-2H9", key: "43el77" }]
 ];
-const ImageOff = createLucideIcon("image-off", __iconNode$L);
+const ImageOff = createLucideIcon("image-off", __iconNode$M);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$L = [
+  ["path", { d: "M18 22H4a2 2 0 0 1-2-2V6", key: "pblm9e" }],
+  ["path", { d: "m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18", key: "nf6bnh" }],
+  ["circle", { cx: "12", cy: "8", r: "2", key: "1822b1" }],
+  ["rect", { width: "16", height: "16", x: "6", y: "2", rx: "2", key: "12espp" }]
+];
+const Images = createLucideIcon("images", __iconNode$L);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37766,19 +38803,6 @@ const ImageOff = createLucideIcon("image-off", __iconNode$L);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$K = [
-  ["path", { d: "M18 22H4a2 2 0 0 1-2-2V6", key: "pblm9e" }],
-  ["path", { d: "m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18", key: "nf6bnh" }],
-  ["circle", { cx: "12", cy: "8", r: "2", key: "1822b1" }],
-  ["rect", { width: "16", height: "16", x: "6", y: "2", rx: "2", key: "12espp" }]
-];
-const Images = createLucideIcon("images", __iconNode$K);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$J = [
   ["polyline", { points: "22 12 16 12 14 15 10 15 8 12 2 12", key: "o97t9d" }],
   [
     "path",
@@ -37788,14 +38812,14 @@ const __iconNode$J = [
     }
   ]
 ];
-const Inbox = createLucideIcon("inbox", __iconNode$J);
+const Inbox = createLucideIcon("inbox", __iconNode$K);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$I = [
+const __iconNode$J = [
   ["path", { d: "m12 8 6-3-6-3v10", key: "mvpnpy" }],
   [
     "path",
@@ -37807,34 +38831,34 @@ const __iconNode$I = [
   ["path", { d: "m6.49 12.85 11.02 6.3", key: "1kt42w" }],
   ["path", { d: "M17.51 12.85 6.5 19.15", key: "v55bdg" }]
 ];
-const LandPlot = createLucideIcon("land-plot", __iconNode$I);
+const LandPlot = createLucideIcon("land-plot", __iconNode$J);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$H = [
+const __iconNode$I = [
   ["path", { d: "M9 17H7A5 5 0 0 1 7 7h2", key: "8i5ue5" }],
   ["path", { d: "M15 7h2a5 5 0 1 1 0 10h-2", key: "1b9ql8" }],
   ["line", { x1: "8", x2: "16", y1: "12", y2: "12", key: "1jonct" }]
 ];
-const Link2 = createLucideIcon("link-2", __iconNode$H);
+const Link2 = createLucideIcon("link-2", __iconNode$I);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$G = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
-const LoaderCircle = createLucideIcon("loader-circle", __iconNode$G);
+const __iconNode$H = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
+const LoaderCircle = createLucideIcon("loader-circle", __iconNode$H);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$F = [
+const __iconNode$G = [
   ["line", { x1: "2", x2: "5", y1: "12", y2: "12", key: "bvdh0s" }],
   ["line", { x1: "19", x2: "22", y1: "12", y2: "12", key: "1tbv5k" }],
   ["line", { x1: "12", x2: "12", y1: "2", y2: "5", key: "11lu5j" }],
@@ -37842,7 +38866,19 @@ const __iconNode$F = [
   ["circle", { cx: "12", cy: "12", r: "7", key: "fim9np" }],
   ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
 ];
-const LocateFixed = createLucideIcon("locate-fixed", __iconNode$F);
+const LocateFixed = createLucideIcon("locate-fixed", __iconNode$G);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$F = [
+  ["path", { d: "m10 17 5-5-5-5", key: "1bsop3" }],
+  ["path", { d: "M15 12H3", key: "6jk70r" }],
+  ["path", { d: "M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4", key: "u53s6r" }]
+];
+const LogIn = createLucideIcon("log-in", __iconNode$F);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37850,11 +38886,11 @@ const LocateFixed = createLucideIcon("locate-fixed", __iconNode$F);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$E = [
-  ["path", { d: "m10 17 5-5-5-5", key: "1bsop3" }],
-  ["path", { d: "M15 12H3", key: "6jk70r" }],
-  ["path", { d: "M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4", key: "u53s6r" }]
+  ["path", { d: "m16 17 5-5-5-5", key: "1bji2h" }],
+  ["path", { d: "M21 12H9", key: "dn1m92" }],
+  ["path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4", key: "1uf3rs" }]
 ];
-const LogIn = createLucideIcon("log-in", __iconNode$E);
+const LogOut = createLucideIcon("log-out", __iconNode$E);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37862,11 +38898,10 @@ const LogIn = createLucideIcon("log-in", __iconNode$E);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$D = [
-  ["path", { d: "m16 17 5-5-5-5", key: "1bji2h" }],
-  ["path", { d: "M21 12H9", key: "dn1m92" }],
-  ["path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4", key: "1uf3rs" }]
+  ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
+  ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
 ];
-const LogOut = createLucideIcon("log-out", __iconNode$D);
+const Mail = createLucideIcon("mail", __iconNode$D);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37874,10 +38909,16 @@ const LogOut = createLucideIcon("log-out", __iconNode$D);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$C = [
-  ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
-  ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
+  [
+    "path",
+    {
+      d: "M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",
+      key: "1r0f0z"
+    }
+  ],
+  ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
 ];
-const Mail = createLucideIcon("mail", __iconNode$C);
+const MapPin = createLucideIcon("map-pin", __iconNode$C);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37888,23 +38929,6 @@ const __iconNode$B = [
   [
     "path",
     {
-      d: "M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",
-      key: "1r0f0z"
-    }
-  ],
-  ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
-];
-const MapPin = createLucideIcon("map-pin", __iconNode$B);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$A = [
-  [
-    "path",
-    {
       d: "M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z",
       key: "169xi5"
     }
@@ -37912,7 +38936,20 @@ const __iconNode$A = [
   ["path", { d: "M15 5.764v15", key: "1pn4in" }],
   ["path", { d: "M9 3.236v15", key: "1uimfh" }]
 ];
-const Map$1 = createLucideIcon("map", __iconNode$A);
+const Map$1 = createLucideIcon("map", __iconNode$B);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$A = [
+  ["path", { d: "M15 3h6v6", key: "1q9fwt" }],
+  ["path", { d: "m21 3-7 7", key: "1l2asr" }],
+  ["path", { d: "m3 21 7-7", key: "tjx5ai" }],
+  ["path", { d: "M9 21H3v-6", key: "wtvkvv" }]
+];
+const Maximize2 = createLucideIcon("maximize-2", __iconNode$A);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -37920,32 +38957,31 @@ const Map$1 = createLucideIcon("map", __iconNode$A);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$z = [
-  ["path", { d: "M15 3h6v6", key: "1q9fwt" }],
-  ["path", { d: "m21 3-7 7", key: "1l2asr" }],
-  ["path", { d: "m3 21 7-7", key: "tjx5ai" }],
-  ["path", { d: "M9 21H3v-6", key: "wtvkvv" }]
-];
-const Maximize2 = createLucideIcon("maximize-2", __iconNode$z);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$y = [
   ["path", { d: "M4 12h16", key: "1lakjw" }],
   ["path", { d: "M4 18h16", key: "19g7jn" }],
   ["path", { d: "M4 6h16", key: "1o0s65" }]
 ];
-const Menu = createLucideIcon("menu", __iconNode$y);
+const Menu = createLucideIcon("menu", __iconNode$z);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$x = [["path", { d: "M5 12h14", key: "1ays0h" }]];
-const Minus = createLucideIcon("minus", __iconNode$x);
+const __iconNode$y = [["path", { d: "M5 12h14", key: "1ays0h" }]];
+const Minus = createLucideIcon("minus", __iconNode$y);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$x = [
+  ["rect", { width: "20", height: "14", x: "2", y: "3", rx: "2", key: "48i651" }],
+  ["line", { x1: "8", x2: "16", y1: "21", y2: "21", key: "1svkeh" }],
+  ["line", { x1: "12", x2: "12", y1: "17", y2: "21", key: "vw1qmm" }]
+];
+const Monitor = createLucideIcon("monitor", __iconNode$x);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -38534,8 +39570,8 @@ function RequireAdmin({
     if (!promptOnMount) {
       return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-[50vh] flex-col items-center justify-center gap-4 px-6 text-center", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldAlert, { className: "size-8 text-primary", "aria-hidden": "true" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-4xl", children: "Admin sign-in" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/70", children: "Sign in with an administrator account to continue." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-4xl", children: t("Admin sign-in") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/70", children: t("Sign in with an administrator account to continue.") }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
@@ -38543,7 +39579,7 @@ function RequireAdmin({
             className: "btn btn-primary",
             onClick: () => login(),
             disabled: isLoggingIn,
-            children: isLoggingIn ? t("Signing in") : "Sign in with Internet Identity"
+            children: t(isLoggingIn ? "Signing in" : "Sign in with Internet Identity")
           }
         )
       ] });
@@ -46377,11 +47413,14 @@ function useLocation(opts) {
     select: (state) => state.location
   });
 }
-function LanguageSwitcher() {
+function LanguageSwitcher({
+  align = "start"
+}) {
   const { language: language2, setLanguage: setLanguage2, t } = useI18n();
   const [open, setOpen] = reactExports.useState(false);
   const root2 = reactExports.useRef(null);
   const trigger = reactExports.useRef(null);
+  const optionsId = reactExports.useId();
   reactExports.useEffect(() => {
     if (!open) return;
     function close(event) {
@@ -46404,28 +47443,35 @@ function LanguageSwitcher() {
         }
       },
       children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tooltip tooltip-bottom", "data-tip": t("Language"), children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
           {
-            ref: trigger,
-            type: "button",
-            "data-ocid": "header.language_button",
-            className: "btn btn-ghost btn-sm gap-2 px-2",
-            "aria-label": t("Change language"),
-            "aria-expanded": open,
-            "aria-controls": "language-options",
-            onClick: () => setOpen((value) => !value),
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Earth, { className: "size-4", "aria-hidden": "true" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-[10px]", children: language2 === "ka" ? "GEO" : language2.toUpperCase() })
-            ]
+            className: open ? void 0 : "tooltip tooltip-bottom",
+            "data-tip": open ? void 0 : t("Language"),
+            children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                ref: trigger,
+                type: "button",
+                "data-ocid": "header.language_button",
+                className: "btn btn-ghost btn-sm gap-2 px-2",
+                "aria-label": t("Change language"),
+                "aria-expanded": open,
+                "aria-controls": optionsId,
+                onClick: () => setOpen((value) => !value),
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Earth, { className: "size-4", "aria-hidden": "true" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-[10px]", children: language2 === "ka" ? "geo" : language2.toUpperCase() })
+                ]
+              }
+            )
           }
-        ) }),
+        ),
         open ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "fieldset",
           {
-            id: "language-options",
-            className: "absolute left-0 top-full z-50 mt-3 w-48 border border-base-300 border-t-primary bg-base-200 p-2 shadow-xl",
+            id: optionsId,
+            className: `absolute top-full z-50 mt-3 w-48 border border-base-300 border-t-primary bg-base-200 p-2 shadow-xl ${align === "end" ? "right-0" : "left-0"}`,
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "sr-only", children: t("Language") }),
               LANGUAGES.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -46433,13 +47479,21 @@ function LanguageSwitcher() {
                 {
                   className: "flex cursor-pointer items-center justify-between gap-3 px-3 py-3 text-sm hover:bg-base-300 has-[:focus-visible]:outline has-[:focus-visible]:outline-primary",
                   children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { lang: option.code, children: option.name }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { lang: option.code, className: "grow", children: option.name }),
+                    option.code === "ka" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "span",
+                      {
+                        className: "font-mono text-xs text-base-content/60",
+                        "aria-hidden": "true",
+                        children: "geo"
+                      }
+                    ),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "input",
                       {
                         className: "sr-only",
                         type: "radio",
-                        name: "language",
+                        name: optionsId,
                         value: option.code,
                         "aria-label": option.name,
                         checked: language2 === option.code,
@@ -46764,37 +47818,85 @@ function Sidebar({ onNavigate }) {
     }
   );
 }
-const name = "Tbilisale";
-const icon = "/marketplace-mark.svg";
-const logo = "/marketplace-logo.svg";
-const logoInverse = "/marketplace-logo-inverse.svg";
-const manifest = "/marketplace.webmanifest";
-const themeLight = "#fafafa";
-const themeDark = "#161616";
-const brand = {
-  name,
-  icon,
-  logo,
-  logoInverse,
-  manifest,
-  themeLight,
-  themeDark
-};
 const themeKey = "property-marketplace:theme";
+const minute = 6e4;
+function systemQueries() {
+  var _a2, _b2;
+  return {
+    dark: (_a2 = window.matchMedia) == null ? void 0 : _a2.call(window, "(prefers-color-scheme: dark)"),
+    light: (_b2 = window.matchMedia) == null ? void 0 : _b2.call(window, "(prefers-color-scheme: light)")
+  };
+}
+function systemTheme({
+  dark,
+  light
+}) {
+  if (dark == null ? void 0 : dark.matches) return "market-dark";
+  if (light == null ? void 0 : light.matches) return "market-light";
+}
+function localTimeTheme() {
+  const hour = (/* @__PURE__ */ new Date()).getHours();
+  return hour >= 7 && hour < 19 ? "market-light" : "market-dark";
+}
+function listenForSchemeChange(query, refresh) {
+  var _a2;
+  if (typeof query.addEventListener === "function") {
+    query.addEventListener("change", refresh);
+    return () => query.removeEventListener("change", refresh);
+  }
+  (_a2 = query.addListener) == null ? void 0 : _a2.call(query, refresh);
+  return () => {
+    var _a3;
+    return (_a3 = query.removeListener) == null ? void 0 : _a3.call(query, refresh);
+  };
+}
 const themeService = {
-  getMarketplaceTheme() {
+  getMarketplacePreference() {
     try {
-      if (localStorage.getItem(themeKey) === "market-dark")
-        return "market-dark";
+      const saved = localStorage.getItem(themeKey);
+      if (saved === "dark" || saved === "market-dark") return "dark";
+      if (saved === "light" || saved === "market-light") return "light";
     } catch {
     }
-    return "market-light";
+    return "system";
   },
-  saveMarketplaceTheme(theme) {
+  saveMarketplacePreference(preference) {
     try {
-      localStorage.setItem(themeKey, theme);
+      localStorage.setItem(themeKey, preference);
     } catch {
     }
+  },
+  watchMarketplaceTheme(preference) {
+    if (preference !== "system") {
+      this.apply(`market-${preference}`);
+      return () => {
+      };
+    }
+    const queries = systemQueries();
+    let timer;
+    let applied;
+    const refresh = () => {
+      const system = systemTheme(queries);
+      if (system && timer !== void 0) {
+        window.clearInterval(timer);
+        timer = void 0;
+      } else if (!system && timer === void 0) {
+        timer = window.setInterval(refresh, minute);
+      }
+      const next = system ?? localTimeTheme();
+      if (next !== applied) {
+        applied = next;
+        this.apply(next);
+      }
+    };
+    const stopListening = Object.values(queries).flatMap(
+      (query) => query ? [listenForSchemeChange(query, refresh)] : []
+    );
+    refresh();
+    return () => {
+      for (const stop of stopListening) stop();
+      window.clearInterval(timer);
+    };
   },
   apply(theme) {
     var _a2, _b2;
@@ -46812,8 +47914,13 @@ const themeService = {
   },
   initialize() {
     const legacyPath = /^\/(?:tournaments|players|users)(?:\/|$)/;
+    if (legacyPath.test(window.location.pathname)) {
+      this.apply("black");
+      return;
+    }
+    const preference = this.getMarketplacePreference();
     this.apply(
-      legacyPath.test(window.location.pathname) ? "black" : this.getMarketplaceTheme()
+      preference === "system" ? systemTheme(systemQueries()) ?? localTimeTheme() : `market-${preference}`
     );
   }
 };
@@ -46899,17 +48006,28 @@ const propertyTypes = [
   "Commercial",
   "Land"
 ];
-const priceFormat = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0
-});
-const areaFormat = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+const formats = /* @__PURE__ */ new Map();
+function numberFormats() {
+  const locale = getLanguage() === "en" ? "en-US" : getLocale();
+  let format = formats.get(locale);
+  if (!format) {
+    format = {
+      price: new Intl.NumberFormat(locale, {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }),
+      area: new Intl.NumberFormat(locale, { maximumFractionDigits: 2 })
+    };
+    formats.set(locale, format);
+  }
+  return format;
+}
 function formatPrice(price) {
-  return priceFormat.format(price);
+  return numberFormats().price.format(price);
 }
 function formatArea(areaM2) {
-  return `${areaFormat.format(areaM2)} m²`;
+  return translate("{area} m²", { area: numberFormats().area.format(areaM2) });
 }
 function formatLocation(listing) {
   return [listing.neighborhood, listing.city].filter(Boolean).join(", ");
@@ -47727,9 +48845,9 @@ function MarketplaceProvider({ children }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(MarketplaceContext.Provider, { value, children });
 }
 function useMarketplace() {
-  const marketplace = reactExports.useContext(MarketplaceContext);
-  if (!marketplace) throw new Error("MarketplaceProvider is required.");
-  return marketplace;
+  const marketplace2 = reactExports.useContext(MarketplaceContext);
+  if (!marketplace2) throw new Error("MarketplaceProvider is required.");
+  return marketplace2;
 }
 const confirmation = {
   draft: {
@@ -47756,6 +48874,7 @@ function ListingManagementActions({
   onDrafted,
   onRemoved
 }) {
+  const { t } = useI18n();
   const { canManageListings, makeListingDraft, deleteListing } = useMarketplace();
   const [action, setAction] = reactExports.useState(null);
   const [isWorking, setIsWorking] = reactExports.useState(false);
@@ -47803,10 +48922,11 @@ function ListingManagementActions({
   const copy = action && confirmation[action];
   const buttonClass = small ? "btn btn-sm" : "btn";
   const editClass = `${buttonClass} btn-outline border-base-300`;
-  const editLabel = `Edit ${listing.title}`;
+  const editLabel = t("Edit {title}", { title: listing.title });
   const editContent = /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Pencil, { className: "size-4", "aria-hidden": "true" }),
-    " Edit"
+    " ",
+    t("Edit")
   ] });
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center gap-2", children: [
     onEdit ? /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -47833,11 +48953,12 @@ function ListingManagementActions({
       {
         type: "button",
         className: `${buttonClass} btn-outline border-base-300`,
-        "aria-label": `Make draft: ${listing.title}`,
+        "aria-label": t("Make draft: {title}", { title: listing.title }),
         onClick: () => open("draft"),
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { className: "size-4", "aria-hidden": "true" }),
-          " Make draft"
+          " ",
+          t("Make draft")
         ]
       }
     ),
@@ -47846,11 +48967,12 @@ function ListingManagementActions({
       {
         type: "button",
         className: `${buttonClass} btn-outline btn-error`,
-        "aria-label": `Remove ${listing.title}`,
+        "aria-label": t("Remove {title}", { title: listing.title }),
         onClick: () => open("remove"),
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { className: "size-4", "aria-hidden": "true" }),
-          " Remove"
+          " ",
+          t("Remove")
         ]
       }
     ),
@@ -47877,7 +48999,7 @@ function ListingManagementActions({
             {
               id: `${dialogId}-title`,
               className: "font-editorial text-3xl leading-tight tracking-tight",
-              children: copy.title
+              children: t(copy.title)
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 font-semibold break-words", children: listing.title }),
@@ -47886,10 +49008,10 @@ function ListingManagementActions({
             {
               id: `${dialogId}-description`,
               className: "mt-2 text-sm leading-relaxed text-base-content/75",
-              children: copy.description
+              children: t(copy.description)
             }
           ),
-          failed && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "mt-4 text-sm text-error", children: copy.error }),
+          failed && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "mt-4 text-sm text-error", children: t(copy.error) }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 flex flex-wrap justify-end gap-2", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
@@ -47899,7 +49021,7 @@ function ListingManagementActions({
                 className: "btn btn-ghost",
                 disabled: isWorking,
                 onClick: close,
-                children: "Cancel"
+                children: t("Cancel")
               }
             ),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -47909,7 +49031,7 @@ function ListingManagementActions({
                 className: `btn ${copy.button}`,
                 disabled: isWorking,
                 onClick: confirm,
-                children: isWorking ? copy.pending : copy.confirm
+                children: t(isWorking ? copy.pending : copy.confirm)
               }
             )
           ] })
@@ -47926,12 +49048,13 @@ function PropertyPhotoDialog({
   onStep,
   dialogRef
 }) {
+  const { t } = useI18n();
   if (!images.length) return null;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "dialog",
     {
       className: "modal",
-      "aria-label": `${title} photo gallery`,
+      "aria-label": t("{title} photo gallery", { title }),
       ref: dialogRef,
       onKeyDown: (event) => {
         if (images.length < 2) return;
@@ -47947,7 +49070,7 @@ function PropertyPhotoDialog({
               {
                 type: "submit",
                 className: "btn btn-ghost btn-square btn-sm",
-                "aria-label": "Close gallery",
+                "aria-label": t("Close gallery"),
                 children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "size-5", "aria-hidden": "true" })
               }
             ) })
@@ -47967,7 +49090,7 @@ function PropertyPhotoDialog({
                 {
                   type: "button",
                   className: "absolute inset-y-0 left-0 w-1/2 cursor-pointer focus-visible:-outline-offset-4",
-                  "aria-label": "Previous photo",
+                  "aria-label": t("Previous photo"),
                   onClick: () => onStep(-1)
                 }
               ),
@@ -47976,7 +49099,7 @@ function PropertyPhotoDialog({
                 {
                   type: "button",
                   className: "absolute inset-y-0 right-0 w-1/2 cursor-pointer focus-visible:-outline-offset-4",
-                  "aria-label": "Next photo",
+                  "aria-label": t("Next photo"),
                   onClick: () => onStep(1)
                 }
               )
@@ -47991,20 +49114,19 @@ function PropertyPhotoDialog({
                 onClick: () => onStep(-1),
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowLeft, { className: "size-4", "aria-hidden": "true" }),
-                  "Previous"
+                  t("Previous")
                 ]
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "p",
               {
                 className: "text-sm tabular-nums text-base-content/65",
                 "aria-live": "polite",
-                children: [
-                  activeIndex + 1,
-                  " of ",
-                  images.length
-                ]
+                children: t("{current} of {total}", {
+                  current: activeIndex + 1,
+                  total: images.length
+                })
               }
             ),
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -48014,14 +49136,14 @@ function PropertyPhotoDialog({
                 className: "btn btn-ghost btn-sm",
                 onClick: () => onStep(1),
                 children: [
-                  "Next",
+                  t("Next"),
                   /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4", "aria-hidden": "true" })
                 ]
               }
             )
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("form", { method: "dialog", className: "modal-backdrop", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", tabIndex: -1, children: "Close gallery" }) })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("form", { method: "dialog", className: "modal-backdrop", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", tabIndex: -1, children: t("Close gallery") }) })
       ]
     }
   );
@@ -48036,6 +49158,8 @@ function PropertyCard({
   showPhotoControls = false
 }) {
   var _a2;
+  const { language: language2, locale, t } = useI18n();
+  const numberFormat = new Intl.NumberFormat(locale);
   const photoDialog = reactExports.useRef(null);
   const [photoIndex, setPhotoIndex] = reactExports.useState(0);
   const photoCount = listing.images.length;
@@ -48073,15 +49197,15 @@ function PropertyCard({
                   },
                   activePhoto
                 ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge absolute top-3.5 left-3.5 h-7 rounded-full border-base-100/50 bg-base-100/95 px-3 text-[11px] font-semibold text-base-content shadow-sm", children: listing.type })
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge absolute top-3.5 left-3.5 h-7 rounded-full border-base-100/50 bg-base-100/95 px-3 text-[11px] font-semibold text-base-content shadow-sm", children: t(listing.type) })
               ]
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex grow flex-col px-4.5 pt-4.5 sm:px-5 sm:pt-5", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between gap-2", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xl font-bold tracking-tight", children: formatPrice(listing.price) }),
-              listing.status === "pending" && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-soft badge-warning", children: "Pending" }),
-              listing.status === "sold" && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-soft badge-neutral", children: "Sold" })
+              listing.status === "pending" && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-soft badge-warning", children: t("Pending") }),
+              listing.status === "sold" && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-soft badge-neutral", children: t("Sold") })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mt-1.5 text-base font-semibold tracking-tight transition-colors group-hover:text-primary", children: listing.title }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-2 mb-4 flex items-center gap-1.5 text-sm text-base-content/65", children: [
@@ -48091,13 +49215,16 @@ function PropertyCard({
             /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-base-300 py-3.5 text-xs font-medium text-base-content/70 sm:gap-x-5", children: [
               listing.bedrooms !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-center gap-1.5", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(BedDouble, { "aria-hidden": "true", className: "size-4" }),
-                listing.bedrooms === 0 ? "Studio" : `${listing.bedrooms} ${listing.bedrooms === 1 ? "bed" : "beds"}`
+                listing.bedrooms === 0 ? t("Studio") : formatBrowseCount(
+                  listing.bedrooms,
+                  "bed",
+                  language2,
+                  locale
+                )
               ] }),
               listing.bathrooms !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-center gap-1.5", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Bath, { "aria-hidden": "true", className: "size-4" }),
-                listing.bathrooms,
-                " ",
-                listing.bathrooms === 1 ? "bath" : "baths"
+                formatBrowseCount(listing.bathrooms, "bath", language2, locale)
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-center gap-1.5", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Scan, { "aria-hidden": "true", className: "size-4" }),
@@ -48120,7 +49247,7 @@ function PropertyCard({
                 {
                   type: "button",
                   className: `${photoButtonClass} top-1/2 left-2 -translate-y-1/2`,
-                  "aria-label": "Previous photo",
+                  "aria-label": t("Previous photo"),
                   onClick: () => stepPhoto(-1),
                   children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronLeft, { className: "size-5", "aria-hidden": "true" })
                 }
@@ -48130,23 +49257,24 @@ function PropertyCard({
                 {
                   type: "button",
                   className: `${photoButtonClass} top-1/2 right-2 -translate-y-1/2`,
-                  "aria-label": "Next photo",
+                  "aria-label": t("Next photo"),
                   onClick: () => stepPhoto(1),
                   children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { className: "size-5", "aria-hidden": "true" })
                 }
               )
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("output", { className: "absolute bottom-3 left-3 rounded-full border border-neutral-content/25 bg-neutral/75 px-2.5 py-1 text-xs font-semibold text-neutral-content tabular-nums shadow-sm", children: [
-              activeIndex + 1,
-              " / ",
-              photoCount
+              numberFormat.format(activeIndex + 1),
+              " /",
+              " ",
+              numberFormat.format(photoCount)
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
               {
                 type: "button",
                 className: `${photoButtonClass} right-2 bottom-2`,
-                "aria-label": "Expand photos",
+                "aria-label": t("Expand photos"),
                 "aria-haspopup": "dialog",
                 onClick: () => {
                   var _a3;
@@ -48175,7 +49303,7 @@ function PropertyCard({
       {
         type: "button",
         className: "btn btn-circle absolute top-3 right-3 size-10 border-base-100/50 bg-base-100/95 p-0 text-base-content shadow-sm hover:border-base-100 hover:bg-base-100 hover:text-primary",
-        "aria-label": `Save ${listing.title}`,
+        "aria-label": t("Save {title}", { title: listing.title }),
         "aria-pressed": isFavorite,
         onClick: () => onToggleFavorite(listing.id),
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -48258,6 +49386,7 @@ function PropertyMap({
   className = ""
 }) {
   var _a2;
+  const { t } = useI18n();
   const keyboardHint = reactExports.useId();
   const viewport = reactExports.useRef(null);
   const drag = reactExports.useRef(null);
@@ -48302,8 +49431,8 @@ function PropertyMap({
               className: "mx-auto mb-3 size-7 text-primary"
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: "No properties to show on the map" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm text-base-content/65", children: "Map pins appear when a listing includes coordinates." })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: t("No properties to show on the map") }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm text-base-content/65", children: t("Map pins appear when a listing includes coordinates.") })
         ] })
       }
     );
@@ -48364,7 +49493,7 @@ function PropertyMap({
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "section",
     {
-      "aria-label": "Property map",
+      "aria-label": t("Property map"),
       className: `flex min-h-72 flex-col overflow-hidden rounded-box border border-base-300 bg-base-100 ${className}`,
       children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -48407,7 +49536,7 @@ function PropertyMap({
                   }
                 }
               ),
-              tiles.length > 0 && tiles.every(({ url }) => failedTiles.has(url)) && /* @__PURE__ */ jsxRuntimeExports.jsx("output", { className: "pointer-events-none absolute top-3 left-3 rounded-field border border-base-300 bg-base-100/95 px-2 py-1 text-xs text-base-content/70", children: "Basemap unavailable" }),
+              tiles.length > 0 && tiles.every(({ url }) => failedTiles.has(url)) && /* @__PURE__ */ jsxRuntimeExports.jsx("output", { className: "pointer-events-none absolute top-3 left-3 rounded-field border border-base-300 bg-base-100/95 px-2 py-1 text-xs text-base-content/70", children: t("Basemap unavailable") }),
               locations.map(({ listing, point }) => {
                 const left = width / 2 + (point.x - camera.center.x - Math.round(point.x - camera.center.x)) * tileScale;
                 const top = height / 2 + (point.y - camera.center.y) * tileScale;
@@ -48436,7 +49565,7 @@ function PropertyMap({
                     "button",
                     {
                       type: "button",
-                      "aria-label": "Zoom in",
+                      "aria-label": t("Zoom in"),
                       disabled: camera.zoom >= maxZoom,
                       onClick: () => zoomBy(1),
                       className: "btn btn-sm join-item size-9 bg-base-100 p-0",
@@ -48447,7 +49576,7 @@ function PropertyMap({
                     "button",
                     {
                       type: "button",
-                      "aria-label": "Zoom out",
+                      "aria-label": t("Zoom out"),
                       disabled: camera.zoom <= minZoom,
                       onClick: () => zoomBy(-1),
                       className: "btn btn-sm join-item size-9 bg-base-100 p-0",
@@ -48459,7 +49588,7 @@ function PropertyMap({
                   "button",
                   {
                     type: "button",
-                    "aria-label": "Fit property locations",
+                    "aria-label": t("Fit property locations"),
                     "aria-describedby": keyboardHint,
                     onClick: () => setView(void 0),
                     onKeyDown: handleMapKey,
@@ -48467,7 +49596,7 @@ function PropertyMap({
                     children: /* @__PURE__ */ jsxRuntimeExports.jsx(LocateFixed, { "aria-hidden": "true", className: "size-4" })
                   }
                 ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { id: keyboardHint, className: "sr-only", children: "Use arrow keys to pan and plus or minus to zoom." })
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { id: keyboardHint, className: "sr-only", children: t("Use arrow keys to pan and plus or minus to zoom.") })
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute right-0 bottom-0 z-20 flex flex-wrap justify-end gap-x-2 rounded-tl-field bg-base-100/95 px-2 py-1 text-[10px] text-base-content/80", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -48477,7 +49606,7 @@ function PropertyMap({
                     target: "_blank",
                     rel: "noreferrer",
                     className: "hover:underline",
-                    children: "© OpenStreetMap contributors"
+                    children: t("© OpenStreetMap contributors")
                   }
                 ),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -48487,7 +49616,7 @@ function PropertyMap({
                     target: "_blank",
                     rel: "noreferrer",
                     className: "hover:underline",
-                    children: "Report a map issue"
+                    children: t("Report a map issue")
                   }
                 )
               ] })
@@ -48585,6 +49714,7 @@ function DiscoveryHero({
   locations,
   onSearch
 }) {
+  const { t } = useI18n();
   function search(event) {
     event.preventDefault();
     const fields = Object.fromEntries(new FormData(event.currentTarget));
@@ -48609,20 +49739,20 @@ function DiscoveryHero({
             id: "discovery-title",
             className: "font-editorial text-[clamp(2.5rem,12vw,3.5rem)] leading-[.94] font-semibold tracking-[-.06em] sm:text-[clamp(3.5rem,6.1vw,6.15rem)]",
             children: [
-              "Find your next",
+              t("Find your next"),
               /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-normal", children: "chapter." })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-normal", children: t("chapter.") })
             ]
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-sm text-sm leading-relaxed text-neutral-content/90 sm:mt-6 sm:text-base", children: "Explore homes and investment properties in Tbilisi, Georgia." })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-sm text-sm leading-relaxed text-neutral-content/90 sm:mt-6 sm:text-base", children: t("Explore homes and investment properties in Tbilisi, Georgia.") })
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "form",
       {
         onSubmit: search,
-        "aria-label": "Search properties",
+        "aria-label": t("Search properties"),
         className: "relative mx-auto -mt-5 grid max-w-5xl grid-cols-1 gap-1.5 rounded-box border border-base-300 bg-base-100 p-2.5 shadow-lg shadow-neutral/10 min-[370px]:grid-cols-2 sm:w-[calc(100%_-_4rem)] md:-mt-10 md:grid-cols-[minmax(0,1.28fr)_minmax(0,1fr)_minmax(0,1fr)_auto] md:items-center md:gap-0 md:p-3 md:ps-1",
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-x-2 rounded-field px-3 py-2 focus-within:bg-base-200 min-[370px]:col-span-2 md:col-span-1 md:gap-x-3 md:rounded-none md:border-e md:border-base-300 md:px-4", children: [
@@ -48633,13 +49763,13 @@ function DiscoveryHero({
                 "aria-hidden": "true"
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[.68rem] font-bold tracking-[.08em] uppercase", children: "Location" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[.68rem] font-bold tracking-[.08em] uppercase", children: t("Location") }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 name: "location",
                 className: "input input-ghost h-6 w-full border-0 p-0 text-sm shadow-none",
-                placeholder: "City or neighborhood",
+                placeholder: t("City or neighborhood"),
                 autoComplete: "off",
                 defaultValue: filters.location,
                 list: "marketplace-locations"
@@ -48648,7 +49778,7 @@ function DiscoveryHero({
             /* @__PURE__ */ jsxRuntimeExports.jsx("datalist", { id: "marketplace-locations", children: locations.map((location2) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: location2 }, location2)) })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "grid min-w-0 gap-y-0.5 rounded-field px-3 py-2 focus-within:bg-base-200 md:rounded-none md:border-e md:border-base-300 md:px-4", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[.68rem] font-bold tracking-[.08em] uppercase", children: "Property type" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[.68rem] font-bold tracking-[.08em] uppercase", children: t("Property type") }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "select",
               {
@@ -48656,14 +49786,14 @@ function DiscoveryHero({
                 defaultValue: filters.propertyType,
                 className: "select select-ghost h-6 w-full border-0 py-0 ps-0 text-sm shadow-none",
                 children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Any type" }),
-                  propertyTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: type }, type))
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: t("Any type") }),
+                  propertyTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: type, children: t(type) }, type))
                 ]
               }
             )
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "grid min-w-0 gap-y-0.5 rounded-field px-3 py-2 focus-within:bg-base-200 md:rounded-none md:px-4", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[.68rem] font-bold tracking-[.08em] uppercase", children: "Max price" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[.68rem] font-bold tracking-[.08em] uppercase", children: t("Max price") }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "select",
               {
@@ -48671,15 +49801,11 @@ function DiscoveryHero({
                 defaultValue: filters.maxPrice,
                 className: "select select-ghost h-6 w-full border-0 py-0 ps-0 text-sm shadow-none",
                 children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: filters.minPrice ? "No maximum" : "Any price" }),
-                  filters.maxPrice && !priceOptions.includes(Number(filters.maxPrice)) && /* @__PURE__ */ jsxRuntimeExports.jsxs("option", { value: filters.maxPrice, children: [
-                    "Up to ",
-                    formatPrice(Number(filters.maxPrice))
-                  ] }),
-                  priceOptions.map((price) => /* @__PURE__ */ jsxRuntimeExports.jsxs("option", { value: price, children: [
-                    "Up to ",
-                    formatPrice(price)
-                  ] }, price))
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: t(filters.minPrice ? "No maximum" : "Any price") }),
+                  filters.maxPrice && !priceOptions.includes(Number(filters.maxPrice)) && /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: filters.maxPrice, children: t("Up to {value}", {
+                    value: formatPrice(Number(filters.maxPrice))
+                  }) }),
+                  priceOptions.map((price) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: price, children: t("Up to {value}", { value: formatPrice(price) }) }, price))
                 ]
               }
             )
@@ -48691,7 +49817,7 @@ function DiscoveryHero({
               className: "btn btn-primary min-h-11 gap-2.5 px-5 min-[370px]:col-span-2 md:col-span-1 md:min-h-[3.25rem] md:px-6",
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { className: "size-4", "aria-hidden": "true" }),
-                "Search properties"
+                t("Search properties")
               ]
             }
           )
@@ -48706,6 +49832,8 @@ function AdvancedFilters({
   dialogRef,
   onApply
 }) {
+  const { locale, t } = useI18n();
+  const numberFormat = new Intl.NumberFormat(locale);
   const [error, setError] = reactExports.useState("");
   const formRef = reactExports.useRef(null);
   function apply(event) {
@@ -48738,7 +49866,7 @@ function AdvancedFilters({
             {
               type: "button",
               className: "btn btn-ghost btn-square btn-sm absolute end-4 top-4",
-              "aria-label": "Close filters",
+              "aria-label": t("Close filters"),
               onClick: () => {
                 var _a2;
                 return (_a2 = dialogRef.current) == null ? void 0 : _a2.close();
@@ -48751,7 +49879,7 @@ function AdvancedFilters({
             {
               id: "discovery-filter-title",
               className: "font-editorial text-3xl tracking-tight",
-              children: "Refine your search"
+              children: t("Refine your search")
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -48762,9 +49890,9 @@ function AdvancedFilters({
               className: "mt-6 space-y-5",
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("fieldset", { className: "grid grid-cols-2 gap-3", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "mb-2 text-sm font-semibold", children: "Price in USD" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "mb-2 text-sm font-semibold", children: t("Price in USD") }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "grid gap-1.5 text-xs text-base-content/65", children: [
-                    "Minimum price",
+                    t("Minimum price"),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "input",
                       {
@@ -48773,12 +49901,12 @@ function AdvancedFilters({
                         type: "number",
                         min: "0",
                         defaultValue: filters.minPrice,
-                        placeholder: "Any minimum"
+                        placeholder: t("Any minimum")
                       }
                     )
                   ] }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "grid gap-1.5 text-xs text-base-content/65", children: [
-                    "Maximum price",
+                    t("Maximum price"),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "input",
                       {
@@ -48787,15 +49915,15 @@ function AdvancedFilters({
                         type: "number",
                         min: "0",
                         defaultValue: filters.maxPrice,
-                        placeholder: "Any maximum"
+                        placeholder: t("Any maximum")
                       }
                     )
                   ] })
                 ] }),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("fieldset", { className: "grid grid-cols-2 gap-3", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "mb-2 text-sm font-semibold", children: "Area in m²" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "mb-2 text-sm font-semibold", children: t("Area in m²") }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "grid gap-1.5 text-xs text-base-content/65", children: [
-                    "Minimum area",
+                    t("Minimum area"),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "input",
                       {
@@ -48805,12 +49933,12 @@ function AdvancedFilters({
                         min: "0",
                         step: "any",
                         defaultValue: filters.minArea,
-                        placeholder: "Any minimum"
+                        placeholder: t("Any minimum")
                       }
                     )
                   ] }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "grid gap-1.5 text-xs text-base-content/65", children: [
-                    "Maximum area",
+                    t("Maximum area"),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "input",
                       {
@@ -48820,13 +49948,13 @@ function AdvancedFilters({
                         min: "0",
                         step: "any",
                         defaultValue: filters.maxArea,
-                        placeholder: "Any maximum"
+                        placeholder: t("Any maximum")
                       }
                     )
                   ] })
                 ] }),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "grid gap-2 text-sm font-semibold", children: [
-                  "Bedrooms",
+                  t("Bedrooms"),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs(
                     "select",
                     {
@@ -48834,16 +49962,15 @@ function AdvancedFilters({
                       defaultValue: filters.bedrooms,
                       className: "select w-full font-normal",
                       children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Any number" }),
-                        [1, 2, 3, 4, 5, 6].map((number2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("option", { value: number2, children: [
-                          number2,
-                          "+ bedrooms"
-                        ] }, number2))
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: t("Any number") }),
+                        [1, 2, 3, 4, 5, 6].map((number2) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: number2, children: t("{count}+ bedrooms", {
+                          count: numberFormat.format(number2)
+                        }) }, number2))
                       ]
                     }
                   )
                 ] }),
-                error && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "text-sm text-error", children: error }),
+                error && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "text-sm text-error", children: t(error) }),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-end gap-3 pt-1", children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(
                     "button",
@@ -48854,22 +49981,24 @@ function AdvancedFilters({
                         var _a2;
                         return (_a2 = dialogRef.current) == null ? void 0 : _a2.close();
                       },
-                      children: "Cancel"
+                      children: t("Cancel")
                     }
                   ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", className: "btn btn-primary", children: "Apply filters" })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", className: "btn btn-primary", children: t("Apply filters") })
                 ] })
               ]
             },
             JSON.stringify(filters)
           )
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("form", { method: "dialog", className: "modal-backdrop", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", tabIndex: -1, children: "Close" }) })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("form", { method: "dialog", className: "modal-backdrop", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", tabIndex: -1, children: t("Close") }) })
       ]
     }
   );
 }
 function DiscoveryPage() {
+  const { language: language2, locale, t } = useI18n();
+  const numberFormat = new Intl.NumberFormat(locale);
   const {
     listings,
     listingsLoading,
@@ -48896,7 +50025,7 @@ function DiscoveryPage() {
     new Set(
       listings.flatMap((listing) => [listing.city, listing.neighborhood])
     )
-  ).filter(Boolean).sort();
+  ).filter(Boolean).sort((first, second) => first.localeCompare(second, locale));
   const active = Object.values(filters).some(Boolean);
   const saved = savedSearches.some(
     (search) => Object.keys(emptyDiscoveryFilters).every(
@@ -48946,19 +50075,19 @@ function DiscoveryPage() {
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mb-2 flex items-center gap-2.5 text-[.67rem] font-bold tracking-[.21em] text-primary uppercase", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "h-px w-5 bg-current", "aria-hidden": "true" }),
-                "The collection"
+                t("The collection")
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "h2",
                 {
                   id: "property-results-title",
                   className: "font-editorial text-4xl leading-[1.02] tracking-[-.04em] sm:text-5xl",
-                  children: "Explore properties"
+                  children: t("Explore properties")
                 }
               )
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("fieldset", { className: "join rounded-field border border-base-300 bg-base-100 p-1", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "sr-only", children: "Property display" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "sr-only", children: t("Property display") }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 "button",
                 {
@@ -48968,7 +50097,8 @@ function DiscoveryPage() {
                   onClick: () => setView("grid"),
                   children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx(Grid2x2, { className: "size-4", "aria-hidden": "true" }),
-                    " Grid"
+                    " ",
+                    t("Grid")
                   ]
                 }
               ),
@@ -48981,7 +50111,8 @@ function DiscoveryPage() {
                   onClick: () => setView("map"),
                   children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx(Map$1, { className: "size-4", "aria-hidden": "true" }),
-                    " Map"
+                    " ",
+                    t("Map")
                   ]
                 }
               )
@@ -48989,7 +50120,7 @@ function DiscoveryPage() {
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-b border-base-300 pb-4", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("fieldset", { className: "flex flex-wrap gap-1.5", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "sr-only", children: "Property categories" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "sr-only", children: t("Property categories") }),
               categories.map(({ value, label: label2, Icon: Icon2 }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 "button",
                 {
@@ -49000,7 +50131,7 @@ function DiscoveryPage() {
                   children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { className: "size-4", "aria-hidden": "true" }),
                     " ",
-                    label2
+                    t(label2)
                   ]
                 },
                 value
@@ -49017,8 +50148,9 @@ function DiscoveryPage() {
                 },
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(SlidersHorizontal, { className: "size-4", "aria-hidden": "true" }),
-                  " Filters",
-                  advancedCount > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-primary badge-xs", children: advancedCount })
+                  " ",
+                  t("Filters"),
+                  advancedCount > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-primary badge-xs", children: numberFormat.format(advancedCount) })
                 ]
               }
             )
@@ -49030,7 +50162,12 @@ function DiscoveryPage() {
                 {
                   "aria-live": "polite",
                   className: "text-sm font-medium text-base-content/65",
-                  children: !listingsLoading && !listingsError || hasPublishedListings ? `${filtered.length} ${filtered.length === 1 ? "property" : "properties"}` : ""
+                  children: !listingsLoading && !listingsError || hasPublishedListings ? formatBrowseCount(
+                    filtered.length,
+                    "property",
+                    language2,
+                    locale
+                  ) : ""
                 }
               ),
               active && /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -49041,7 +50178,8 @@ function DiscoveryPage() {
                   onClick: () => applyFilters(emptyDiscoveryFilters),
                   children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "size-3", "aria-hidden": "true" }),
-                    " Clear filters"
+                    " ",
+                    t("Clear filters")
                   ]
                 }
               )
@@ -49056,7 +50194,7 @@ function DiscoveryPage() {
                   onClick: () => saveSearch(filters),
                   children: [
                     saved ? /* @__PURE__ */ jsxRuntimeExports.jsx(Check, { className: "size-4", "aria-hidden": "true" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Bookmark, { className: "size-4", "aria-hidden": "true" }),
-                    saved ? "Search saved" : "Save search"
+                    t(saved ? "Search saved" : "Save search")
                   ]
                 }
               ),
@@ -49068,14 +50206,14 @@ function DiscoveryPage() {
                     "aria-hidden": "true"
                   }
                 ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sr-only", children: "Sort properties" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sr-only", children: t("Sort properties") }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "select",
                   {
                     className: "select select-ghost select-sm w-auto min-w-0 ps-1 pe-6 font-medium",
                     value: sortOrder,
                     onChange: (event) => setSortOrder(event.currentTarget.value),
-                    children: Object.entries(sortOptions).map(([value, label2]) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value, children: label2 }, value))
+                    children: Object.entries(sortOptions).map(([value, label2]) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value, children: t(label2) }, value))
                   }
                 )
               ] })
@@ -49095,7 +50233,7 @@ function DiscoveryPage() {
                       "aria-hidden": "true"
                     }
                   ),
-                  "Properties couldn’t be loaded."
+                  t("Properties couldn’t be loaded.")
                 ] }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "button",
@@ -49103,7 +50241,7 @@ function DiscoveryPage() {
                     type: "button",
                     className: "btn btn-ghost btn-sm",
                     onClick: () => void retryListings(),
-                    children: "Retry"
+                    children: t("Retry")
                   }
                 )
               ]
@@ -49116,7 +50254,7 @@ function DiscoveryPage() {
                 "aria-hidden": "true"
               }
             ),
-            "Loading properties…"
+            t("Loading properties…")
           ] }) : null,
           filtered.length === 0 ? !listingsLoading && !listingsError && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-box border border-dashed border-base-300 bg-base-200 px-6 py-14 text-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -49126,15 +50264,19 @@ function DiscoveryPage() {
                 "aria-hidden": "true"
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-editorial text-3xl", children: hasPublishedListings ? "No matching properties" : "No properties listed yet" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/70", children: hasPublishedListings ? "Try a broader location or adjust your price and property filters." : "New listings will appear here when they’re published." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-editorial text-3xl", children: t(
+              hasPublishedListings ? "No matching properties" : "No properties listed yet"
+            ) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/70", children: t(
+              hasPublishedListings ? "Try a broader location or adjust your price and property filters." : "New listings will appear here when they’re published."
+            ) }),
             active && hasPublishedListings && /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
               {
                 type: "button",
                 className: "btn btn-primary mt-5",
                 onClick: () => applyFilters(emptyDiscoveryFilters),
-                children: "View all properties"
+                children: t("View all properties")
               }
             )
           ] }) : view === "map" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.65fr)]", children: [
@@ -49142,7 +50284,7 @@ function DiscoveryPage() {
               "div",
               {
                 className: "order-2 grid content-start gap-3 overflow-auto rounded-box lg:order-1 lg:max-h-[34rem]",
-                "aria-label": "Properties on the map",
+                "aria-label": t("Properties on the map"),
                 children: filtered.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "article",
                   {
@@ -49155,7 +50297,9 @@ function DiscoveryPage() {
                           className: "relative grid aspect-square place-items-center overflow-hidden rounded-field bg-base-200 text-primary",
                           onClick: () => setSelectedId(listing.id),
                           disabled: !listing.coordinates,
-                          "aria-label": `Locate ${listing.title} on the map`,
+                          "aria-label": t("Locate {title} on the map", {
+                            title: listing.title
+                          }),
                           children: listing.images[0] ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                             "img",
                             {
@@ -49185,7 +50329,7 @@ function DiscoveryPage() {
                             {
                               to: "/properties/$listingId",
                               params: { listingId: listing.id },
-                              "aria-label": `View ${listing.title}`,
+                              "aria-label": t("View {title}", { title: listing.title }),
                               className: "btn btn-ghost btn-xs btn-square",
                               children: /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4", "aria-hidden": "true" })
                             }
@@ -49277,6 +50421,7 @@ function MarketplaceSidebar({
   favoriteCount,
   onNavigate
 }) {
+  const { t } = useI18n();
   const visibleSections = sections.filter(
     ({ label: label2 }) => label2 === "Browse" || (label2 === "Workspace" ? showAdmin : showProfile)
   );
@@ -49284,7 +50429,7 @@ function MarketplaceSidebar({
     "nav",
     {
       id,
-      "aria-label": "Sidebar navigation",
+      "aria-label": t("Sidebar navigation"),
       className: `min-h-0 flex-1 overflow-y-auto py-3 ${collapsed ? "px-0.5 sm:px-2" : "px-3"}`,
       children: visibleSections.map(({ label: label2, items }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
@@ -49295,7 +50440,7 @@ function MarketplaceSidebar({
               "p",
               {
                 className: collapsed ? "sr-only" : "mb-2 px-3 text-[.68rem] font-bold tracking-[.16em] text-base-content/60 uppercase",
-                children: label2
+                children: t(label2)
               }
             ),
             /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-1", children: items.map(({ label: label22, to, Icon: Icon2 }) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -49303,7 +50448,7 @@ function MarketplaceSidebar({
               {
                 to,
                 activeOptions: { exact: true, includeSearch: false },
-                title: collapsed ? label22 : void 0,
+                title: collapsed ? t(label22) : void 0,
                 onClick: onNavigate,
                 className: `flex min-h-11 items-center gap-3 rounded-field text-sm font-semibold whitespace-nowrap text-base-content/75 transition-colors hover:bg-base-200 hover:text-primary focus-visible:-outline-offset-2 [&.active]:bg-primary/10 [&.active]:text-primary ${collapsed ? "justify-center" : "px-3"}`,
                 children: [
@@ -49316,7 +50461,7 @@ function MarketplaceSidebar({
                       className: "shrink-0"
                     }
                   ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: collapsed ? "sr-only" : void 0, children: label22 }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: collapsed ? "sr-only" : void 0, children: t(label22) }),
                   !collapsed && label22 === "Saved" && favoriteCount > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-sm ms-auto", "aria-hidden": "true", children: favoriteCount > 99 ? "99+" : favoriteCount })
                 ]
               }
@@ -49328,17 +50473,144 @@ function MarketplaceSidebar({
     }
   );
 }
+const themeOptions = [
+  { value: "system", label: "System", Icon: Monitor },
+  { value: "light", label: "Light", Icon: Sun },
+  { value: "dark", label: "Dark", Icon: Moon }
+];
+function MarketplaceThemeSwitcher() {
+  const { t } = useI18n();
+  const [preference, setPreference] = reactExports.useState(
+    themeService.getMarketplacePreference
+  );
+  const [open, setOpen] = reactExports.useState(false);
+  const root2 = reactExports.useRef(null);
+  const trigger = reactExports.useRef(null);
+  const selectedOption = reactExports.useRef(null);
+  const optionsId = reactExports.useId();
+  const { Icon: ActiveIcon } = themeOptions.find(({ value }) => value === preference) ?? themeOptions[0];
+  reactExports.useLayoutEffect(
+    () => themeService.watchMarketplaceTheme(preference),
+    [preference]
+  );
+  reactExports.useEffect(() => {
+    var _a2;
+    if (!open) return;
+    (_a2 = selectedOption.current) == null ? void 0 : _a2.focus();
+    function closeOutside(event) {
+      var _a3;
+      if (!((_a3 = root2.current) == null ? void 0 : _a3.contains(event.target))) setOpen(false);
+    }
+    document.addEventListener("pointerdown", closeOutside);
+    return () => document.removeEventListener("pointerdown", closeOutside);
+  }, [open]);
+  function close() {
+    var _a2;
+    setOpen(false);
+    (_a2 = trigger.current) == null ? void 0 : _a2.focus();
+  }
+  function select(next) {
+    themeService.saveMarketplacePreference(next);
+    setPreference(next);
+    close();
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      ref: root2,
+      className: "relative shrink-0",
+      onBlur: (event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+      },
+      onKeyDown: (event) => {
+        if (open && event.key === "Escape") {
+          event.preventDefault();
+          close();
+        }
+      },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: open ? void 0 : "tooltip tooltip-bottom",
+            "data-tip": open ? void 0 : t("Theme"),
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                ref: trigger,
+                type: "button",
+                className: "btn btn-ghost btn-circle btn-sm text-base-content/70 hover:text-primary",
+                "aria-label": t("Theme"),
+                "aria-expanded": open,
+                "aria-controls": optionsId,
+                onClick: () => setOpen((current) => !current),
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(ActiveIcon, { className: "size-[17px]", "aria-hidden": "true" })
+              }
+            )
+          }
+        ),
+        open && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "fieldset",
+          {
+            id: optionsId,
+            className: "absolute right-0 top-full z-50 mt-3 w-40 rounded-field border border-base-300 border-t-primary bg-base-200 p-2 shadow-xl",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "sr-only", children: t("Theme") }),
+              themeOptions.map(({ value, label: label2, Icon: Icon2 }) => {
+                const selected = preference === value;
+                return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "label",
+                  {
+                    className: "flex min-h-11 cursor-pointer items-center gap-3 rounded-field px-3 text-sm hover:bg-base-300 has-[:focus-visible]:outline has-[:focus-visible]:outline-primary",
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { className: "size-4 shrink-0", "aria-hidden": "true" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "grow", children: t(label2) }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "input",
+                        {
+                          ref: selected ? selectedOption : void 0,
+                          className: "sr-only",
+                          type: "radio",
+                          name: optionsId,
+                          value,
+                          checked: selected,
+                          onClick: () => {
+                            if (selected) select(value);
+                          },
+                          onChange: () => select(value)
+                        }
+                      ),
+                      selected && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        Check,
+                        {
+                          className: "size-4 shrink-0 text-primary",
+                          "aria-hidden": "true"
+                        }
+                      )
+                    ]
+                  },
+                  value
+                );
+              })
+            ]
+          }
+        )
+      ]
+    }
+  );
+}
 function Brand({
   iconOnly = false,
   onNavigate
 }) {
+  const { t } = useI18n();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     Link,
     {
       to: "/",
       search: {},
       onClick: onNavigate,
-      "aria-label": `${brand.name} home`,
+      "aria-label": t("{name} home", { name: brand.name }),
       className: "inline-flex w-fit min-w-0 max-w-full items-center",
       children: iconOnly ? /* @__PURE__ */ jsxRuntimeExports.jsx(
         "img",
@@ -49393,11 +50665,7 @@ function MarketplaceHeader({
   mobileSidebarOpen,
   onOpenSidebar
 }) {
-  const [theme, setTheme] = reactExports.useState(themeService.getMarketplaceTheme);
-  reactExports.useLayoutEffect(() => {
-    themeService.apply(theme);
-  }, [theme]);
-  const dark = theme === "market-dark";
+  const { t } = useI18n();
   return /* @__PURE__ */ jsxRuntimeExports.jsx("header", { className: "sticky top-0 z-30 border-b border-base-300 bg-base-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "market-container flex min-h-[4.25rem] items-center justify-between gap-2 md:min-h-[4.5rem]", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-w-0 items-center gap-2", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -49405,7 +50673,7 @@ function MarketplaceHeader({
         {
           type: "button",
           className: `${navIconClass} shrink-0 lg:hidden`,
-          "aria-label": "Open sidebar",
+          "aria-label": t("Open sidebar"),
           "aria-haspopup": "dialog",
           "aria-controls": mobileSidebarId,
           "aria-expanded": mobileSidebarOpen,
@@ -49416,20 +50684,8 @@ function MarketplaceHeader({
       /* @__PURE__ */ jsxRuntimeExports.jsx(Brand, {})
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex shrink-0 items-center gap-1 sm:gap-2.5", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          type: "button",
-          className: navIconClass,
-          "aria-label": `Switch to ${dark ? "light" : "dark"} theme`,
-          onClick: () => {
-            const next = dark ? "market-light" : "market-dark";
-            themeService.saveMarketplaceTheme(next);
-            setTheme(next);
-          },
-          children: dark ? /* @__PURE__ */ jsxRuntimeExports.jsx(Sun, { size: 17, "aria-hidden": "true" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Moon, { size: 17, "aria-hidden": "true" })
-        }
-      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(LanguageSwitcher, { align: "end" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(MarketplaceThemeSwitcher, {}),
       showAdmin && /* @__PURE__ */ jsxRuntimeExports.jsxs(
         Link,
         {
@@ -49437,7 +50693,8 @@ function MarketplaceHeader({
           className: "btn btn-primary hidden h-10 rounded-full px-4 text-sm md:inline-flex",
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 17, "aria-hidden": "true" }),
-            " List a property"
+            " ",
+            t("List a property")
           ]
         }
       ),
@@ -49446,12 +50703,12 @@ function MarketplaceHeader({
         {
           type: "button",
           className: navClass,
-          "aria-label": "Sign out",
-          title: "Sign out",
+          "aria-label": t("Sign out"),
+          title: t("Sign out"),
           onClick: onSignOut,
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(LogOut, { size: 17, "aria-hidden": "true" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "hidden md:inline", children: "Sign out" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "hidden md:inline", children: t("Sign out") })
           ]
         }
       ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -49459,8 +50716,8 @@ function MarketplaceHeader({
         {
           type: "button",
           className: navClass,
-          "aria-label": "Sign in",
-          title: "Sign in with Internet Identity",
+          "aria-label": t("Sign in"),
+          title: t("Sign in with Internet Identity"),
           disabled: auth.isInitializing || auth.isLoggingIn,
           onClick: () => auth.login(),
           children: [
@@ -49472,7 +50729,7 @@ function MarketplaceHeader({
                 "aria-hidden": "true"
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Sign in" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: t("Sign in") })
           ]
         }
       )
@@ -49480,10 +50737,11 @@ function MarketplaceHeader({
   ] }) });
 }
 function MarketplaceFooter({ showAdmin }) {
+  const { t } = useI18n();
   return /* @__PURE__ */ jsxRuntimeExports.jsx("footer", { className: "border-t border-base-300 bg-base-200", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "market-container flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:py-10", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Brand, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/70", children: "Property discovery in Tbilisi, Georgia." })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/70", children: t("Property discovery in Tbilisi, Georgia.") })
     ] }),
     showAdmin && /* @__PURE__ */ jsxRuntimeExports.jsxs(
       Link,
@@ -49491,7 +50749,8 @@ function MarketplaceFooter({ showAdmin }) {
         to: "/sell",
         className: "flex w-fit items-center gap-2 text-sm font-semibold text-primary hover:underline",
         children: [
-          "Seller workspace ",
+          t("Seller workspace"),
+          " ",
           /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 15, "aria-hidden": "true" })
         ]
       }
@@ -49499,6 +50758,7 @@ function MarketplaceFooter({ showAdmin }) {
   ] }) });
 }
 function MarketplaceFrame() {
+  const { t } = useI18n();
   const { favorites, storageError } = useMarketplace();
   const auth = useAuth();
   const navigate = useNavigate();
@@ -49506,12 +50766,22 @@ function MarketplaceFrame() {
   const [collapsed, setCollapsed] = reactExports.useState(readSidebarCollapsed);
   const [mobileSidebarOpen, setMobileSidebarOpen] = reactExports.useState(false);
   const mobileSidebar = reactExports.useRef(null);
-  const toggleLabel = collapsed ? "Expand sidebar" : "Collapse sidebar";
+  const toggleLabel = t(collapsed ? "Expand sidebar" : "Collapse sidebar");
   const sidebarProps = {
     showAdmin,
     showProfile: auth.isAuthenticated,
     favoriteCount: favorites.length
   };
+  reactExports.useEffect(() => {
+    var _a2;
+    const description2 = t(brand.description);
+    for (const tag of document.querySelectorAll(
+      'meta[name="description"], meta[property="og:description"]'
+    )) {
+      tag.setAttribute("content", description2);
+    }
+    (_a2 = document.querySelector('meta[property="og:image:alt"]')) == null ? void 0 : _a2.setAttribute("content", t(brand.socialImageAlt));
+  }, [t]);
   reactExports.useEffect(() => {
     var _a2;
     if (!mobileSidebarOpen) return;
@@ -49552,7 +50822,7 @@ function MarketplaceFrame() {
       {
         href: "#market-main",
         className: "btn btn-primary sr-only z-50 focus:not-sr-only focus:absolute focus:top-2 focus:left-2",
-        children: "Skip to content"
+        children: t("Skip to content")
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -49562,7 +50832,7 @@ function MarketplaceFrame() {
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "aside",
           {
-            "aria-label": "Sidebar",
+            "aria-label": t("Sidebar"),
             className: "sticky top-0 z-40 flex h-svh flex-col border-e border-base-300 bg-base-100",
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -49584,7 +50854,7 @@ function MarketplaceFrame() {
                   onClick: toggleSidebar,
                   children: [
                     collapsed ? /* @__PURE__ */ jsxRuntimeExports.jsx(PanelLeftOpen, { size: 19, "aria-hidden": "true" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(PanelLeftClose, { size: 19, "aria-hidden": "true" }),
-                    !collapsed && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Collapse" })
+                    !collapsed && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: t("Collapse") })
                   ]
                 }
               ),
@@ -49606,7 +50876,7 @@ function MarketplaceFrame() {
       {
         ref: mobileSidebar,
         id: mobileSidebarId,
-        "aria-label": "Sidebar",
+        "aria-label": t("Sidebar"),
         className: "modal items-stretch justify-items-start lg:hidden",
         onClose: () => setMobileSidebarOpen(false),
         children: [
@@ -49618,7 +50888,7 @@ function MarketplaceFrame() {
                 {
                   type: "button",
                   className: navIconClass,
-                  "aria-label": "Close sidebar",
+                  "aria-label": t("Close sidebar"),
                   onClick: closeMobileSidebar,
                   children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 20, "aria-hidden": "true" })
                 }
@@ -49633,7 +50903,7 @@ function MarketplaceFrame() {
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("form", { method: "dialog", className: "modal-backdrop", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", tabIndex: -1, children: "Close" }) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("form", { method: "dialog", className: "modal-backdrop", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", tabIndex: -1, children: t("Close") }) })
         ]
       }
     ),
@@ -49654,7 +50924,7 @@ function MarketplaceFrame() {
           {
             role: "alert",
             className: "alert alert-error market-container mt-4",
-            children: storageError
+            children: t(storageError)
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {})
@@ -49666,11 +50936,57 @@ function MarketplaceFrame() {
 function MarketplaceLayout() {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(MarketplaceProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(MarketplaceFrame, {}) });
 }
+const months = [
+  ["იან.", "იანვარი"],
+  ["თებ.", "თებერვალი"],
+  ["მარ.", "მარტი"],
+  ["აპრ.", "აპრილი"],
+  ["მაი.", "მაისი"],
+  ["ივნ.", "ივნისი"],
+  ["ივლ.", "ივლისი"],
+  ["აგვ.", "აგვისტო"],
+  ["სექ.", "სექტემბერი"],
+  ["ოქტ.", "ოქტომბერი"],
+  ["ნოე.", "ნოემბერი"],
+  ["დეკ.", "დეკემბერი"]
+];
+const weekdays = {
+  Monday: ["ორშ.", "ორშაბათი"],
+  Tuesday: ["სამ.", "სამშაბათი"],
+  Wednesday: ["ოთხ.", "ოთხშაბათი"],
+  Thursday: ["ხუთ.", "ხუთშაბათი"],
+  Friday: ["პარ.", "პარასკევი"],
+  Saturday: ["შაბ.", "შაბათი"],
+  Sunday: ["კვი.", "კვირა"]
+};
+function formatClubDate(date, options) {
+  const settings = { ...options, timeZone: options.timeZone ?? "Asia/Tbilisi" };
+  if (getLanguage() !== "ka")
+    return new Intl.DateTimeFormat(getLocale(), settings).format(date);
+  const month = Number(
+    new Intl.DateTimeFormat("en-GB", {
+      month: "numeric",
+      timeZone: settings.timeZone
+    }).format(date)
+  ) - 1;
+  const weekday = new Intl.DateTimeFormat("en-GB", {
+    weekday: "long",
+    timeZone: settings.timeZone
+  }).format(date);
+  return new Intl.DateTimeFormat("en-GB", settings).formatToParts(date).map((part) => {
+    if (part.type === "month" && options.month !== "numeric" && options.month !== "2-digit")
+      return months[month][options.month === "short" ? 0 : 1];
+    if (part.type === "weekday")
+      return weekdays[weekday][options.weekday === "short" ? 0 : 1];
+    return part.value;
+  }).join("");
+}
 function PropertyGallery({
   images,
   imageDescriptions,
   title
 }) {
+  const { t } = useI18n();
   const gallery = reactExports.useRef(null);
   const [activeIndex, setActiveIndex] = reactExports.useState(0);
   function openGallery(index2) {
@@ -49684,7 +51000,7 @@ function PropertyGallery({
   if (!images.length) {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex aspect-2/1 flex-col items-center justify-center gap-3 rounded-box bg-base-200 text-base-content/65", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(ImageOff, { className: "size-8", "aria-hidden": "true" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm", children: "Photography is coming soon" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm", children: t("Photography is coming soon") })
     ] });
   }
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
@@ -49704,7 +51020,7 @@ function PropertyGallery({
                     type: "button",
                     className: "group absolute inset-0 w-full",
                     onClick: () => openGallery(0),
-                    "aria-label": "Open property photo gallery",
+                    "aria-label": t("Open property photo gallery"),
                     children: /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "img",
                       {
@@ -49724,7 +51040,7 @@ function PropertyGallery({
                     className: "btn btn-sm absolute right-3 bottom-3 border-base-300 bg-base-100 text-base-content shadow-sm sm:right-5 sm:bottom-5",
                     children: [
                       /* @__PURE__ */ jsxRuntimeExports.jsx(Images, { className: "size-4", "aria-hidden": "true" }),
-                      images.length === 1 ? "View photo" : `View all ${images.length} photos`
+                      images.length === 1 ? t("View photo") : t("View all {count} photos", { count: images.length })
                     ]
                   }
                 )
@@ -49739,7 +51055,9 @@ function PropertyGallery({
                 "button",
                 {
                   type: "button",
-                  "aria-label": `View property photo ${index2 + 2}`,
+                  "aria-label": t("View property photo {number}", {
+                    number: index2 + 2
+                  }),
                   className: "group relative min-h-0 overflow-hidden bg-base-200",
                   onClick: () => openGallery(index2 + 1),
                   children: /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -49777,6 +51095,7 @@ function PublishListingButton({
   small,
   onPublished
 }) {
+  const { t } = useI18n();
   const { publishListing } = useMarketplace();
   const [isPublishing, setIsPublishing] = reactExports.useState(false);
   const [publishFailed, setPublishFailed] = reactExports.useState(false);
@@ -49798,14 +51117,14 @@ function PublishListingButton({
       {
         type: "button",
         className: small ? "btn btn-primary btn-sm" : "btn btn-primary",
-        "aria-label": `Publish ${title}`,
+        "aria-label": t("Publish {title}", { title }),
         "aria-busy": isPublishing,
         disabled: isPublishing,
         onClick: publish,
-        children: isPublishing ? "Publishing…" : "Publish"
+        children: t(isPublishing ? "Publishing…" : "Publish")
       }
     ),
-    publishFailed && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "max-w-44 text-right text-sm text-error", children: "Couldn’t publish this listing. Try again." })
+    publishFailed && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "max-w-44 text-right text-sm text-error", children: t("Couldn’t publish this listing. Try again.") })
   ] });
 }
 const listingStatusLabels = {
@@ -49986,10 +51305,14 @@ async function prepareListingPhoto(file) {
     URL.revokeObjectURL(url);
   }
 }
-const dateFormat = new Intl.DateTimeFormat("en", {
-  dateStyle: "medium",
-  timeZone: "UTC"
-});
+function formatListingDate(value) {
+  return formatClubDate(new Date(value), {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC"
+  });
+}
 function DetailSection({
   id,
   title,
@@ -50017,16 +51340,27 @@ function DetailSection({
 }
 function SellerContact({ listing }) {
   var _a2;
+  const { t } = useI18n();
   const { seller } = listing;
   const email = seller.email ? `mailto:${encodeURIComponent(seller.email).replace("%40", "@")}` : void 0;
   const telephone = (_a2 = seller.phone) == null ? void 0 : _a2.replace(/[^\d+]/g, "");
+  const inquirySubject = t("Inquiry about {title}", { title: listing.title });
+  const viewingSubject = t("Viewing request for {title}", {
+    title: listing.title
+  });
+  const viewingBody = t(
+    "Hello {name},\n\nI would like to arrange a viewing of {title}. My preferred times are:\n\n",
+    { name: seller.name, title: listing.title }
+  );
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card border border-base-300 bg-base-100 p-6 shadow-sm sm:p-7", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[0.68rem] font-bold tracking-[0.18em] text-base-content/65 uppercase", children: "Listed by" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[0.68rem] font-bold tracking-[0.18em] text-base-content/65 uppercase", children: t("Listed by") }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-5 flex items-center gap-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "grid size-12 shrink-0 place-items-center rounded-full bg-primary/10 text-primary", children: /* @__PURE__ */ jsxRuntimeExports.jsx(UserRound, { className: "size-5", "aria-hidden": "true" }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg leading-tight font-semibold", children: seller.name }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm text-base-content/65", children: seller.role })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm text-base-content/65", children: ["Owner", "Real estate agent", "Property developer"].includes(
+          seller.role
+        ) ? t(seller.role) : seller.role })
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 grid gap-2.5", children: [
@@ -50034,10 +51368,11 @@ function SellerContact({ listing }) {
         "a",
         {
           className: "btn btn-primary w-full",
-          href: `${email}?subject=${encodeURIComponent(`Inquiry about ${listing.title}`)}`,
+          href: `${email}?subject=${encodeURIComponent(inquirySubject)}`,
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Mail, { className: "size-4", "aria-hidden": "true" }),
-            " Contact seller"
+            " ",
+            t("Contact seller")
           ]
         }
       ),
@@ -50045,13 +51380,9 @@ function SellerContact({ listing }) {
         "a",
         {
           className: "btn btn-outline w-full",
-          href: `${email}?subject=${encodeURIComponent(`Viewing request for ${listing.title}`)}&body=${encodeURIComponent(`Hello ${seller.name},
-
-I would like to arrange a viewing of ${listing.title}. My preferred times are:
-
-`)}`,
+          href: `${email}?subject=${encodeURIComponent(viewingSubject)}&body=${encodeURIComponent(viewingBody)}`,
           children: [
-            "Request a viewing",
+            t("Request a viewing"),
             " ",
             /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { className: "size-4", "aria-hidden": "true" })
           ]
@@ -50069,12 +51400,13 @@ I would like to arrange a viewing of ${listing.title}. My preferred times are:
           ]
         }
       ),
-      !email && !telephone && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/70", children: "The seller hasn’t added contact details yet." })
+      !email && !telephone && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/70", children: t("The seller hasn’t added contact details yet.") })
     ] })
   ] });
 }
 function PropertyDetailPage({ listingId }) {
   var _a2, _b2;
+  const { t } = useI18n();
   const navigate = useNavigate();
   const {
     listings,
@@ -50103,14 +51435,18 @@ function PropertyDetailPage({ listingId }) {
             "aria-hidden": "true"
           }
         ),
-        "Loading property…"
+        t("Loading property…")
       ] });
     }
     const loadFailed = listingsError || ownedListingsError;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto flex max-w-2xl flex-col items-center px-6 py-24 text-center sm:py-32", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "grid size-16 place-items-center rounded-full bg-base-200 text-primary", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Building2, { className: "size-7", "aria-hidden": "true" }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-6 font-editorial text-4xl tracking-tight sm:text-5xl", children: loadFailed ? "Property couldn’t be loaded" : "Property unavailable" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-base-content/70", children: loadFailed ? "There was a problem loading the listing. Please try again." : "This listing may have moved or been taken off the market." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-6 font-editorial text-4xl tracking-tight sm:text-5xl", children: t(
+        loadFailed ? "Property couldn’t be loaded" : "Property unavailable"
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-base-content/70", children: t(
+        loadFailed ? "There was a problem loading the listing. Please try again." : "This listing may have moved or been taken off the market."
+      ) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-wrap justify-center gap-3", children: [
         loadFailed && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
@@ -50121,7 +51457,7 @@ function PropertyDetailPage({ listingId }) {
               if (listingsError) retryListings();
               if (ownedListingsError) retryOwnedListings();
             },
-            children: "Try again"
+            children: t("Try again")
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -50129,7 +51465,7 @@ function PropertyDetailPage({ listingId }) {
           {
             to: "/",
             className: `btn ${loadFailed ? "btn-outline" : "btn-primary"}`,
-            children: "Explore properties"
+            children: t("Explore properties")
           }
         )
       ] })
@@ -50144,7 +51480,7 @@ function PropertyDetailPage({ listingId }) {
     { icon: Ruler, name: "Total area", value: formatArea(listing.areaM2) },
     { icon: BedDouble, name: "Bedrooms", value: listing.bedrooms },
     { icon: Bath, name: "Bathrooms", value: listing.bathrooms },
-    { icon: Building2, name: "Property type", value: listing.type }
+    { icon: Building2, name: "Property type", value: t(listing.type) }
   ];
   const specifications = [
     [
@@ -50154,7 +51490,10 @@ function PropertyDetailPage({ listingId }) {
     ["Rooms", listing.rooms],
     [
       "Floor",
-      listing.floor == null ? void 0 : `${listing.floor}${listing.totalFloors ? ` of ${listing.totalFloors}` : ""}`
+      listing.floor != null && listing.totalFloors ? t("{current} of {total}", {
+        current: listing.floor,
+        total: listing.totalFloors
+      }) : listing.floor
     ],
     [
       "Building floors",
@@ -50187,19 +51526,19 @@ function PropertyDetailPage({ listingId }) {
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowLeft, { className: "size-4", "aria-hidden": "true" }),
           " ",
-          isDraft ? "Seller workspace" : "Explore properties"
+          t(isDraft ? "Seller workspace" : "Explore properties")
         ]
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "mt-7 flex flex-wrap items-end justify-between gap-x-7 gap-y-5 pb-6 sm:mt-9 sm:pb-8", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-w-0", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 flex flex-wrap items-center gap-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-soft badge-primary", children: listing.type }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-soft badge-primary", children: t(listing.type) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "span",
             {
               className: `badge ${listing.status === "available" ? "badge-soft badge-success" : "badge-outline"}`,
-              children: listingStatusLabels[listing.status]
+              children: t(listingStatusLabels[listing.status])
             }
           )
         ] }),
@@ -50233,7 +51572,7 @@ function PropertyDetailPage({ listingId }) {
               onClick: shareListing,
               children: [
                 shareState === "copied" ? /* @__PURE__ */ jsxRuntimeExports.jsx(Check, { className: "size-4", "aria-hidden": "true" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Share2, { className: "size-4", "aria-hidden": "true" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-live": "polite", children: shareState === "copied" ? "Link copied" : "Share" })
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-live": "polite", children: t(shareState === "copied" ? "Link copied" : "Share") })
               ]
             }
           ),
@@ -50252,7 +51591,7 @@ function PropertyDetailPage({ listingId }) {
                     "aria-hidden": "true"
                   }
                 ),
-                isFavorite ? "Saved" : "Save property"
+                t(isFavorite ? "Saved" : "Save property")
               ]
             }
           )
@@ -50272,7 +51611,7 @@ function PropertyDetailPage({ listingId }) {
         )
       ] }),
       !isDraft && shareState === "show-link" && /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex w-full max-w-md flex-col gap-2 text-sm font-semibold", children: [
-        "Copy this property link",
+        t("Copy this property link"),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
@@ -50296,12 +51635,9 @@ function PropertyDetailPage({ listingId }) {
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 grid items-start gap-10 sm:mt-10 lg:grid-cols-[minmax(0,1fr)_minmax(19rem,0.44fr)] lg:gap-16", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contents lg:block lg:space-y-12", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "order-1", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[0.68rem] font-bold tracking-[0.18em] text-base-content/65 uppercase", children: "Asking price · USD" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[0.68rem] font-bold tracking-[0.18em] text-base-content/65 uppercase", children: t("Asking price · USD") }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 font-editorial text-5xl leading-none tracking-tight", children: formatPrice(listing.price) }),
-          pricePerArea && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-2 text-sm text-base-content/65", children: [
-            pricePerArea,
-            " per m²"
-          ] }),
+          pricePerArea && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/65", children: t("{price} per m²", { price: pricePerArea }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("dl", { className: "mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4", children: features.filter(({ value }) => value != null).map(({ icon: Icon2, name: name2, value }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "div",
             {
@@ -50314,7 +51650,7 @@ function PropertyDetailPage({ listingId }) {
                     "aria-hidden": "true"
                   }
                 ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "text-xs text-base-content/65", children: name2 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "text-xs text-base-content/65", children: t(name2) }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-1 text-sm font-semibold sm:text-base", children: value })
               ]
             },
@@ -50322,14 +51658,14 @@ function PropertyDetailPage({ listingId }) {
           )) })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "order-3 min-w-0 space-y-9 sm:space-y-12", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(DetailSection, { id: "description", title: "About this property", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(DetailSection, { id: "description", title: t("About this property"), children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "max-w-prose leading-relaxed whitespace-pre-line text-base-content/75", children: listing.description }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("dl", { className: "mt-5 grid max-w-2xl grid-cols-2 gap-x-4 gap-y-4 text-sm sm:grid-cols-3", children: specifications.map(([label2, value]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-base-300 pt-3", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "text-base-content/65", children: label2 }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "text-base-content/65", children: t(label2) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-1 font-semibold", children: value })
             ] }, label2)) })
           ] }),
-          listing.amenities.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(DetailSection, { id: "amenities", title: "Features and amenities", children: /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3", children: listing.amenities.map((amenity) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          listing.amenities.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(DetailSection, { id: "amenities", title: t("Features and amenities"), children: /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3", children: listing.amenities.map((amenity) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "li",
             {
               className: "flex items-start gap-2.5 text-sm",
@@ -50347,7 +51683,7 @@ function PropertyDetailPage({ listingId }) {
             },
             amenity
           )) }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(DetailSection, { id: "location", title: "Explore the location", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(DetailSection, { id: "location", title: t("Explore the location"), children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-4 text-sm text-base-content/70", children: address }),
             listing.coordinates && /* @__PURE__ */ jsxRuntimeExports.jsx(
               PropertyMap,
@@ -50366,25 +51702,25 @@ function PropertyDetailPage({ listingId }) {
                 target: "_blank",
                 rel: "noreferrer",
                 children: [
-                  "Open in OpenStreetMap",
+                  t("Open in OpenStreetMap"),
                   " ",
                   /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { className: "size-4", "aria-hidden": "true" })
                 ]
               }
             )
           ] }),
-          !!((_a2 = listing.priceHistory) == null ? void 0 : _a2.length) && /* @__PURE__ */ jsxRuntimeExports.jsx(DetailSection, { id: "price-history", title: "Price history", children: /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "max-w-md divide-y divide-base-300 rounded-box border border-base-300", children: listing.priceHistory.map(({ date, price }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          !!((_a2 = listing.priceHistory) == null ? void 0 : _a2.length) && /* @__PURE__ */ jsxRuntimeExports.jsx(DetailSection, { id: "price-history", title: t("Price history"), children: /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "max-w-md divide-y divide-base-300 rounded-box border border-base-300", children: listing.priceHistory.map(({ date, price }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "li",
             {
               className: "flex items-center justify-between gap-4 px-4 py-3 text-sm",
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("time", { dateTime: date, className: "text-base-content/70", children: dateFormat.format(new Date(date)) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("time", { dateTime: date, className: "text-base-content/70", children: formatListingDate(date) }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: formatPrice(price) })
               ]
             },
             `${date}-${price}`
           )) }) }),
-          listing.source && /* @__PURE__ */ jsxRuntimeExports.jsxs(DetailSection, { id: "source", title: "Original listing", children: [
+          listing.source && /* @__PURE__ */ jsxRuntimeExports.jsxs(DetailSection, { id: "source", title: t("Original listing"), children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "a",
               {
@@ -50393,8 +51729,7 @@ function PropertyDetailPage({ listingId }) {
                 rel: "noreferrer",
                 className: "link inline-flex items-center gap-1 text-sm font-semibold text-primary",
                 children: [
-                  "MyHome listing ",
-                  listing.source.id,
+                  t("MyHome listing {id}", { id: listing.source.id }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { className: "size-4", "aria-hidden": "true" })
                 ]
               }
@@ -50417,14 +51752,14 @@ function PropertyDetailPage({ listingId }) {
         "aside",
         {
           className: "order-2 grid gap-4 lg:sticky lg:top-28",
-          "aria-label": "Seller information",
+          "aria-label": t("Seller information"),
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(SellerContact, { listing }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between gap-3 rounded-box border border-base-300 px-5 py-4 text-xs text-base-content/70", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
-                "Listed",
+                t("Listed"),
                 " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("time", { dateTime: listing.listedAt, children: dateFormat.format(new Date(listing.listedAt)) })
+                /* @__PURE__ */ jsxRuntimeExports.jsx("time", { dateTime: listing.listedAt, children: formatListingDate(listing.listedAt) })
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 "a",
@@ -50432,7 +51767,7 @@ function PropertyDetailPage({ listingId }) {
                   href: "#location",
                   className: "inline-flex items-center gap-1.5 font-semibold text-primary",
                   children: [
-                    "Location",
+                    t("Location"),
                     " ",
                     /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowDownRight, { className: "size-3.5", "aria-hidden": "true" })
                   ]
@@ -50452,6 +51787,7 @@ function MyHomeImportPanel({
   onImport,
   onReview
 }) {
+  const { t } = useI18n();
   const [url, setUrl] = reactExports.useState("");
   const [showSavedPage, setShowSavedPage] = reactExports.useState(false);
   const [savedPage, setSavedPage] = reactExports.useState();
@@ -50509,15 +51845,17 @@ function MyHomeImportPanel({
             className: "flex items-center gap-2.5 font-editorial text-2xl tracking-tight",
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(Link2, { className: "size-5 shrink-0 text-primary", "aria-hidden": "true" }),
-              "Import a MyHome ad"
+              t("Import a MyHome ad")
             ]
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm leading-relaxed text-base-content/75", children: "Paste a MyHome.ge property link to fill in the listing. You can review and edit the details before saving." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm leading-relaxed text-base-content/75", children: t(
+          "Paste a MyHome.ge property link to fill in the listing. You can review and edit the details before saving."
+        ) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleImport, className: "mt-4 grid gap-2.5", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2.5 sm:flex-row sm:items-end", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "grid min-w-0 flex-1 gap-1.5 text-sm font-semibold", children: [
-              "MyHome ad URL",
+              t("MyHome ad URL"),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "input",
                 {
@@ -50541,7 +51879,9 @@ function MyHomeImportPanel({
                 className: `btn ${importing ? "btn-outline" : "btn-primary"}`,
                 onClick: importing ? cancelImport : void 0,
                 disabled,
-                children: importing ? "Cancel import" : savedPage ? "Import saved page" : "Import ad"
+                children: t(
+                  importing ? "Cancel import" : savedPage ? "Import saved page" : "Import ad"
+                )
               }
             )
           ] }),
@@ -50557,7 +51897,9 @@ function MyHomeImportPanel({
                 setShowSavedPage(!showSavedPage);
                 if (showSavedPage) setSavedPage(void 0);
               },
-              children: showSavedPage ? "Hide saved-page option" : "Use a saved MyHome page"
+              children: t(
+                showSavedPage ? "Hide saved-page option" : "Use a saved MyHome page"
+              )
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "myhome-saved-page", hidden: !showSavedPage, children: showSavedPage && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-1.5", children: [
@@ -50566,7 +51908,7 @@ function MyHomeImportPanel({
               {
                 htmlFor: "myhome-saved-file",
                 className: "text-sm font-semibold",
-                children: "Saved MyHome page"
+                children: t("Saved MyHome page")
               }
             ),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -50589,7 +51931,9 @@ function MyHomeImportPanel({
               {
                 id: "myhome-saved-help",
                 className: "text-xs text-base-content/65",
-                children: "Save the original ad as an HTML file in your browser. Enter the matching MyHome URL above and choose the file here."
+                children: t(
+                  "Save the original ad as an HTML file in your browser. Enter the matching MyHome URL above and choose the file here."
+                )
               }
             )
           ] }) })
@@ -50606,7 +51950,7 @@ function MyHomeImportPanel({
                   "aria-hidden": "true"
                 }
               ),
-              status
+              t(status)
             ]
           }
         ),
@@ -50618,12 +51962,18 @@ function MyHomeImportPanel({
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { className: "mt-px size-4 shrink-0", "aria-hidden": "true" }),
               " ",
-              error
+              translateError(error)
             ]
           }
         ),
         review && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 border-t border-base-300 pt-4", children: [
-          review.warnings.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-2 list-disc space-y-1 ps-5 text-sm text-base-content/75", children: review.warnings.map((warning2) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: warning2 }, warning2)) }),
+          review.warnings.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-2 list-disc space-y-1 ps-5 text-sm text-base-content/75", children: review.warnings.map((warning2) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "li",
+            {
+              children: t(warning2)
+            },
+            typeof warning2 === "string" ? warning2 : warning2.message
+          )) }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex flex-wrap items-center gap-2.5", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
@@ -50632,7 +51982,7 @@ function MyHomeImportPanel({
                 className: "btn btn-outline btn-sm",
                 onClick: onReview,
                 disabled,
-                children: "Review listing details"
+                children: t("Review listing details")
               }
             ),
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -50643,7 +51993,7 @@ function MyHomeImportPanel({
                 rel: "noreferrer",
                 className: "link inline-flex items-center gap-1 text-sm font-semibold text-primary",
                 children: [
-                  "Original MyHome ad",
+                  t("Original MyHome ad"),
                   " ",
                   /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { className: "size-4", "aria-hidden": "true" })
                 ]
@@ -50700,6 +52050,7 @@ function ListingEditor({
   onCancel
 }) {
   var _a2, _b2;
+  const { t } = useI18n();
   const heading = reactExports.useRef(null);
   const form = reactExports.useRef(null);
   const editedFields = reactExports.useRef(/* @__PURE__ */ new Set());
@@ -50754,9 +52105,10 @@ function ListingEditor({
     );
     const added = found.slice(0, maxPhotos - uploaded.length);
     if (added.length < found.length) {
-      warnings.push(
-        `Some source photos were skipped because the listing can hold up to ${maxPhotos} photos.`
-      );
+      warnings.push({
+        message: "Some source photos were skipped because the listing can hold up to {count} photos.",
+        params: { count: maxPhotos }
+      });
     }
     setPhotos([
       ...uploaded,
@@ -50775,7 +52127,10 @@ function ListingEditor({
     setPhotoError("");
     if (!files.length || isImporting) return;
     if (files.length + photos.length > maxPhotos) {
-      setPhotoError(`You can add up to ${maxPhotos} photos per listing.`);
+      setPhotoError({
+        message: "You can add up to {count} photos per listing.",
+        params: { count: maxPhotos }
+      });
       return;
     }
     setIsPreparing(true);
@@ -50840,10 +52195,10 @@ function ListingEditor({
                 ref: heading,
                 tabIndex: -1,
                 className: "font-editorial text-3xl tracking-tight focus:outline-none sm:text-4xl",
-                children: title
+                children: t(title)
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/70", children: "Fields marked with an asterisk are required." })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/70", children: t("Fields marked with an asterisk are required.") })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
@@ -50854,7 +52209,8 @@ function ListingEditor({
               disabled: isSaving,
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "size-4", "aria-hidden": "true" }),
-                " Close editor"
+                " ",
+                t("Close editor")
               ]
             }
           )
@@ -50887,22 +52243,24 @@ function ListingEditor({
               /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 FormSection,
                 {
-                  title: "Property essentials",
-                  description: "Give buyers a clear picture of what you’re offering.",
+                  title: t("Property essentials"),
+                  description: t(
+                    "Give buyers a clear picture of what you’re offering."
+                  ),
                   children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sm:col-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Listing title",
+                        label: t("Listing title"),
                         name: "title",
                         defaultValue: listing == null ? void 0 : listing.title,
-                        placeholder: "A light-filled apartment in Vera",
+                        placeholder: t("A light-filled apartment in Vera"),
                         required: true,
                         maxLength: 100
                       }
                     ) }),
                     /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex flex-col gap-2 text-sm font-semibold", children: [
-                      "Property type",
+                      t("Property type"),
                       " ",
                       /* @__PURE__ */ jsxRuntimeExports.jsx(
                         "select",
@@ -50910,14 +52268,14 @@ function ListingEditor({
                           className: "select w-full border-base-300",
                           name: "type",
                           defaultValue: (listing == null ? void 0 : listing.type) ?? "Apartment",
-                          children: propertyTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: type }, type))
+                          children: propertyTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: type, children: t(type) }, type))
                         }
                       )
                     ] }),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Asking price (USD)",
+                        label: t("Asking price (USD)"),
                         name: "price",
                         type: "number",
                         min: "1",
@@ -50929,7 +52287,7 @@ function ListingEditor({
                     ),
                     /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex flex-col gap-2 text-sm font-semibold sm:col-span-2", children: [
                       /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                        "Description",
+                        t("Description"),
                         /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-primary", "aria-hidden": "true", children: [
                           " ",
                           "*"
@@ -50943,12 +52301,14 @@ function ListingEditor({
                           defaultValue: listing == null ? void 0 : listing.description,
                           maxLength: 4e3,
                           required: true,
-                          placeholder: "Describe the layout, condition, and what makes this property special."
+                          placeholder: t(
+                            "Describe the layout, condition, and what makes this property special."
+                          )
                         }
                       )
                     ] }),
                     /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex flex-col gap-2 text-sm font-semibold", children: [
-                      "Availability",
+                      t("Availability"),
                       " ",
                       /* @__PURE__ */ jsxRuntimeExports.jsx(
                         "select",
@@ -50956,7 +52316,7 @@ function ListingEditor({
                           className: "select w-full border-base-300",
                           name: "status",
                           defaultValue: (listing == null ? void 0 : listing.status) ?? "draft",
-                          children: Object.entries(listingStatusLabels).map(([value, label2]) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value, children: label2 }, value))
+                          children: Object.entries(listingStatusLabels).map(([value, label2]) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value, children: t(label2) }, value))
                         }
                       )
                     ] }),
@@ -50970,7 +52330,7 @@ function ListingEditor({
                           className: "checkbox checkbox-primary checkbox-sm"
                         }
                       ),
-                      "Featured listing"
+                      t("Featured listing")
                     ] })
                   ]
                 }
@@ -50978,13 +52338,15 @@ function ListingEditor({
               /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 FormSection,
                 {
-                  title: "Location",
-                  description: "Add the street address. Use coordinates to place a pin on the map.",
+                  title: t("Location"),
+                  description: t(
+                    "Add the street address. Use coordinates to place a pin on the map."
+                  ),
                   children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "City",
+                        label: t("City"),
                         name: "city",
                         defaultValue: (listing == null ? void 0 : listing.city) ?? "Tbilisi",
                         required: true,
@@ -50994,7 +52356,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Neighborhood",
+                        label: t("Neighborhood"),
                         name: "neighborhood",
                         defaultValue: listing == null ? void 0 : listing.neighborhood,
                         required: true,
@@ -51004,7 +52366,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sm:col-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Street address",
+                        label: t("Street address"),
                         name: "address",
                         defaultValue: listing == null ? void 0 : listing.address,
                         required: true,
@@ -51014,7 +52376,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Latitude",
+                        label: t("Latitude"),
                         name: "latitude",
                         type: "number",
                         min: "-85",
@@ -51027,7 +52389,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Longitude",
+                        label: t("Longitude"),
                         name: "longitude",
                         type: "number",
                         min: "-180",
@@ -51045,7 +52407,9 @@ function ListingEditor({
                           "aria-hidden": "true"
                         }
                       ),
-                      "Coordinates are optional. The address will still link to a map search."
+                      t(
+                        "Coordinates are optional. The address will still link to a map search."
+                      )
                     ] })
                   ]
                 }
@@ -51053,8 +52417,11 @@ function ListingEditor({
               /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 FormSection,
                 {
-                  title: "Photos",
-                  description: `Add up to ${maxPhotos} photos. The first photo is used as the cover image.`,
+                  title: t("Photos"),
+                  description: t(
+                    "Add up to {count} photos. The first photo is used as the cover image.",
+                    { count: maxPhotos }
+                  ),
                   children: [
                     photos.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "grid grid-cols-2 gap-3 sm:col-span-2 sm:grid-cols-3 lg:grid-cols-5", children: photos.map(({ source: source2, description: description2 }, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
                       "li",
@@ -51066,7 +52433,7 @@ function ListingEditor({
                               "img",
                               {
                                 src: source2,
-                                alt: `Listing view ${index2 + 1}`,
+                                alt: t("Listing view {number}", { number: index2 + 1 }),
                                 className: "h-full w-full object-cover"
                               }
                             ),
@@ -51075,7 +52442,9 @@ function ListingEditor({
                               {
                                 type: "button",
                                 className: "btn btn-square btn-sm absolute top-2 right-2 border-base-300 bg-base-100 text-base-content",
-                                "aria-label": `Remove photo ${index2 + 1}`,
+                                "aria-label": t("Remove photo {number}", {
+                                  number: index2 + 1
+                                }),
                                 disabled: isPreparing || isImporting,
                                 onClick: () => setPhotos(
                                   (current) => current.filter(
@@ -51085,13 +52454,15 @@ function ListingEditor({
                                 children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "size-4", "aria-hidden": "true" })
                               }
                             ),
-                            index2 === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-sm absolute bottom-2 left-2 bg-base-100 text-base-content", children: "Cover" })
+                            index2 === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "badge badge-sm absolute bottom-2 left-2 bg-base-100 text-base-content", children: t("Cover") })
                           ] }),
                           /* @__PURE__ */ jsxRuntimeExports.jsx(
                             Field,
                             {
-                              label: `Photo ${index2 + 1} description`,
-                              placeholder: "Optional",
+                              label: t("Photo {number} description", {
+                                number: index2 + 1
+                              }),
+                              placeholder: t("Optional"),
                               maxLength: 180,
                               value: description2 ?? "",
                               disabled: isImporting,
@@ -51113,7 +52484,7 @@ function ListingEditor({
                       /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "flex items-center gap-2", children: [
                         /* @__PURE__ */ jsxRuntimeExports.jsx(Camera, { className: "size-4 text-primary", "aria-hidden": "true" }),
                         " ",
-                        "Add property photos"
+                        t("Add property photos")
                       ] }),
                       /* @__PURE__ */ jsxRuntimeExports.jsx(
                         "input",
@@ -51130,30 +52501,27 @@ function ListingEditor({
                           }
                         }
                       ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-normal text-base-content/65", children: "JPG, PNG, or WebP. Up to 20 MB per original image." })
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-normal text-base-content/65", children: t("JPG, PNG, or WebP. Up to 20 MB per original image.") })
                     ] }),
-                    isPreparing && /* @__PURE__ */ jsxRuntimeExports.jsx("output", { className: "text-sm text-base-content/70 sm:col-span-2", children: "Preparing your photos…" }),
-                    photoError && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "text-sm text-error sm:col-span-2", children: photoError })
+                    isPreparing && /* @__PURE__ */ jsxRuntimeExports.jsx("output", { className: "text-sm text-base-content/70 sm:col-span-2", children: t("Preparing your photos…") }),
+                    photoError && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { role: "alert", className: "text-sm text-error sm:col-span-2", children: typeof photoError === "string" ? translateError(photoError) : t(photoError) })
                   ]
                 }
               ),
               source && (listing || source.facts.length > 0) && /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 FormSection,
                 {
-                  title: "MyHome source",
-                  description: source.facts.length ? "Edit or remove imported facts shown on this listing." : void 0,
+                  title: t("MyHome source"),
+                  description: source.facts.length ? t("Edit or remove imported facts shown on this listing.") : void 0,
                   children: [
-                    listing && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    listing && /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "a",
                       {
                         href: source.url,
                         target: "_blank",
                         rel: "noreferrer",
                         className: "link link-primary w-fit text-sm font-semibold sm:col-span-2",
-                        children: [
-                          "Original MyHome ad ",
-                          source.id
-                        ]
+                        children: t("Original MyHome ad {id}", { id: source.id })
                       }
                     ),
                     source.facts.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "grid gap-3 sm:col-span-2", children: source.facts.map((fact, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -51164,7 +52532,9 @@ function ListingEditor({
                           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "col-span-2 sm:col-span-1", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
                             Field,
                             {
-                              label: `Imported fact ${index2 + 1} label`,
+                              label: t("Imported fact {number} label", {
+                                number: index2 + 1
+                              }),
                               value: fact.label,
                               disabled: isImporting,
                               maxLength: 100,
@@ -51181,7 +52551,9 @@ function ListingEditor({
                           /* @__PURE__ */ jsxRuntimeExports.jsx(
                             Field,
                             {
-                              label: `Imported fact ${index2 + 1} value`,
+                              label: t("Imported fact {number} value", {
+                                number: index2 + 1
+                              }),
                               value: fact.value,
                               disabled: isImporting,
                               maxLength: 500,
@@ -51200,7 +52572,9 @@ function ListingEditor({
                             {
                               type: "button",
                               className: "btn btn-square btn-ghost",
-                              "aria-label": `Remove imported fact ${index2 + 1}`,
+                              "aria-label": t("Remove imported fact {number}", {
+                                number: index2 + 1
+                              }),
                               disabled: isImporting,
                               onClick: () => updateSourceFacts(
                                 (facts) => facts.filter((item) => item.key !== fact.key)
@@ -51218,13 +52592,15 @@ function ListingEditor({
               /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 FormSection,
                 {
-                  title: "Details and amenities",
-                  description: "Add any specifications that will help buyers compare properties.",
+                  title: t("Details and amenities"),
+                  description: t(
+                    "Add any specifications that will help buyers compare properties."
+                  ),
                   children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Total area (m²)",
+                        label: t("Total area (m²)"),
                         name: "areaM2",
                         type: "number",
                         min: "0.01",
@@ -51237,7 +52613,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Living area (m²)",
+                        label: t("Living area (m²)"),
                         name: "livingAreaM2",
                         type: "number",
                         min: "0.01",
@@ -51249,7 +52625,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Bedrooms",
+                        label: t("Bedrooms"),
                         name: "bedrooms",
                         type: "number",
                         min: "0",
@@ -51260,7 +52636,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Bathrooms",
+                        label: t("Bathrooms"),
                         name: "bathrooms",
                         type: "number",
                         min: "0",
@@ -51271,7 +52647,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Rooms",
+                        label: t("Rooms"),
                         name: "rooms",
                         type: "number",
                         min: "0",
@@ -51282,7 +52658,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Floor",
+                        label: t("Floor"),
                         name: "floor",
                         type: "number",
                         min: "-10",
@@ -51293,7 +52669,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Total floors",
+                        label: t("Total floors"),
                         name: "totalFloors",
                         type: "number",
                         min: "1",
@@ -51304,7 +52680,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Construction year",
+                        label: t("Construction year"),
                         name: "builtYear",
                         type: "number",
                         min: "1",
@@ -51315,31 +52691,31 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Building type",
+                        label: t("Building type"),
                         name: "buildingType",
                         defaultValue: listing == null ? void 0 : listing.buildingType,
                         maxLength: 100,
-                        placeholder: "Detached residence"
+                        placeholder: t("Detached residence")
                       }
                     ),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Condition",
+                        label: t("Condition"),
                         name: "condition",
                         defaultValue: listing == null ? void 0 : listing.condition,
                         maxLength: 100,
-                        placeholder: "Recently renovated"
+                        placeholder: t("Recently renovated")
                       }
                     ),
                     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sm:col-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Amenities (separate with commas)",
+                        label: t("Amenities (separate with commas)"),
                         name: "amenities",
                         defaultValue: listing == null ? void 0 : listing.amenities.join(", "),
                         maxLength: 500,
-                        placeholder: "Parking, balcony, garden"
+                        placeholder: t("Parking, balcony, garden")
                       }
                     ) })
                   ]
@@ -51348,13 +52724,15 @@ function ListingEditor({
               /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 FormSection,
                 {
-                  title: "Seller information",
-                  description: "Email and phone are optional and will be public when the listing is published.",
+                  title: t("Seller information"),
+                  description: t(
+                    "Email and phone are optional and will be public when the listing is published."
+                  ),
                   children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Seller or agency name",
+                        label: t("Seller or agency name"),
                         name: "sellerName",
                         defaultValue: listing == null ? void 0 : listing.seller.name,
                         required: true,
@@ -51362,7 +52740,7 @@ function ListingEditor({
                       }
                     ),
                     /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex flex-col gap-2 text-sm font-semibold", children: [
-                      "Seller type",
+                      t("Seller type"),
                       " ",
                       /* @__PURE__ */ jsxRuntimeExports.jsxs(
                         "select",
@@ -51371,7 +52749,7 @@ function ListingEditor({
                           name: "sellerRole",
                           defaultValue: sellerRole,
                           children: [
-                            sellerRoles.map((role) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: role }, role)),
+                            sellerRoles.map((role) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: role, children: t(role) }, role)),
                             !sellerRoles.includes(sellerRole) && /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: sellerRole })
                           ]
                         }
@@ -51380,7 +52758,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Email address",
+                        label: t("Email address"),
                         name: "sellerEmail",
                         type: "email",
                         defaultValue: listing == null ? void 0 : listing.seller.email,
@@ -51390,7 +52768,7 @@ function ListingEditor({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       Field,
                       {
-                        label: "Phone number",
+                        label: t("Phone number"),
                         name: "sellerPhone",
                         type: "tel",
                         defaultValue: listing == null ? void 0 : listing.seller.phone,
@@ -51403,17 +52781,17 @@ function ListingEditor({
               saveError && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { role: "alert", className: "alert alert-error alert-soft", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { className: "size-5 shrink-0", "aria-hidden": "true" }),
                 " ",
-                saveError
+                translateError(saveError)
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center justify-end gap-3 border-t border-base-300 pt-5", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", className: "btn btn-ghost", onClick: onCancel, children: "Cancel" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", className: "btn btn-ghost", onClick: onCancel, children: t("Cancel") }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "button",
                   {
                     type: "submit",
                     className: "btn btn-primary",
                     disabled: isPreparing || isImporting,
-                    children: isSaving ? "Saving…" : "Save listing"
+                    children: t(isSaving ? "Saving…" : "Save listing")
                   }
                 )
               ] })
@@ -51491,10 +52869,13 @@ function useMyHomeImport() {
       sourceText = await actor.readMyHomeListing(slug);
     }
     signal.throwIfAborted();
-    const { fields, source, photoUrls, warnings } = parseMyHomeListing(
-      sourceText,
-      url.trim()
-    );
+    const {
+      fields,
+      source,
+      photoUrls,
+      warnings: sourceWarnings
+    } = parseMyHomeListing(sourceText, url.trim());
+    const warnings = [...sourceWarnings];
     const selected = photoUrls.slice(0, maxPhotos);
     const results = await Promise.allSettled(
       selected.map((photo) => copyPhoto(photo, signal))
@@ -51508,13 +52889,15 @@ function useMyHomeImport() {
         "Some unmarked photos could not be copied. You can upload them separately."
       );
     if (photoUrls.length > maxPhotos)
-      warnings.push(
-        `You can save up to ${maxPhotos} photos per listing and replace the imported photos before saving.`
-      );
+      warnings.push({
+        message: "You can save up to {count} photos per listing and replace the imported photos before saving.",
+        params: { count: maxPhotos }
+      });
     return { fields, source, warnings, images };
   };
 }
 function PropertyEditPage({ listingId }) {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const importMyHome = useMyHomeImport();
   const {
@@ -51541,9 +52924,11 @@ function PropertyEditPage({ listingId }) {
           "aria-hidden": "true"
         }
       ),
-      "Loading property…"
+      t("Loading property…")
     ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-4xl tracking-tight", children: ownedListingsError ? "Property couldn’t be loaded" : "Property unavailable" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-4xl tracking-tight", children: t(
+        ownedListingsError ? "Property couldn’t be loaded" : "Property unavailable"
+      ) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-5 flex flex-wrap items-center gap-3", children: [
         ownedListingsError && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
@@ -51551,10 +52936,10 @@ function PropertyEditPage({ listingId }) {
             type: "button",
             className: "btn btn-primary",
             onClick: retryOwnedListings,
-            children: "Try again"
+            children: t("Try again")
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/sell", className: "btn btn-outline border-base-300", children: "Manage properties" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/sell", className: "btn btn-outline border-base-300", children: t("Manage properties") })
       ] })
     ] }) });
   }
@@ -51568,7 +52953,8 @@ function PropertyEditPage({ listingId }) {
         className: "inline-flex items-center gap-2 text-sm font-semibold text-base-content/70 hover:text-primary",
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowLeft, { className: "size-4", "aria-hidden": "true" }),
-          " Back to property"
+          " ",
+          t("Back to property")
         ]
       }
     ),
@@ -51588,20 +52974,24 @@ function PropertyEditPage({ listingId }) {
   ] });
 }
 function SavedPage() {
+  const { locale, t } = useI18n();
+  const numberFormat = new Intl.NumberFormat(locale);
   const { listings, favorites, savedSearches, toggleFavorite, removeSearch } = useMarketplace();
   const [comparison, setComparison] = reactExports.useState([]);
   const saved = listings.filter((listing) => favorites.includes(listing.id));
   const compared = saved.filter((listing) => comparison.includes(listing.id));
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "market-container space-y-12 py-10 md:py-16", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-3 text-xs font-bold tracking-widest text-primary uppercase", children: "Your shortlist" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-5xl tracking-tight sm:text-6xl", children: "Saved properties" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-xl text-base-content/75", children: "Revisit the places that caught your eye and compare up to three properties side by side." })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-3 text-xs font-bold tracking-widest text-primary uppercase", children: t("Your shortlist") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-5xl tracking-tight sm:text-6xl", children: t("Saved properties") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-xl text-base-content/75", children: t(
+        "Revisit the places that caught your eye and compare up to three properties side by side."
+      ) })
     ] }),
     saved.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
       "section",
       {
-        "aria-label": "Saved properties",
+        "aria-label": t("Saved properties"),
         className: "grid gap-5 sm:grid-cols-2 lg:grid-cols-3",
         children: saved.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51623,6 +53013,7 @@ function SavedPage() {
               {
                 type: "checkbox",
                 className: "checkbox checkbox-primary checkbox-sm",
+                "aria-label": t("Compare {title}", { title: listing.title }),
                 checked: comparison.includes(listing.id),
                 disabled: compared.length >= 3 && !comparison.includes(listing.id),
                 onChange: (event) => {
@@ -51633,8 +53024,7 @@ function SavedPage() {
                 }
               }
             ),
-            "Compare ",
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sr-only", children: listing.title })
+            t("Compare")
           ] })
         ] }, listing.id))
       }
@@ -51646,9 +53036,9 @@ function SavedPage() {
           className: "mx-auto mb-4 size-7 text-primary"
         }
       ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-editorial text-3xl", children: "Your shortlist starts here" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/75", children: "Select the heart on any property to save it here." }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "btn btn-primary mt-5", children: "Explore properties" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-editorial text-3xl", children: t("Your shortlist starts here") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-base-content/75", children: t("Select the heart on any property to save it here.") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "btn btn-primary mt-5", children: t("Explore properties") })
     ] }),
     compared.length >= 2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-4", "aria-labelledby": "comparison-title", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51656,12 +53046,12 @@ function SavedPage() {
         {
           id: "comparison-title",
           className: "font-editorial text-3xl tracking-tight",
-          children: "Compare properties"
+          children: t("Compare properties")
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto rounded-box border border-base-300", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "table min-w-max", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { className: "bg-base-200 text-base-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "col", children: "Property" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "col", children: t("Property") }),
           compared.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "col", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
             Link,
             {
@@ -51684,7 +53074,7 @@ function SavedPage() {
           { label: "Location", format: formatLocation },
           {
             label: "Property type",
-            format: (listing) => listing.type
+            format: (listing) => t(listing.type)
           },
           {
             label: "Area",
@@ -51692,14 +53082,14 @@ function SavedPage() {
           },
           {
             label: "Bedrooms",
-            format: (listing) => listing.bedrooms ?? "—"
+            format: (listing) => listing.bedrooms == null ? "—" : numberFormat.format(listing.bedrooms)
           },
           {
             label: "Bathrooms",
-            format: (listing) => listing.bathrooms ?? "—"
+            format: (listing) => listing.bathrooms == null ? "—" : numberFormat.format(listing.bathrooms)
           }
         ].map(({ label: label2, format }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "row", children: label2 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "row", children: t(label2) }),
           compared.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: format(listing) }, listing.id))
         ] }, label2)) })
       ] }) })
@@ -51715,19 +53105,29 @@ function SavedPage() {
             {
               id: "saved-search-title",
               className: "font-editorial text-3xl tracking-tight",
-              children: "Saved searches"
+              children: t("Saved searches")
             }
           ),
           savedSearches.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "divide-y divide-base-300 rounded-box border border-base-300", children: savedSearches.map(({ id, ...filters }) => {
             const description2 = [
               filters.location,
-              filters.propertyType,
-              filters.minPrice && `From ${formatPrice(Number(filters.minPrice))}`,
-              filters.maxPrice && `Up to ${formatPrice(Number(filters.maxPrice))}`,
-              filters.bedrooms && `${filters.bedrooms}+ bedrooms`,
-              filters.minArea && `From ${formatArea(Number(filters.minArea))}`,
-              filters.maxArea && `Up to ${formatArea(Number(filters.maxArea))}`
-            ].filter(Boolean).join(" · ") || "All properties";
+              t(filters.propertyType),
+              filters.minPrice && t("From {value}", {
+                value: formatPrice(Number(filters.minPrice))
+              }),
+              filters.maxPrice && t("Up to {value}", {
+                value: formatPrice(Number(filters.maxPrice))
+              }),
+              filters.bedrooms && t("{count}+ bedrooms", {
+                count: numberFormat.format(Number(filters.bedrooms))
+              }),
+              filters.minArea && t("From {value}", {
+                value: formatArea(Number(filters.minArea))
+              }),
+              filters.maxArea && t("Up to {value}", {
+                value: formatArea(Number(filters.maxArea))
+              })
+            ].filter(Boolean).join(" · ") || t("All properties");
             return /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "li",
               {
@@ -51766,7 +53166,9 @@ function SavedPage() {
                     {
                       type: "button",
                       className: "btn btn-ghost btn-circle btn-sm shrink-0 hover:text-error",
-                      "aria-label": `Remove saved search: ${description2}`,
+                      "aria-label": t("Remove saved search: {description}", {
+                        description: description2
+                      }),
                       onClick: () => removeSearch(id),
                       children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 17, "aria-hidden": "true" })
                     }
@@ -51775,13 +53177,16 @@ function SavedPage() {
               },
               id
             );
-          }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/75", children: "Save a search from Explore to return to the same filters later." })
+          }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-base-content/75", children: t(
+            "Save a search from Explore to return to the same filters later."
+          ) })
         ]
       }
     )
   ] });
 }
 function SellerPage() {
+  const { t } = useI18n();
   const importMyHome = useMyHomeImport();
   const {
     ownedListings,
@@ -51817,7 +53222,7 @@ function SellerPage() {
       children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "flex flex-wrap items-end justify-between gap-6", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-2xl", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-3 text-[0.68rem] font-bold tracking-[0.2em] text-primary uppercase", children: "Seller workspace" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-3 text-[0.68rem] font-bold tracking-[0.2em] text-primary uppercase", children: t("Seller workspace") }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "h1",
               {
@@ -51825,10 +53230,12 @@ function SellerPage() {
                 ref: pageHeading,
                 tabIndex: -1,
                 className: "font-editorial text-[clamp(2.7rem,6.5vw,5rem)] leading-none tracking-[-0.045em] focus:outline-none",
-                children: "Manage properties"
+                children: t("Manage properties")
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 leading-relaxed text-base-content/70", children: "Create listings, update asking prices, and manage availability from one place." })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 leading-relaxed text-base-content/70", children: t(
+              "Create listings, update asking prices, and manage availability from one place."
+            ) })
           ] }),
           !editor && /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
@@ -51838,7 +53245,8 @@ function SellerPage() {
               onClick: () => editListing("new"),
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { className: "size-4", "aria-hidden": "true" }),
-                " New listing"
+                " ",
+                t("New listing")
               ]
             }
           )
@@ -51851,12 +53259,14 @@ function SellerPage() {
               "aria-hidden": "true"
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Drafts are visible to admins in this workspace. Published listings appear in Explore." })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: t(
+            "Drafts are visible to admins in this workspace. Published listings appear in Explore."
+          ) })
         ] }),
         !editor && notice && /* @__PURE__ */ jsxRuntimeExports.jsxs("output", { className: "alert alert-success alert-soft mt-4", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Check, { className: "size-5", "aria-hidden": "true" }),
           " ",
-          notice
+          t(notice)
         ] }),
         editor ? /* @__PURE__ */ jsxRuntimeExports.jsx(
           ListingEditor,
@@ -51875,17 +53285,17 @@ function SellerPage() {
               "aria-hidden": "true"
             }
           ),
-          "Loading listings…"
+          t("Loading listings…")
         ] }) : ownedListingsError ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { role: "alert", className: "alert alert-error alert-soft mt-8", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { className: "size-5", "aria-hidden": "true" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Listings couldn’t be loaded." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: t("Listings couldn’t be loaded.") }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "button",
             {
               type: "button",
               className: "btn btn-sm",
               onClick: retryOwnedListings,
-              children: "Try again"
+              children: t("Try again")
             }
           )
         ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
@@ -51904,7 +53314,7 @@ function SellerPage() {
             {
               className: "rounded-box border border-base-300 bg-base-100 p-3.5 sm:p-5",
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "text-xs font-medium text-base-content/70 sm:text-sm", children: label2 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "text-xs font-medium text-base-content/70 sm:text-sm", children: t(label2) }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-1 font-editorial text-3xl tracking-tight sm:text-4xl", children: count })
               ]
             },
@@ -51916,7 +53326,7 @@ function SellerPage() {
               {
                 id: "listing-management-title",
                 className: "mb-4 font-editorial text-3xl tracking-tight sm:text-4xl",
-                children: "Manage listings"
+                children: t("Manage listings")
               }
             ),
             ownedListings.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "divide-y divide-base-300 overflow-hidden rounded-box border border-base-300 bg-base-100", children: ownedListings.map((listing) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -51939,7 +53349,7 @@ function SellerPage() {
                         "span",
                         {
                           className: `badge badge-sm ${listing.status === "available" ? "badge-soft badge-success" : "badge-outline border-base-300 text-base-content/70"}`,
-                          children: listingStatusLabels[listing.status]
+                          children: t(listingStatusLabels[listing.status])
                         }
                       )
                     ] }),
@@ -51956,9 +53366,11 @@ function SellerPage() {
                         to: "/properties/$listingId",
                         params: { listingId: listing.id },
                         className: "btn btn-ghost btn-sm",
-                        "aria-label": `Preview ${listing.title}`,
+                        "aria-label": t("Preview {title}", {
+                          title: listing.title
+                        }),
                         children: [
-                          "Preview",
+                          t("Preview"),
                           " ",
                           /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { className: "size-3.5", "aria-hidden": "true" })
                         ]
@@ -51997,8 +53409,10 @@ function SellerPage() {
               listing.id
             )) }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center rounded-box border border-dashed border-base-300 bg-base-100 px-6 py-12 text-center sm:py-16", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "grid size-14 place-items-center rounded-full bg-primary/10 text-primary", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Building2, { className: "size-6", "aria-hidden": "true" }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mt-5 font-editorial text-2xl tracking-tight sm:text-3xl", children: "Your first listing starts here" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 max-w-sm text-sm leading-relaxed text-base-content/70", children: "Add a property, its asking price, and a few photos. Save a draft or mark it available when you’re ready." }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mt-5 font-editorial text-2xl tracking-tight sm:text-3xl", children: t("Your first listing starts here") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 max-w-sm text-sm leading-relaxed text-base-content/70", children: t(
+                "Add a property, its asking price, and a few photos. Save a draft or mark it available when you’re ready."
+              ) }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 "button",
                 {
@@ -52007,7 +53421,8 @@ function SellerPage() {
                   onClick: () => editListing("new"),
                   children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { className: "size-4", "aria-hidden": "true" }),
-                    " Create a listing"
+                    " ",
+                    t("Create a listing")
                   ]
                 }
               )
@@ -52352,7 +53767,10 @@ const Input = reactExports.forwardRef(
   }
 );
 Input.displayName = "Input";
-function TelegramSettings({ actor }) {
+function TelegramSettings({
+  actor,
+  botUsername
+}) {
   var _a2, _b2;
   const { t } = useI18n();
   const client2 = useQueryClient();
@@ -52394,6 +53812,27 @@ function TelegramSettings({ actor }) {
             ]
           }
         ),
+        botUsername ? /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs leading-relaxed text-base-content/70 [overflow-wrap:anywhere]", children: [
+          t(
+            "In BotFather, open {bot} → Login Widget → Allowed URLs and add {origin} and {profileUrl}.",
+            {
+              bot: `@${botUsername}`,
+              origin: window.location.origin,
+              profileUrl: new URL("/profile", window.location.origin).href
+            }
+          ),
+          " ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "a",
+            {
+              href: "https://t.me/BotFather",
+              className: "link link-primary",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              children: t("Open BotFather")
+            }
+          )
+        ] }) : null,
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs leading-relaxed text-base-content/55", children: t(
           "Use the public Login Client ID from BotFather. Leave blank to disable linking. Bot tokens and client secrets are not needed here."
         ) }),
@@ -52605,10 +54044,11 @@ function AdminSkeleton() {
     }
   );
 }
-function AdminPage({ marketplace = false }) {
+function AdminPage({ marketplace: marketplace2 = false }) {
   const { t } = useI18n();
   const { actor, isFetching } = useActor(createActor);
   const { principal, isAdmin } = useAuth();
+  const telegramBot = marketplace2 ? "tbilisell_bot" : "chill_pong_bot";
   const queryClient2 = useQueryClient();
   const [pendingId, setPendingId] = reactExports.useState(null);
   const [notice, setNotice] = reactExports.useState(null);
@@ -52622,7 +54062,7 @@ function AdminPage({ marketplace = false }) {
       if (!actor) throw new Error("The player directory is still connecting.");
       return playerService.list(actor);
     },
-    enabled: !!actor && !isFetching && isAdmin && !marketplace
+    enabled: !!actor && !isFetching && isAdmin && !marketplace2
   });
   const usersQuery = useQuery({
     queryKey: [...USERS_QUERY_KEY$1, principal],
@@ -52658,7 +54098,7 @@ function AdminPage({ marketplace = false }) {
   const visibleUsers = users.filter(
     (user) => user.id.toString().toLowerCase().includes(searchTerm)
   );
-  const headingClass = marketplace ? "font-editorial text-4xl tracking-tight sm:text-5xl" : "font-display text-4xl font-bold uppercase tracking-tight text-foreground";
+  const headingClass = marketplace2 ? "font-editorial text-4xl tracking-tight sm:text-5xl" : "font-display text-4xl font-bold uppercase tracking-tight text-foreground";
   function handleToggle(user) {
     if (!isAdmin || roleMutation.isPending) return;
     const grant = !isAdminRole(user.role);
@@ -52709,8 +54149,10 @@ function AdminPage({ marketplace = false }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "p",
           {
-            className: marketplace ? "mb-3 text-xs font-bold tracking-widest text-primary uppercase" : "section-kicker mb-4",
-            children: marketplace ? "Marketplace administration" : t("CHILLPONG / CONTROL ROOM")
+            className: marketplace2 ? "mb-3 text-xs font-bold tracking-widest text-primary uppercase" : "section-kicker mb-4",
+            children: t(
+              marketplace2 ? "Marketplace administration" : "CHILLPONG / CONTROL ROOM"
+            )
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: headingClass, children: t("Admin access") }),
@@ -52719,26 +54161,26 @@ function AdminPage({ marketplace = false }) {
         ) })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center gap-3", children: [
-        !marketplace && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "a",
           {
-            href: "https://t.me/chill_pong_bot",
+            href: `https://t.me/${telegramBot}`,
             target: "_blank",
             rel: "noopener noreferrer",
             className: "btn btn-outline btn-sm",
             "data-ocid": "admin.telegram_bot_link",
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(Send, { className: "size-4", "aria-hidden": "true" }),
-              "@chill_pong_bot",
+              `@${telegramBot}`,
               /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { className: "size-3.5", "aria-hidden": "true" })
             ]
           }
         ),
-        marketplace && /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/sell", className: "btn btn-primary btn-sm", children: "Manage listings" }),
+        marketplace2 && /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/sell", className: "btn btn-primary btn-sm", children: t("Manage listings") }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "a",
           {
-            href: marketplace ? "/admin/accounts" : "/tournaments/admin/accounts",
+            href: marketplace2 ? "/admin/accounts" : "/tournaments/admin/accounts",
             className: "btn btn-outline btn-sm",
             children: t("Edit profiles")
           }
@@ -52772,7 +54214,13 @@ function AdminPage({ marketplace = false }) {
         )
       ] })
     ] }),
-    actor && !marketplace ? /* @__PURE__ */ jsxRuntimeExports.jsx(TelegramSettings, { actor }) : null,
+    actor ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+      TelegramSettings,
+      {
+        actor,
+        botUsername: marketplace2 ? telegramBot : void 0
+      }
+    ) : null,
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         Input,
@@ -52831,7 +54279,7 @@ function AdminPage({ marketplace = false }) {
       {
         icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Users, { className: "size-7", "aria-hidden": "true" }),
         title: t("No signed-in accounts yet"),
-        description: marketplace ? "Accounts appear after users sign in." : t(
+        description: marketplace2 ? "Accounts appear after users sign in." : t(
           "Accounts appear automatically after signing in to ChillPong."
         )
       }
@@ -52853,7 +54301,7 @@ function AdminPage({ marketplace = false }) {
           const admin = isAdminRole(user.role);
           const isSelf = principal !== null && user.id.toString() === principal;
           const isPending = pendingId === user.id.toString();
-          const linkedPlayer = !marketplace && ((_a2 = directory.data) == null ? void 0 : _a2.find(
+          const linkedPlayer = !marketplace2 && ((_a2 = directory.data) == null ? void 0 : _a2.find(
             (player) => {
               var _a3;
               return ((_a3 = player.userId) == null ? void 0 : _a3.toString()) === user.id.toString();
@@ -52910,7 +54358,7 @@ function AdminPage({ marketplace = false }) {
                   ] })
                 ] }),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-start-2 flex flex-wrap items-center gap-3 md:col-start-3 md:row-start-1 md:justify-end", children: [
-                  !marketplace && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  !marketplace2 && /* @__PURE__ */ jsxRuntimeExports.jsx(
                     Button,
                     {
                       variant: "outline",
@@ -55948,17 +57396,14 @@ function TelegramLink({
   const verify = useMutation({
     mutationFn: (token) => actor.completeTelegramLink(token),
     onSuccess: async (profile) => {
-      await saved(
-        profile,
-        "Telegram linked. Your username now matches Telegram."
-      );
+      await saved(profile, "Telegram profile synced.");
       void challenge.refetch();
     }
   });
   const unlink = useMutation({
     mutationFn: () => actor.unlinkTelegram(),
     onSuccess: async (profile) => {
-      await saved(profile, "Telegram unlinked. Your username is unchanged.");
+      await saved(profile, "Telegram unlinked.");
       void challenge.refetch();
     }
   });
@@ -56047,7 +57492,7 @@ function TelegramLink({
           )
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm leading-relaxed text-base-content/60", children: t(
-          "Link Telegram to your existing member account. Linking replaces your current username with your Telegram username."
+          "Link Telegram to use your Telegram name, username and profile photo when available."
         ) }),
         link.data ? /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "font-mono text-sm text-primary", children: [
           t("Linked Telegram account"),
@@ -56135,6 +57580,7 @@ function TelegramLink({
 }
 function ProfileEditor({
   actor,
+  marketplace: marketplace2,
   principal,
   profile
 }) {
@@ -56218,7 +57664,7 @@ function ProfileEditor({
               size: "xl"
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-xl font-semibold uppercase", children: t("Your club identity") })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-xl font-semibold uppercase", children: t(marketplace2 ? "Profile details" : "Your club identity") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           Input,
@@ -56226,7 +57672,7 @@ function ProfileEditor({
             label: t("Name / optional"),
             autoComplete: "name",
             maxLength: 80,
-            placeholder: t("Name at the table"),
+            placeholder: t(marketplace2 ? "Display name" : "Name at the table"),
             value: name2,
             disabled: saveMutation.isPending,
             hint: t("Leave blank if you prefer. Up to 80 characters."),
@@ -56287,7 +57733,7 @@ function ProfileEditor({
   );
 }
 function ProfilePage({
-  marketplace = false
+  marketplace: marketplace2 = false
 }) {
   const { t } = useI18n();
   const { actor, isFetching } = useActor(createActor);
@@ -56306,17 +57752,17 @@ function ProfilePage({
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "p",
         {
-          className: marketplace ? "mb-3 text-xs font-bold tracking-widest text-primary uppercase" : "section-kicker mb-4",
-          children: marketplace ? "Marketplace account" : t("CHILLPONG / MEMBER FILE")
+          className: marketplace2 ? "mb-3 text-xs font-bold tracking-widest text-primary uppercase" : "section-kicker mb-4",
+          children: t(marketplace2 ? "Marketplace account" : "CHILLPONG / MEMBER FILE")
         }
       ),
-      marketplace ? /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-4xl tracking-tight sm:text-5xl", children: "Your profile" }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "page-title", children: [
+      marketplace2 ? /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-4xl tracking-tight sm:text-5xl", children: t("Your profile") }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "page-title", children: [
         t("YOUR"),
         " ",
         /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-primary", children: t("PROFILE.") })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-sm leading-relaxed text-muted-foreground", children: marketplace ? "Choose the display name and username for your account." : t(
-        "A name for the club. A handle for the crew. Both are optional."
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-sm leading-relaxed text-muted-foreground", children: t(
+        marketplace2 ? "Choose the display name and username for your account." : "A name for the club. A handle for the crew. Both are optional."
       ) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 border-l-2 border-primary pl-4", children: [
@@ -56340,12 +57786,13 @@ function ProfilePage({
         ProfileEditor,
         {
           actor,
+          marketplace: marketplace2,
           principal,
           profile: profileQuery.data ?? null
         },
         principal
       ),
-      !marketplace && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
         TelegramLink,
         {
           actor,
@@ -58471,51 +59918,6 @@ function MatchesPanel({
     }
   );
 }
-const months = [
-  ["იან.", "იანვარი"],
-  ["თებ.", "თებერვალი"],
-  ["მარ.", "მარტი"],
-  ["აპრ.", "აპრილი"],
-  ["მაი.", "მაისი"],
-  ["ივნ.", "ივნისი"],
-  ["ივლ.", "ივლისი"],
-  ["აგვ.", "აგვისტო"],
-  ["სექ.", "სექტემბერი"],
-  ["ოქტ.", "ოქტომბერი"],
-  ["ნოე.", "ნოემბერი"],
-  ["დეკ.", "დეკემბერი"]
-];
-const weekdays = {
-  Monday: ["ორშ.", "ორშაბათი"],
-  Tuesday: ["სამ.", "სამშაბათი"],
-  Wednesday: ["ოთხ.", "ოთხშაბათი"],
-  Thursday: ["ხუთ.", "ხუთშაბათი"],
-  Friday: ["პარ.", "პარასკევი"],
-  Saturday: ["შაბ.", "შაბათი"],
-  Sunday: ["კვი.", "კვირა"]
-};
-function formatClubDate(date, options) {
-  const settings = { ...options, timeZone: options.timeZone ?? "Asia/Tbilisi" };
-  if (getLanguage() !== "ka")
-    return new Intl.DateTimeFormat(getLocale(), settings).format(date);
-  const month = Number(
-    new Intl.DateTimeFormat("en-GB", {
-      month: "numeric",
-      timeZone: settings.timeZone
-    }).format(date)
-  ) - 1;
-  const weekday = new Intl.DateTimeFormat("en-GB", {
-    weekday: "long",
-    timeZone: settings.timeZone
-  }).format(date);
-  return new Intl.DateTimeFormat("en-GB", settings).formatToParts(date).map((part) => {
-    if (part.type === "month" && options.month !== "numeric" && options.month !== "2-digit")
-      return months[month][options.month === "short" ? 0 : 1];
-    if (part.type === "weekday")
-      return weekdays[weekday][options.weekday === "short" ? 0 : 1];
-    return part.value;
-  }).join("");
-}
 function OrganizerSetup({
   view,
   pending,
@@ -60340,7 +61742,7 @@ function memberDate(timestamp) {
     timeZone: "Asia/Tbilisi"
   });
 }
-function UsersPage({ marketplace = false }) {
+function UsersPage({ marketplace: marketplace2 = false }) {
   const { t } = useI18n();
   const { actor, isFetching } = useActor(createActor);
   const { isAdmin } = useAuth();
@@ -60455,17 +61857,19 @@ function UsersPage({ marketplace = false }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "p",
           {
-            className: marketplace ? "mb-3 text-xs font-bold tracking-widest text-primary uppercase" : "section-kicker mb-4",
-            children: marketplace ? "Marketplace administration" : t("CHILLPONG / ADMIN ACCOUNTS")
+            className: marketplace2 ? "mb-3 text-xs font-bold tracking-widest text-primary uppercase" : "section-kicker mb-4",
+            children: t(
+              marketplace2 ? "Marketplace administration" : "CHILLPONG / ADMIN ACCOUNTS"
+            )
           }
         ),
-        marketplace ? /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-4xl tracking-tight sm:text-5xl", children: "Accounts" }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "page-title", children: [
+        marketplace2 ? /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-4xl tracking-tight sm:text-5xl", children: t("Accounts") }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "page-title", children: [
           t("CLUB"),
           /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-primary", children: t("ACCOUNTS.") })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-xl text-sm leading-relaxed text-base-content/60", children: marketplace ? "Manage account names, usernames, and profile details." : t(
-          "Manage member identities and account details. Tournament entrants are listed on the Players page."
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-xl text-sm leading-relaxed text-base-content/60", children: t(
+          marketplace2 ? "Manage account names, usernames, and profile details." : "Manage member identities and account details. Tournament entrants are listed on the Players page."
         ) })
       ] }),
       isAdmin ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -60694,13 +62098,17 @@ function UsersPage({ marketplace = false }) {
         children: editor && isAdmin ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "modal-box max-w-xl rounded-none border border-base-300 bg-base-200 p-6 sm:p-8", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "mb-7 flex items-start justify-between gap-4", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "section-kicker mb-2", children: marketplace ? "Marketplace account" : t("CHILLPONG / MEMBER FILE") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "section-kicker mb-2", children: t(
+                marketplace2 ? "Marketplace account" : "CHILLPONG / MEMBER FILE"
+              ) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "h2",
                 {
                   id: "user-dialog-title",
                   className: "font-display text-3xl font-bold uppercase tracking-tight",
-                  children: editor === "new" ? marketplace ? "Add account" : t("Add to the lineup.") : t("Edit member.")
+                  children: t(
+                    editor === "new" ? marketplace2 ? "Add account" : "Add to the lineup." : "Edit member."
+                  )
                 }
               )
             ] }),
@@ -60831,10 +62239,11 @@ function UsersPage({ marketplace = false }) {
   ] });
 }
 function MarketplaceNotFound() {
+  const { t } = useI18n();
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "market-container py-20", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-3 text-xs font-bold tracking-widest text-primary", children: "404 / PAGE NOT FOUND" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-5xl tracking-tight", children: "This page couldn’t be found." }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "btn btn-primary mt-6", children: "Explore properties" })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-3 text-xs font-bold tracking-widest text-primary", children: t("404 / PAGE NOT FOUND") }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "font-editorial text-5xl tracking-tight", children: t("This page couldn’t be found.") }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "btn btn-primary mt-6", children: t("Explore properties") })
   ] });
 }
 const rootRoute = createRootRoute({
